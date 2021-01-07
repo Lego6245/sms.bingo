@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import "tailwindcss/tailwind.css";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
           <source src="/background.mp4" type="video/mp4" />
         </video>
         <div className="fixed min-h-full min-w-full bg-black opacity-60" />
-      </div>w
+      </div>
       <div className="fixed min-h-screen min-w-full">
         <main className={"min-h-screen flex flex-col justify-center text-center z-20"}>
           <header>
