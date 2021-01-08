@@ -3,7 +3,7 @@ import parse from 'csv-parse';
 
 export default async function importCsvForBuild() {
     const records = [];
-    const parser = createReadStream('./schedule2.csv').pipe(parse());
+    const parser = createReadStream('./schedule.csv').pipe(parse());
     for await (const record of parser) {
         records.push(record);
     }
