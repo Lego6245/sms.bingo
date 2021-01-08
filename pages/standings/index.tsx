@@ -70,8 +70,14 @@ function splitIntoDivisions(matches: any[], players: Map<string, any>) {
             resultMap.set(match.division, { matches: [match], players: new Map<string, any>() });
         }
     });
-    players.forEach(player => {
-        resultMap.get(player.division).players.set(player.name, player);
+    Array.from(players.values()).forEach(player => {
+        if (resultMap.has(player.division)) {
+            resultMap.get(player.division).players.set(player.name, player);
+        } else {
+            const newMap = new Map<string, any>();
+            newMap.set(player.name, player);
+            resultMap.set(player.division, { matches: [], players: newMap });
+        }
     })
     return resultMap;
 }
