@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import Link from 'next/link';
 
 export default function Header(props: { title: string }) {
@@ -13,7 +12,7 @@ export default function Header(props: { title: string }) {
                 <div className='p-3 flex flex-row items-center'>
                     <div className="mr-10">
                         <Link href="/">
-                            <Image
+                            <img
                             src='/shine.png'
                             height={50}
                             width={50}
