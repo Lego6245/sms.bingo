@@ -1,5 +1,10 @@
 module.exports = {
-  purge: ['./pages/**/*.tsx', './components/**/*.tsx'],
+  purge: {
+    content: ['./pages/**/*.tsx', './components/**/*.tsx'],
+    options: {
+      safelist: [/.*bingosync.*/]
+    }
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -21,7 +26,6 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
   },
   plugins: [],
 }
