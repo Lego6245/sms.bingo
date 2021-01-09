@@ -62,8 +62,8 @@ export default function Schedule(props: ScheduleProps) {
         let onlyScheduled = props.matches.filter(
             match =>
                 match.status != 'unscheduled' &&
-                match.matchTime > firstTimestamp &&
-                match.matchTime < lastTimestamp
+                match.matchTime >= firstTimestamp &&
+                match.matchTime <= lastTimestamp
         );
         Array.from(ScheduleSlots.keys()).forEach(key => {
             const slots = ScheduleSlots.get(key);
