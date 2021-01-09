@@ -17,7 +17,7 @@ export default function Standings(props: StandingsProps) {
                 {props.standings.length > 0 &&
                     props.standings.map(divisionStandings => {
                         return (
-                            <div className="mx-auto my-10">
+                            <div key={divisionStandings.division} className="mx-auto my-10">
                                 <StandingsTable {...divisionStandings} />
                             </div>
                         );

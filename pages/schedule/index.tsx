@@ -85,7 +85,11 @@ export default function Schedule(props: ScheduleProps) {
                             {props.divisions &&
                                 props.divisions.length > 0 &&
                                 props.divisions.map(division => {
-                                    return <option value={division}>{division}</option>;
+                                    return (
+                                        <option key={division} value={division}>
+                                            {division}
+                                        </option>
+                                    );
                                 })}
                         </select>
                         <label className="ml-5 text-sm sm:text-lg" htmlFor="division-select">
@@ -105,7 +109,7 @@ export default function Schedule(props: ScheduleProps) {
                 </div>
                 <div className="sm:w-10/12 sm:mx-auto">
                     {sortedWeeks.map(key => (
-                        <div className="mt-5">
+                        <div key={getTableTitleByWeek(key)} className="mt-5">
                             <ScheduleTable
                                 forceSpoilers={forceSpoilers}
                                 matches={matchMap.get(key)}

@@ -15,38 +15,40 @@ export default function StandingsTable(props: StandingsTableProps) {
                 {'Division ' + props.division}
             </div>
             <table className="w-full">
-                {props.standings.length > 0 &&
-                    props.standings.map(standingRow => {
-                        let player: PlayerData;
-                        if (typeof standingRow.player === 'string') {
-                            player = {
-                                name: standingRow.player,
-                                primaryColor: BingosyncColors.Yellow,
-                                secondaryColor: BingosyncColors.Blue,
-                                country: '',
-                                division: props.division,
-                            };
-                        } else {
-                            player = standingRow.player;
-                        }
-                        return (
-                            <tr>
-                                <td>
-                                    <PlayerHeader
-                                        playerName={player.name}
-                                        bingosyncColorPrimary={player.primaryColor}
-                                        bingosyncColorSecondary={player.secondaryColor}
-                                        countryCode={player.country}
-                                        subHeader={
-                                            standingRow.wins +
-                                            ' - ' +
-                                            (standingRow.totalGames - standingRow.wins)
-                                        }
-                                    />
-                                </td>
-                            </tr>
-                        );
-                    })}
+                <tbody>
+                    {props.standings.length > 0 &&
+                        props.standings.map(standingRow => {
+                            let player: PlayerData;
+                            if (typeof standingRow.player === 'string') {
+                                player = {
+                                    name: standingRow.player,
+                                    primaryColor: BingosyncColors.Yellow,
+                                    secondaryColor: BingosyncColors.Blue,
+                                    country: '',
+                                    division: props.division,
+                                };
+                            } else {
+                                player = standingRow.player;
+                            }
+                            return (
+                                <tr key={player.name}>
+                                    <td>
+                                        <PlayerHeader
+                                            playerName={player.name}
+                                            bingosyncColorPrimary={player.primaryColor}
+                                            bingosyncColorSecondary={player.secondaryColor}
+                                            countryCode={player.country}
+                                            subHeader={
+                                                standingRow.wins +
+                                                ' - ' +
+                                                (standingRow.totalGames - standingRow.wins)
+                                            }
+                                        />
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                </tbody>
             </table>
         </div>
     );

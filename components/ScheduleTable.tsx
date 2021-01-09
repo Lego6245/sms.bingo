@@ -31,7 +31,11 @@ export default function ScheduleTable(props: ScheduleTableProps) {
                 <tbody className="text-center text-xs sm:text-sm md:text-lg lg:text-xl">
                     {props.matches.length > 0 &&
                         props.matches.map(match => (
-                            <MatchRow match={match} forceSpoilers={props.forceSpoilers} />
+                            <MatchRow
+                                key={match.homePlayer + match.awayPlayer}
+                                match={match}
+                                forceSpoilers={props.forceSpoilers}
+                            />
                         ))}
                 </tbody>
             </table>
