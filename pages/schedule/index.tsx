@@ -22,6 +22,11 @@ export default function Schedule(props: ScheduleProps) {
     const [divisionToShow, setDivisionToShow] = React.useState('all');
     const [forceSpoilers, setForceSpoilers] = React.useState(false);
     const [selectedWeek, setSelectedWeek] = React.useState('none');
+    const [searchQuery, setSearchQuery] = React.useState('');
+
+    const onSearchQueryChange = React.useCallback((cb: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(cb.currentTarget.value);
+    }, []);
 
     const onWeekSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedWeek(cb.currentTarget.value);
@@ -40,7 +45,12 @@ export default function Schedule(props: ScheduleProps) {
     }, []);
     const matchMap = new Map<number | string, MatchData[]>();
     if (selectedWeek == 'none') {
-        const filteredMatches = applyFilters(props.matches, divisionToShow, showScheduledOnly);
+        const filteredMatches = applyFilters(
+            props.matches,
+            divisionToShow,
+            showScheduledOnly,
+            searchQuery
+        );
         filteredMatches.forEach(match => {
             if (matchMap.has(match.week)) {
                 matchMap.get(match.week).push(match);
@@ -87,7 +97,8 @@ export default function Schedule(props: ScheduleProps) {
             const filteredMatchSet = applyFilters(
                 matchMap.get(key),
                 divisionToShow,
-                showScheduledOnly
+                showScheduledOnly,
+                searchQuery
             );
             console.log(filteredMatchSet);
             matchMap.set(key, filteredMatchSet);
@@ -147,8 +158,8 @@ export default function Schedule(props: ScheduleProps) {
                     <div className="mx-5">
                         <select
                             className="text-black"
-                            name="divisions"
-                            id="division-select"
+                            name="weeks"
+                            id="week-select"
                             onChange={onWeekSelectChange}>
                             <option value="none">Disable</option>
                             {calendarWeeks.map(week => {
@@ -159,8 +170,21 @@ export default function Schedule(props: ScheduleProps) {
                                 );
                             })}
                         </select>
-                        <label className="ml-5 text-sm sm:text-lg" htmlFor="division-select">
+                        <label className="ml-5 text-sm sm:text-lg" htmlFor="week-select">
                             Show Calendar Weeks
+                        </label>
+                    </div>
+                    <div className="mx-5">
+                        <input
+                            className="text-black"
+                            name="search"
+                            id="search-input"
+                            value={searchQuery}
+                            placeholder={'Type a player name'}
+                            onChange={onSearchQueryChange}
+                        />
+                        <label className="ml-5 text-sm sm:text-lg" htmlFor="search-input">
+                            Player Search
                         </label>
                     </div>
                 </div>
@@ -184,7 +208,8 @@ export default function Schedule(props: ScheduleProps) {
 function applyFilters(
     matches: MatchData[],
     divisionToShow: string,
-    showScheduledOnly: boolean
+    showScheduledOnly: boolean,
+    searchQuery: string
 ): MatchData[] {
     let filteredMatches = matches;
     switch (divisionToShow) {
@@ -196,6 +221,15 @@ function applyFilters(
 
     if (showScheduledOnly) {
         filteredMatches = filteredMatches.filter(match => match.status == 'scheduled');
+    }
+
+    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+    if (!!normalizedSearchQuery) {
+        filteredMatches = filteredMatches.filter(
+            match =>
+                match.homePlayer.toLowerCase().indexOf(normalizedSearchQuery) > -1 ||
+                match.awayPlayer.toLowerCase().indexOf(normalizedSearchQuery) > -1
+        );
     }
 
     return filteredMatches;

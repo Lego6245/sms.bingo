@@ -26,6 +26,7 @@ export default function Home(props: HomeProps) {
         ['Seven Shines in Secrets', ' Starts Here'],
         ['Yellow Button Coins', ' Start Here'],
         ['Lighthouse Rush', ' Starts Here'],
+        ['Fire Piantas', ' Start Here'],
     ];
     const startHereIndex = Math.floor(Math.random() * startHere.length);
     const { upcomingMatches } = props;
