@@ -8,13 +8,23 @@ enum BingosyncColors {
     Teal,
     Brown,
     Pink,
-    Yellow
+    Yellow,
 }
 
-export type BingosyncColorStrings = 'orange' | 'red' | 'blue' | 'green' | 'purple' | 'navy' | 'teal' | 'brown' | 'pink' | 'yellow';
+export type BingosyncColorStrings =
+    | 'orange'
+    | 'red'
+    | 'blue'
+    | 'green'
+    | 'purple'
+    | 'navy'
+    | 'teal'
+    | 'brown'
+    | 'pink'
+    | 'yellow';
 
 export function bingosyncColorsToTailwindColors(color: BingosyncColors | BingosyncColorStrings) {
-    if (typeof color === "string") {
+    if (typeof color === 'string') {
         return 'bingosync-' + color;
     }
     switch (color) {
@@ -38,7 +48,7 @@ export function bingosyncColorsToTailwindColors(color: BingosyncColors | Bingosy
             return 'bingosync-pink';
         case BingosyncColors.Yellow:
             return 'bingosync-yellow';
-}
+    }
 }
 
-export default BingosyncColors
+export default BingosyncColors;

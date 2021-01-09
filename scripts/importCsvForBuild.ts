@@ -29,8 +29,8 @@ export default async function importCsvForBuild(): Promise<DataImport> {
             homeScore: parseInt(entry[10]),
             awayScore: parseInt(entry[11]),
             matchVod: entry[12],
-            commentators: entry[13] ? entry[13].split(',') : 'None'
-        }
+            commentators: entry[13] ? entry[13].split(',') : 'None',
+        };
     });
     const parser2 = createReadStream('./players.csv').pipe(parse());
     const playerRecords = [];
@@ -38,15 +38,15 @@ export default async function importCsvForBuild(): Promise<DataImport> {
         playerRecords.push(record);
     }
     const playerMap = new Map<string, any>();
-    playerRecords.forEach((player) => {
+    playerRecords.forEach(player => {
         playerMap.set(player[0], {
             name: player[0],
             primaryColor: player[1].toLowerCase(),
             secondaryColor: player[2].toLowerCase(),
             country: player[3].toLowerCase(),
-            division: player[4]
+            division: player[4],
         });
-    })
+    });
     return {
         matches: matchArray,
         players: playerMap,

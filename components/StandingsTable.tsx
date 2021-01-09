@@ -1,46 +1,53 @@
-import BingosyncColors from "../types/BingosyncColors";
-import PlayerData from "../types/PlayerData";
-import PlayerStanding from "../types/PlayerStanding"
-import PlayerHeader from "./PlayerHeader"
+import BingosyncColors from '../types/BingosyncColors';
+import PlayerData from '../types/PlayerData';
+import PlayerStanding from '../types/PlayerStanding';
+import PlayerHeader from './PlayerHeader';
 
 export interface StandingsTableProps {
-    division: string,
-    standings: PlayerStanding[],
+    division: string;
+    standings: PlayerStanding[];
 }
 
 export default function StandingsTable(props: StandingsTableProps) {
     return (
         <div className="w-full mx-auto">
-            <div className="w-full text-3xl md:text-5xl font-bold text-center mb-5">{"Division " + props.division}</div>
+            <div className="w-full text-3xl md:text-5xl font-bold text-center mb-5">
+                {'Division ' + props.division}
+            </div>
             <table className="w-full">
-                {props.standings.length > 0 && props.standings.map(standingRow => {
-                    let player: PlayerData;
-                    if (typeof standingRow.player === "string") {
-                        player = {
-                            name: standingRow.player,
-                            primaryColor: BingosyncColors.Yellow,
-                            secondaryColor: BingosyncColors.Blue,
-                            country : '',
-                            division: props.division,   
+                {props.standings.length > 0 &&
+                    props.standings.map(standingRow => {
+                        let player: PlayerData;
+                        if (typeof standingRow.player === 'string') {
+                            player = {
+                                name: standingRow.player,
+                                primaryColor: BingosyncColors.Yellow,
+                                secondaryColor: BingosyncColors.Blue,
+                                country: '',
+                                division: props.division,
+                            };
+                        } else {
+                            player = standingRow.player;
                         }
-                    } else {
-                        player = standingRow.player
-                    }
-                    return (
-                    <tr>
-                        <td>
-                            <PlayerHeader
-                                playerName={player.name}
-                                bingosyncColorPrimary={player.primaryColor}
-                                bingosyncColorSecondary={player.secondaryColor}
-                                countryCode={player.country}
-                                subHeader={standingRow.wins + " - " + (standingRow.totalGames - standingRow.wins)}
-                            />
-                        </td>
-                    </tr>
-                    )
-                })}
+                        return (
+                            <tr>
+                                <td>
+                                    <PlayerHeader
+                                        playerName={player.name}
+                                        bingosyncColorPrimary={player.primaryColor}
+                                        bingosyncColorSecondary={player.secondaryColor}
+                                        countryCode={player.country}
+                                        subHeader={
+                                            standingRow.wins +
+                                            ' - ' +
+                                            (standingRow.totalGames - standingRow.wins)
+                                        }
+                                    />
+                                </td>
+                            </tr>
+                        );
+                    })}
             </table>
         </div>
-    )
+    );
 }

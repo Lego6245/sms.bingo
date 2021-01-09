@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import { isFuture } from 'date-fns';
-import Image from "next/image";
-import TwitchChannelImage from "./TwitchChannelImage";
-import ExpandIcon from "./ExpandIcon";
-import MatchData from "../types/MatchData";
+import Image from 'next/image';
+import TwitchChannelImage from './TwitchChannelImage';
+import ExpandIcon from './ExpandIcon';
+import MatchData from '../types/MatchData';
 
 export interface MatchRowProps {
     match: MatchData;
@@ -16,47 +16,59 @@ export default function MatchRow(props: MatchRowProps) {
     const toggleExpand = React.useCallback(() => {
         setIsExpanded(!isExpanded);
     }, [isExpanded]);
-    const shouldShowSpoilers = isExpanded || (match.status == "played" && props.forceSpoilers)
+    const shouldShowSpoilers = isExpanded || (match.status == 'played' && props.forceSpoilers);
     let timeContent;
-    let additionalClasses = "";
+    let additionalClasses = '';
     if (!!match.matchTime) {
         const matchTime = new Date(match.matchTime * 1000);
         const dateString = matchTime.toLocaleDateString(undefined, {
-            month: "numeric",
-            day: "numeric"
+            month: 'numeric',
+            day: 'numeric',
         });
         const timeString = matchTime.toLocaleTimeString(undefined, {
-            hour: "numeric",
-            minute: "numeric"
+            hour: 'numeric',
+            minute: 'numeric',
         });
         timeContent = dateString + '\n\r' + timeString;
         if (!isFuture(matchTime)) {
-            additionalClasses += " text-gray-400"
+            additionalClasses += ' text-gray-400';
         }
     } else {
-        timeContent = "TBD"
+        timeContent = 'TBD';
     }
-    if (match.status == "played") {
-        additionalClasses += " bg-blue-500"
-    } else if (match.status == "unscheduled") {
-        additionalClasses += " bg-red-300"
-    } else if (match.status == "scheduled") {
-        additionalClasses += " bg-yellow-500"
+    if (match.status == 'played') {
+        additionalClasses += ' bg-blue-500';
+    } else if (match.status == 'unscheduled') {
+        additionalClasses += ' bg-red-300';
+    } else if (match.status == 'scheduled') {
+        additionalClasses += ' bg-yellow-500';
     }
-    
+
     return (
         <>
-            <tr onClick={match.status == "played" ? toggleExpand : undefined} className={"h-8 sm:h-12 lg:h-16 bg-opacity-40" + additionalClasses}>
-                <td className="hidden sm:table-cell">{match.status == "played" && <ExpandIcon isExpanded={shouldShowSpoilers} />}</td>
+            <tr
+                onClick={match.status == 'played' ? toggleExpand : undefined}
+                className={'h-8 sm:h-12 lg:h-16 bg-opacity-40' + additionalClasses}>
+                <td className="hidden sm:table-cell">
+                    {match.status == 'played' && <ExpandIcon isExpanded={shouldShowSpoilers} />}
+                </td>
                 <td>{timeContent}</td>
                 <td className="text-right">{match.homePlayer}</td>
                 <td>Vs.</td>
                 <td className="text-left">{match.awayPlayer}</td>
                 <td className="hidden sm:table-cell">{match.division}</td>
                 <td>{match.format ?? 'TBD'}</td>
-                <td>{match.channel ? (match.channel == "Offline" ? 'Offline' :
-                    <TwitchChannelImage channel={match.channel} />
-                ) : 'TBD'}</td>
+                <td>
+                    {match.channel ? (
+                        match.channel == 'Offline' ? (
+                            'Offline'
+                        ) : (
+                            <TwitchChannelImage channel={match.channel} />
+                        )
+                    ) : (
+                        'TBD'
+                    )}
+                </td>
             </tr>
             {shouldShowSpoilers && (
                 <tr className="h-16 bg-opacity-40 bg-blue-500">
@@ -67,9 +79,13 @@ export default function MatchRow(props: MatchRowProps) {
                     <td className="text-left">{match.awayScore}</td>
                     <td className="hidden sm:table-cell"></td>
                     <td></td>
-                    <td><a target="_blank" href={match.matchVod}>Match Vod</a></td>
+                    <td>
+                        <a target="_blank" href={match.matchVod}>
+                            Match Vod
+                        </a>
+                    </td>
                 </tr>
             )}
         </>
-    )
+    );
 }

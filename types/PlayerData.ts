@@ -1,4 +1,4 @@
-import BingosyncColors, { BingosyncColorStrings } from "./BingosyncColors";
+import BingosyncColors, { BingosyncColorStrings } from './BingosyncColors';
 
 export default interface PlayerData {
     name: string;
