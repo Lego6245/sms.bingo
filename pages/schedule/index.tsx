@@ -15,8 +15,6 @@ export interface ScheduleProps {
 
 const calendarWeeks = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
-type MouseEventType = React.MouseEvent<HTMLInputElement>;
-
 export default function Schedule(props: ScheduleProps) {
     const router = useRouter();
     const [showScheduledOnly, setShowScheduledOnly] = React.useState(!!router.query.scheduled);
