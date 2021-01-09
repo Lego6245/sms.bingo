@@ -11,13 +11,15 @@ export interface HomeProps {
 
 export default function Home(props: HomeProps) {
     const startHere = [
-        ['Delay Clicks', ' Live Here'],
-        ['Win Conditions', ' Live Here'],
-        ['Sirena 1 Hundreds', ' Lives Here'],
-        ['Sunshine Fans', ' Live Here'],
-        ['Bingo Enthusiasts', ' Live Here'],
-        ['Counting to 12', ' Lives Here'],
-        ['Sunshine Bingo', ' Lives Here'],
+        ['Delay Clicks', ' Start Here'],
+        ['Win Conditions', ' Start Here'],
+        ['Sirena 1 Hundreds', ' Starts Here'],
+        ['Sunshine Fans', ' Start Here'],
+        ['Bingo Enthusiasts', ' Start Here'],
+        ['Counting to 12', ' Starts Here'],
+        ['Sunshine Bingo', ' Starts Here'],
+        ['Sirena Whenever', ' Starts Here'],
+        ['Life Grinding', ' Starts Here'],
     ];
     const startHereIndex = Math.floor(Math.random() * startHere.length);
     const { upcomingMatches } = props;
