@@ -13,11 +13,11 @@ export default function Standings(props: StandingsProps) {
     return (
         <div className=" bg-tile-background bg-repeat min-h-screen">
             <Header title="Super Mario Sunshine Bingo League - Standings" />
-            <main className="text-white flex flex-row">
+            <main className="text-white flex flex-row flex-wrap w-full">
                 {props.standings.length > 0 &&
                     props.standings.map(divisionStandings => {
                         return (
-                            <div className="mx-auto">
+                            <div className="mx-auto my-10">
                                 <StandingsTable {...divisionStandings} />
                             </div>
                         );
