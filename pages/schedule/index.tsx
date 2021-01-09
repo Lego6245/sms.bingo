@@ -53,7 +53,7 @@ export default function Schedule(props: ScheduleProps) {
             }
         });
     }
-    const sortedWeeks = Array.from(matchMap.keys()).sort();
+    const sortedWeeks = Array.from(matchMap.keys()).sort((a, b) => a - b);
     Array.from(matchMap.keys()).forEach(key => {
         matchMap.get(key).sort((a, b) => {
             return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
