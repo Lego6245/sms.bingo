@@ -43,3 +43,6 @@ jobs:
           commit_user_name: John Bingo, President of Bingo
           commit_user_email: winconditionhunter@github.com
           commit_author: John Bingo <winconditionhunter@github.com>
+      - name: Fail if no commit made
+        if: steps.auto-commit-action.outputs.changes_detected == 'false'
+        run: echo "Failing due to no changes" && exit 1
