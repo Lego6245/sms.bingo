@@ -44,9 +44,21 @@ export default function MatchRow(props: MatchRowProps) {
                     {match.status == 'played' && <ExpandIcon isExpanded={shouldShowSpoilers} />}
                 </td>
                 <td>{timeContent}</td>
-                <td className="text-right">{match.homePlayer}</td>
+                <td
+                    className={
+                        'text-right' +
+                        (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold' : '')
+                    }>
+                    {match.homePlayer}
+                </td>
                 <td>Vs.</td>
-                <td className="text-left">{match.awayPlayer}</td>
+                <td
+                    className={
+                        'text-left' +
+                        (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold' : '')
+                    }>
+                    {match.awayPlayer}
+                </td>
                 <td className="hidden sm:table-cell">{match.division}</td>
                 <td>{match.format ?? 'TBD'}</td>
                 <td>

@@ -53,6 +53,7 @@ export default function Schedule(props: ScheduleProps) {
             }
         });
     }
+    const sortedWeeks = Array.from(matchMap.keys()).sort();
     Array.from(matchMap.keys()).forEach(key => {
         matchMap.get(key).sort((a, b) => {
             return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
@@ -103,12 +104,13 @@ export default function Schedule(props: ScheduleProps) {
                     </div>
                 </div>
                 <div className="sm:w-10/12 sm:mx-auto">
-                    {Array.from(matchMap.keys()).map(key => (
+                    {sortedWeeks.map(key => (
                         <div className="mt-5">
                             <ScheduleTable
                                 forceSpoilers={forceSpoilers}
                                 matches={matchMap.get(key)}
                                 tableTitle={getTableTitleByWeek(key)}
+                                hideHomeAway={key == 5}
                             />
                         </div>
                     ))}
