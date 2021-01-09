@@ -18,7 +18,7 @@ export interface PlayerHeaderProps {
 }
 
 export default function PlayerHeader(props: PlayerHeaderProps) {
-    const flagIconClass = 'flag-icon-' + props.countryCode;
+    const flagIconClass = getFlagIconClass(props.countryCode);
     const gradientClasses =
         'from-' +
         bingosyncColorsToTailwindColors(props.bingosyncColorPrimary) +
@@ -51,4 +51,13 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
             <div className={'my-1 md:my-3 h-1 md:h-2 bg-gradient-to-r ' + gradientClasses} />
         </div>
     );
+}
+
+function getFlagIconClass(country: string): string {
+    switch (country) {
+        case 'fr-qc':
+            return 'bg-fr-qc';
+        default:
+            return 'flag-icon-' + country;
+    }
 }

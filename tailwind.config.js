@@ -2,7 +2,7 @@ module.exports = {
     purge: {
         content: ['./pages/**/*.tsx', './components/**/*.tsx'],
         options: {
-            safelist: [/.*bingosync.*/],
+            safelist: [/.*bingosync.*/ /*fr-qc*/],
         },
     },
     darkMode: false, // or 'media' or 'class'
@@ -10,6 +10,7 @@ module.exports = {
         extend: {
             backgroundImage: theme => ({
                 'tile-background': "url('/bingoleaguetile.png')",
+                'fr-qc': "url('/fr-qc.svg')",
             }),
             colors: {
                 'bingosync-orange': '#FF9C12',

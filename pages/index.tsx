@@ -20,6 +20,12 @@ export default function Home(props: HomeProps) {
         ['Sunshine Bingo', ' Starts Here'],
         ['Sirena Whenever', ' Starts Here'],
         ['Life Grinding', ' Starts Here'],
+        ['Wiggler ILs', ' Start Here'],
+        ['Ricco 4 Hoverless', ' Starts Here'],
+        ['Fifty from Two', ' Starts Here'],
+        ['Seven Shines in Secrets', ' Starts Here'],
+        ['Yellow Button Coins', ' Start Here'],
+        ['Lighthouse Rush', ' Starts Here'],
     ];
     const startHereIndex = Math.floor(Math.random() * startHere.length);
     const { upcomingMatches } = props;
