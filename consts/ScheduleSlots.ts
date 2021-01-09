@@ -1,6 +1,6 @@
 const ScheduleSlots = new Map<string, number[]>();
 ScheduleSlots.set('1', [1610564400, 1610569800, 1610575200]);
-ScheduleSlots.set('2', [1610650800, 1610656200, 1610663400]);
+ScheduleSlots.set('2', [1610650800, 1610656200, 1610661600]);
 ScheduleSlots.set('3', [1610731800, 1610737200, 1610742600, 1610748000, 1610753400, 1610758800]);
 ScheduleSlots.set('4', [
     1610818200,
