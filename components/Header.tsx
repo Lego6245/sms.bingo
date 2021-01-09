@@ -1,7 +1,19 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function Header(props: { title: string }) {
+    const router = useRouter();
+    const hrefs = [
+        {
+            route: '/standings',
+            label: 'Standings',
+        },
+        {
+            route: '/schedule',
+            label: 'Schedule',
+        },
+    ];
     return (
         <>
             <Head>
@@ -15,12 +27,15 @@ export default function Header(props: { title: string }) {
                             <img src="/shine.png" height={50} width={50} />
                         </Link>
                     </div>
-                    <div className="mr-10">
-                        <Link href="/standings">Standings</Link>
-                    </div>
-                    <div className="mr-10">
-                        <Link href="/schedule">Schedule</Link>
-                    </div>
+                    {hrefs.map(href => (
+                        <div
+                            key={href.label}
+                            className={
+                                'mr-10' + (router.pathname == href.route ? ' font-bold' : '')
+                            }>
+                            <Link href={href.route}>Standings</Link>
+                        </div>
+                    ))}
                 </div>
             </header>
         </>
