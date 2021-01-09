@@ -33,7 +33,7 @@ export default function Header(props: { title: string }) {
                             className={
                                 'mr-10' + (router.pathname == href.route ? ' font-bold' : '')
                             }>
-                            <Link href={href.route}>Standings</Link>
+                            <Link href={href.route}>{href.label}</Link>
                         </div>
                     ))}
                 </div>
