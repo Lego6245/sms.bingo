@@ -23,7 +23,7 @@ export default async function importCsvForBuild(): Promise<DataImport> {
             division: entry[3],
             status: entry[4].toLowerCase(),
             matchTime: parseInt(entry[6]),
-            format: entry[7].toLowerCase(),
+            format: entry[7],
             channel: entry[8],
             winner: entry[9],
             homeScore: parseInt(entry[10]),

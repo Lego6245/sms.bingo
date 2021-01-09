@@ -62,14 +62,14 @@ export default function Home(props: HomeProps) {
                         </h2>
                     </header>
                     <div className="flex flex-row justify-center">
-                        <Link href="/schedule">
-                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Schedule
-                            </div>
-                        </Link>
                         <Link href="/standings">
                             <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
                                 Standings
+                            </div>
+                        </Link>
+                        <Link href="/schedule">
+                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+                                Schedule
                             </div>
                         </Link>
                     </div>
