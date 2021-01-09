@@ -1,0 +1,45 @@
+# Shamelessly borrowed + modified from speculative/hodllive
+
+name: Grab Current Schedule Data
+on:
+  workflow_dispatch:
+  schedule:
+    # Run hourly
+    - cron: "0 * * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+        
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.0
+      
+      - name: Install python dependencies
+        shell: bash
+        run: poetry install
+      
+      - name: Do the subscriber count update
+        shell: bash
+        env:
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          SHEET_NAME: ${{ secrets.SHEET_NAME }}
+        run: poetry run python ./scripts/downloadScheduleCsv.py "$SHEET_ID" "$SHEET_NAME"
+    
+      - name: Commit & push
+        uses: stefanzweifel/git-auto-commit-action@v4.6.0
+        with:
+          commit_message: Updating Schedule
+          commit_user_name: John Bingo, President of Bingo
+          commit_user_email: winconditionhunter@github.com
+          commit_author: John Bingo <winconditionhunter@github.com>
