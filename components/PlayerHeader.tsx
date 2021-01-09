@@ -21,9 +21,9 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
         <div>
                 <div className="flex flex-row items-end">
                     <div>
-                        <span className={"text-xl mr-5 flag-icon " + flagIconClass}></span>
+                        <span className={"text-lg md:text-xl mr-5 flag-icon " + flagIconClass}></span>
                     </div>
-                    <span className="text-3xl font-bold text-white">
+                    <span className="text-2xl md:text-3xl mx-5 font-bold text-white">
                     {props.playerName}
                     </span>
                     {props.twitchProps && (
@@ -38,12 +38,12 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
                         </div>
                     )}
                     {props.subHeader && (
-                        <span className="text-xl font-bold text-white ml-auto">
+                        <span className="text-lg md:text-xl font-bold text-white ml-auto">
                             {props.subHeader}
                         </span>
                     )}
                 </div>
-                <div className={"my-3 h-2 bg-gradient-to-r " + gradientClasses}/>
+                <div className={"my-1 md:my-3 h-1 md:h-2 bg-gradient-to-r " + gradientClasses}/>
             </div>
     )
 }

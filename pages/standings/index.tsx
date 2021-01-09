@@ -15,7 +15,7 @@ export default function Standings(props: StandingsProps) {
             <main className="text-white flex flex-row">
                 {props.standings.length > 0 && props.standings.map(divisionStandings => {
                     return (
-                    <div className="w-1/5 mx-auto">
+                    <div className="mx-auto">
                         <StandingsTable {...divisionStandings} />
                     </div>)
                 })}

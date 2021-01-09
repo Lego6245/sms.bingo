@@ -8,7 +8,7 @@ export interface StandingsTableProps {
 export default function StandingsTable(props: StandingsTableProps) {
     return (
         <div className="w-full mx-auto">
-            <div className="w-full text-5xl font-bold text-center mb-5">{"Division " + props.division}</div>
+            <div className="w-full text-3xl md:text-5xl font-bold text-center mb-5">{"Division " + props.division}</div>
             <table className="w-full">
                 {props.standings.length > 0 && props.standings.map(standingRow => {
                     return (

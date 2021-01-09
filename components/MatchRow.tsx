@@ -39,13 +39,13 @@ export default function MatchRow(match: any) {
     
     return (
         <>
-            <tr onClick={match.status == "played" ? toggleExpand : undefined} className={"h-16 bg-opacity-40" + additionalClasses}>
-                <td>{match.status == "played" && <ExpandIcon isExpanded={shouldShowSpoilers} />}</td>
+            <tr onClick={match.status == "played" ? toggleExpand : undefined} className={"h-8 sm:h-12 lg:h-16 bg-opacity-40" + additionalClasses}>
+                <td className="hidden sm:table-cell">{match.status == "played" && <ExpandIcon isExpanded={shouldShowSpoilers} />}</td>
                 <td>{timeContent}</td>
                 <td className="text-right">{match.homePlayer}</td>
                 <td>Vs.</td>
                 <td className="text-left">{match.awayPlayer}</td>
-                <td>{match.division}</td>
+                <td className="hidden sm:table-cell">{match.division}</td>
                 <td>{match.format ?? 'TBD'}</td>
                 <td>{match.channel ? (match.channel == "Offline" ? 'Offline' :
                     <TwitchChannelImage channel={match.channel} />
@@ -53,12 +53,12 @@ export default function MatchRow(match: any) {
             </tr>
             {shouldShowSpoilers && (
                 <tr className="h-16 bg-opacity-40 bg-blue-500">
-                    <td></td>
+                    <td className="hidden sm:table-cell"></td>
                     <td>Final Score:</td>
                     <td className="text-right">{match.homeScore}</td>
                     <td className="text-center"> - </td>
                     <td className="text-left">{match.awayScore}</td>
-                    <td></td>
+                    <td className="hidden sm:table-cell"></td>
                     <td></td>
                     <td><a target="_blank" href={match.matchVod}>Match Vod</a></td>
                 </tr>

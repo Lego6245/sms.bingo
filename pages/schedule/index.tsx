@@ -55,39 +55,36 @@ export default function Schedule(props: ScheduleProps) {
         })
     });
   return (
-    <div className=" bg-tile-background bg-repeat min-h-screen">
+    <div className="bg-tile-background bg-repeat min-h-screen overflow-x-auto">
       <Header title="Super Mario Sunshine Bingo league - Schedule" />
-      <style jsx global>{`
-        body {
-            overflow-y: scroll;
-        }
-        `}</style>
-      <main className="container mx-auto text-white">
-          <div className="flex flex-row items-baseline">
-              <div className="mx-5">
-                <input type="checkbox" defaultChecked={showScheduledOnly} id="fullSchedule" onClick={onShowScheduleClick} />
-                <label className="ml-5 text-lg" htmlFor="fullSchedule">Show Scheduled Matches Only</label>
-              </div>
-              <div className="mx-5">
-                <select className="text-black" name="divisions" id="division-select" onChange={onSelectChange}>
-                    <option value="all">All</option>
-                    {props.divisions && props.divisions.length > 0 && props.divisions.map(division => {
-                        return (
-                            <option value={division}>{division}</option>
-                        )
-                    })}
-                </select>
-                <label className="ml-5 text-lg" htmlFor="division-select">Division Filter</label>
-              </div>
-              <div className="mx-5">
-                <input type="checkbox" id="forceSpoilers" onClick={onForceSpoilersClicked} />
-                <label className="ml-5 text-lg" htmlFor="forceSpoilers">Force Spoilers to Show</label>
-              </div>
-          </div>
-          {Array.from(matchMap.keys()).map(key => (
-              <div className="mt-5">
-                <ScheduleTable forceSpoilers={forceSpoilers} matches={matchMap.get(key)} tableTitle={getTableTitleByWeek(key)} />
-              </div>))}
+      <main className="text-white flex flex-col">
+            <div className="flex flex-row items-baseline text-sm">
+                <div className="mx-5">
+                    <input type="checkbox" defaultChecked={showScheduledOnly} id="fullSchedule" onClick={onShowScheduleClick} />
+                    <label className="ml-5 text-sm sm:text-lg" htmlFor="fullSchedule">Show Scheduled Matches Only</label>
+                </div>
+                <div className="mx-5">
+                    <select className="text-black" name="divisions" id="division-select" onChange={onSelectChange}>
+                        <option value="all">All</option>
+                        {props.divisions && props.divisions.length > 0 && props.divisions.map(division => {
+                            return (
+                                <option value={division}>{division}</option>
+                            )
+                        })}
+                    </select>
+                    <label className="ml-5 text-sm sm:text-lg" htmlFor="division-select">Division Filter</label>
+                </div>
+                <div className="mx-5">
+                    <input type="checkbox" id="forceSpoilers" onClick={onForceSpoilersClicked} />
+                    <label className="ml-5 text-sm sm:text-lg" htmlFor="forceSpoilers">Force Spoilers to Show</label>
+                </div>
+            </div>
+            <div className="sm:w-10/12 sm:mx-auto">
+            {Array.from(matchMap.keys()).map(key => (
+                <div className="mt-5">
+                    <ScheduleTable forceSpoilers={forceSpoilers} matches={matchMap.get(key)} tableTitle={getTableTitleByWeek(key)} />
+                </div>))}
+            </div>  
       </main>
     </div>
   )
