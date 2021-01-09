@@ -25,7 +25,6 @@ export default function Home(props: HomeProps) {
     let selectedMatch: MatchData;
     if (upcomingMatches?.length > 0) {
         while (!selectedMatch && k < upcomingMatches.length) {
-            console.log(upcomingMatches[k].matchTime - Date.now());
             if ((upcomingMatches[k].matchTime + 60 * 60) * 1000 - Date.now() > 0) {
                 selectedMatch = upcomingMatches[k];
             } else {
