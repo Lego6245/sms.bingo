@@ -101,7 +101,6 @@ export default function Schedule(props: ScheduleProps) {
                 showScheduledOnly,
                 searchQuery
             );
-            console.log(filteredMatchSet);
             matchMap.set(key, filteredMatchSet);
         });
     }

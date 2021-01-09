@@ -10,6 +10,5 @@ export default function getMatchTimeString(rawTime: number, est?: boolean): stri
         minute: 'numeric',
         timeZone: est ? 'America/New_York' : undefined,
     });
-    console.log(dateString + '\n\r' + timeString);
     return dateString + '\n\r' + timeString;
 }
