@@ -4,6 +4,7 @@ import TwitchChannelImage from './TwitchChannelImage';
 import ExpandIcon from './ExpandIcon';
 import MatchData from '../types/MatchData';
 import getMatchTimeString from './helpers/getMatchTimeString';
+import Tippy from '@tippyjs/react';
 
 export interface MatchRowProps {
     match: MatchData;
@@ -20,7 +21,11 @@ export default function MatchRow(props: MatchRowProps) {
     let timeContent;
     let additionalClasses = '';
     if (!!match.matchTime) {
-        timeContent = getMatchTimeString(match.matchTime);
+        timeContent = (
+            <Tippy content={getMatchTimeString(match.matchTime, true /* est */)}>
+                <span>{getMatchTimeString(match.matchTime)}</span>
+            </Tippy>
+        );
         if (!isFuture(match.matchTime * 1000)) {
             additionalClasses += ' text-gray-400';
         }

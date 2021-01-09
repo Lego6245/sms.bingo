@@ -6,6 +6,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import MatchData from '../../types/MatchData';
 import ScheduleSlots from '../../consts/ScheduleSlots';
+import 'tippy.js/dist/tippy.css';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -187,6 +188,11 @@ export default function Schedule(props: ScheduleProps) {
                             Player Search
                         </label>
                     </div>
+                </div>
+                <div className="mx-auto">
+                    All times shown are in the following time zone:{' '}
+                    {Intl.DateTimeFormat().resolvedOptions().timeZone}. Hover over times for League
+                    Time (EST)
                 </div>
                 <div className="sm:w-10/12 sm:mx-auto">
                     {sortedWeeks.map(key => (
