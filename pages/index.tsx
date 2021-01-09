@@ -1,17 +1,38 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import NextMatchOverlay from '../components/NextMatchOverlay';
+import importCsvForBuild from '../scripts/importCsvForBuild';
+import MatchData from '../types/MatchData';
 
-export default function Home() {
+export interface HomeProps {
+    upcomingMatches: MatchData[];
+}
+
+export default function Home(props: HomeProps) {
     const startHere = [
-        'Delay Clicks Live Here',
-        'Win Conditions Live Here',
-        'Sirena 1 Hundreds Lives Here',
-        'Sunshine Fans Live Here',
-        'Bingo Enthusiasts Live Here',
-        'Counting to 12 Lives Here',
-        'Sunshine Bingo Lives Here',
+        ['Delay Clicks', ' Live Here'],
+        ['Win Conditions', ' Live Here'],
+        ['Sirena 1 Hundreds', ' Lives Here'],
+        ['Sunshine Fans', ' Live Here'],
+        ['Bingo Enthusiasts', ' Live Here'],
+        ['Counting to 12', ' Lives Here'],
+        ['Sunshine Bingo', ' Lives Here'],
     ];
     const startHereIndex = Math.floor(Math.random() * startHere.length);
+    const { upcomingMatches } = props;
+    let k = 0;
+    let selectedMatch: MatchData;
+    if (upcomingMatches?.length > 0) {
+        while (!selectedMatch && k < upcomingMatches.length) {
+            console.log(upcomingMatches[k].matchTime - Date.now());
+            if ((upcomingMatches[k].matchTime + 60 * 60) * 1000 - Date.now() > 0) {
+                selectedMatch = upcomingMatches[k];
+            } else {
+                k++;
+            }
+        }
+    }
     return (
         <div>
             <Head>
@@ -37,7 +58,8 @@ export default function Home() {
                             Super Mario Sunshine 1v1 Lockout Bingo League
                         </h1>
                         <h2 className="text-4xl font-bold text-white my-5 subheadAnimation">
-                            {startHere[startHereIndex]}
+                            <span className="text-yellow-300">{startHere[startHereIndex][0]}</span>
+                            <span className="text-blue-400">{startHere[startHereIndex][1]}</span>
                         </h2>
                     </header>
                     <div className="flex flex-row justify-center">
@@ -59,8 +81,28 @@ export default function Home() {
                             Join the Discord
                         </a>
                     </div>
+                    {selectedMatch && (
+                        <div className="bg-tile-background bg-repeat fixed bottom-0 py-2 h-24 left-0 w-full">
+                            <NextMatchOverlay match={selectedMatch} />
+                        </div>
+                    )}
                 </main>
             </div>
         </div>
     );
 }
+
+export const getStaticProps: GetStaticProps = async context => {
+    const { matches, players } = await importCsvForBuild();
+    const filteredMatches = matches.filter(
+        match =>
+            match.status == 'scheduled' &&
+            (match.channel == 'Bingothon' || match.channel == 'SunshineCommunity')
+    );
+    filteredMatches.sort((a, b) => a.matchTime - b.matchTime);
+    return {
+        props: {
+            upcomingMatches: filteredMatches,
+        },
+    };
+};

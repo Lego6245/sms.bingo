@@ -1,9 +1,9 @@
 import React from 'react';
 import { isFuture } from 'date-fns';
-import Image from 'next/image';
 import TwitchChannelImage from './TwitchChannelImage';
 import ExpandIcon from './ExpandIcon';
 import MatchData from '../types/MatchData';
+import getMatchTimeString from './helpers/getMatchTimeString';
 
 export interface MatchRowProps {
     match: MatchData;
@@ -20,17 +20,8 @@ export default function MatchRow(props: MatchRowProps) {
     let timeContent;
     let additionalClasses = '';
     if (!!match.matchTime) {
-        const matchTime = new Date(match.matchTime * 1000);
-        const dateString = matchTime.toLocaleDateString(undefined, {
-            month: 'numeric',
-            day: 'numeric',
-        });
-        const timeString = matchTime.toLocaleTimeString(undefined, {
-            hour: 'numeric',
-            minute: 'numeric',
-        });
-        timeContent = dateString + '\n\r' + timeString;
-        if (!isFuture(matchTime)) {
+        timeContent = getMatchTimeString(match.matchTime);
+        if (!isFuture(match.matchTime * 1000)) {
             additionalClasses += ' text-gray-400';
         }
     } else {
@@ -63,7 +54,9 @@ export default function MatchRow(props: MatchRowProps) {
                         match.channel == 'Offline' ? (
                             'Offline'
                         ) : (
-                            <TwitchChannelImage channel={match.channel} />
+                            <div className="flex flex-row justify-center">
+                                <TwitchChannelImage channel={match.channel} />
+                            </div>
                         )
                     ) : (
                         'TBD'
