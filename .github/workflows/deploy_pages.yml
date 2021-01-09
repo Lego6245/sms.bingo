@@ -7,11 +7,6 @@ on:
     push:
         branches: # triggers on any push to master
             - main
-    workflow_run:
-        workflows: ['Grab Current Schedule Data']
-        branches: [main]
-        types:
-            - completed
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
