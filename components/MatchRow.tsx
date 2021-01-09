@@ -3,13 +3,20 @@ import { isFuture } from 'date-fns';
 import Image from "next/image";
 import TwitchChannelImage from "./TwitchChannelImage";
 import ExpandIcon from "./ExpandIcon";
+import MatchData from "../types/MatchData";
 
-export default function MatchRow(match: any) {
+export interface MatchRowProps {
+    match: MatchData;
+    forceSpoilers: boolean;
+}
+
+export default function MatchRow(props: MatchRowProps) {
+    const { match } = props;
     const [isExpanded, setIsExpanded] = React.useState(false);
     const toggleExpand = React.useCallback(() => {
         setIsExpanded(!isExpanded);
     }, [isExpanded]);
-    const shouldShowSpoilers = isExpanded || (match.status == "played" && match.forceSpoilers)
+    const shouldShowSpoilers = isExpanded || (match.status == "played" && props.forceSpoilers)
     let timeContent;
     let additionalClasses = "";
     if (!!match.matchTime) {

@@ -1,10 +1,12 @@
 import { GetStaticProps } from "next";
-import StandingsTable from "../../components/StandingsTable";
+import StandingsTable, { StandingsTableProps } from "../../components/StandingsTable";
 import Header from '../../components/Header';
 import importCsvForBuild from "../../scripts/importCsvForBuild";
-
+import MatchData from "../../types/MatchData";
+import PlayerData from "../../types/PlayerData";
+import PlayerStanding, { StandingValues } from "../../types/PlayerStanding";
 export interface StandingsProps {
-    standings: any[]
+    standings: StandingsTableProps[]
 }
 
 
@@ -24,27 +26,31 @@ export default function Standings(props: StandingsProps) {
     );
 }
 
-type StandingValues = { wins: number, totalGames: number };
 
-function computeStandings(divMapEntry: DivisionMap): any[] {
+
+function computeStandings(divMapEntry: DivisionMap): PlayerStanding[] {
     let resultMap = new Map<string, StandingValues>();
     seedResultMap(resultMap, divMapEntry.players);
     divMapEntry.matches.forEach(match => {
         updateMapWithMatchPlayer(resultMap, match.homePlayer, match.homePlayer == match.winner);
         updateMapWithMatchPlayer(resultMap, match.awayPlayer, match.awayPlayer == match.winner);
     });
-    const standingArray: any[] = [];
+    const standingArray: PlayerStanding[] = [];
     Array.from(resultMap.keys()).forEach(key => {
         standingArray.push({
             player: divMapEntry.players.has(key) ? divMapEntry.players.get(key) : key,
             ...resultMap.get(key)
         })
     });
-    standingArray.sort((a, b) => b.wins - a.wins != 0 ? b.wins - a.wins :  (a.player.name > b.player.name ? 1 : -1));
+    standingArray.sort((a, b) => {
+        const aName = typeof a.player === 'string' ? a.player : a.player.name;
+        const bName = typeof b.player === 'string' ? b.player : b.player.name;
+        return b.wins - a.wins != 0 ? b.wins - a.wins :  (aName > bName ? 1 : -1)
+    });
     return standingArray;
 }
 
-function seedResultMap(map: Map<string, StandingValues>, players: Map<string, any>) {
+function seedResultMap(map: Map<string, StandingValues>, players: Map<string, PlayerData>) {
     Array.from(players.keys()).forEach(key => {
         map.set(key, { wins: 0, totalGames: 0})
     })
@@ -59,22 +65,22 @@ function updateMapWithMatchPlayer(resultMap: Map<string, StandingValues>, player
     }
 }
 
-type DivisionMap = { matches: any[], players: Map<string, any>};
+type DivisionMap = { matches: MatchData[], players: Map<string, PlayerData>};
 
-function splitIntoDivisions(matches: any[], players: Map<string, any>) {
+function splitIntoDivisions(matches: MatchData[], players: Map<string, PlayerData>) {
     let resultMap = new Map<string, DivisionMap>();
     matches.forEach(match => {
         if (resultMap.has(match.division)) {
             resultMap.get(match.division).matches.push(match);
         } else {
-            resultMap.set(match.division, { matches: [match], players: new Map<string, any>() });
+            resultMap.set(match.division, { matches: [match], players: new Map<string, PlayerData>() });
         }
     });
     Array.from(players.values()).forEach(player => {
         if (resultMap.has(player.division)) {
             resultMap.get(player.division).players.set(player.name, player);
         } else {
-            const newMap = new Map<string, any>();
+            const newMap = new Map<string, PlayerData>();
             newMap.set(player.name, player);
             resultMap.set(player.division, { matches: [], players: newMap });
         }

@@ -1,8 +1,9 @@
 export interface ScheduleTableProps {
-    matches: any[];
+    matches: MatchData[];
     tableTitle: string;
     forceSpoilers: boolean;
 }
+import MatchData from '../types/MatchData';
 import MatchRow from './MatchRow';
 
 export default function ScheduleTable(props: ScheduleTableProps) {
@@ -24,7 +25,7 @@ export default function ScheduleTable(props: ScheduleTableProps) {
             </thead>
             <tbody className="text-center text-xs sm:text-sm md:text-lg lg:text-xl">
                 {props.matches.length > 0 && props.matches.map(match => (
-                    <MatchRow {...match} forceSpoilers={props.forceSpoilers} />
+                    <MatchRow match={match} forceSpoilers={props.forceSpoilers} />
                 ))}
             </tbody>
         </table>

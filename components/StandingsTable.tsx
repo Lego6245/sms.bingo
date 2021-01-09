@@ -1,8 +1,11 @@
+import BingosyncColors from "../types/BingosyncColors";
+import PlayerData from "../types/PlayerData";
+import PlayerStanding from "../types/PlayerStanding"
 import PlayerHeader from "./PlayerHeader"
 
 export interface StandingsTableProps {
     division: string,
-    standings: any[],
+    standings: PlayerStanding[],
 }
 
 export default function StandingsTable(props: StandingsTableProps) {
@@ -11,14 +14,26 @@ export default function StandingsTable(props: StandingsTableProps) {
             <div className="w-full text-3xl md:text-5xl font-bold text-center mb-5">{"Division " + props.division}</div>
             <table className="w-full">
                 {props.standings.length > 0 && props.standings.map(standingRow => {
+                    let player: PlayerData;
+                    if (typeof standingRow.player === "string") {
+                        player = {
+                            name: standingRow.player,
+                            primaryColor: BingosyncColors.Yellow,
+                            secondaryColor: BingosyncColors.Blue,
+                            country : '',
+                            division: props.division,   
+                        }
+                    } else {
+                        player = standingRow.player
+                    }
                     return (
                     <tr>
                         <td>
                             <PlayerHeader
-                                playerName={standingRow.player.name}
-                                bingosyncColorPrimary={standingRow.player.primaryColor}
-                                bingosyncColorSecondary={standingRow.player.secondaryColor}
-                                countryCode={standingRow.player.country}
+                                playerName={player.name}
+                                bingosyncColorPrimary={player.primaryColor}
+                                bingosyncColorSecondary={player.secondaryColor}
+                                countryCode={player.country}
                                 subHeader={standingRow.wins + " - " + (standingRow.totalGames - standingRow.wins)}
                             />
                         </td>

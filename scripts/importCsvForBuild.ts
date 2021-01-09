@@ -1,7 +1,14 @@
 import { createReadStream } from 'fs';
 import parse from 'csv-parse';
+import MatchData from '../types/MatchData';
+import PlayerData from '../types/PlayerData';
 
-export default async function importCsvForBuild() {
+export interface DataImport {
+    matches: MatchData[];
+    players: Map<string, PlayerData>;
+}
+
+export default async function importCsvForBuild(): Promise<DataImport> {
     const records = [];
     const parser = createReadStream('./schedule.csv').pipe(parse());
     for await (const record of parser) {
@@ -16,7 +23,7 @@ export default async function importCsvForBuild() {
             division: entry[3],
             status: entry[4].toLowerCase(),
             matchTime: parseInt(entry[6]),
-            matchFormat: entry[7].toLowerCase(),
+            format: entry[7].toLowerCase(),
             channel: entry[8],
             winner: entry[9],
             homeScore: parseInt(entry[10]),

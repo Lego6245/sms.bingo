@@ -11,7 +11,9 @@ enum BingosyncColors {
     Yellow
 }
 
-export function bingosyncColorsToTailwindColors(color: BingosyncColors | string) {
+export type BingosyncColorStrings = 'orange' | 'red' | 'blue' | 'green' | 'purple' | 'navy' | 'teal' | 'brown' | 'pink' | 'yellow';
+
+export function bingosyncColorsToTailwindColors(color: BingosyncColors | BingosyncColorStrings) {
     if (typeof color === "string") {
         return 'bingosync-' + color;
     }

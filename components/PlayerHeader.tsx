@@ -1,4 +1,4 @@
-import BingosyncColors, { bingosyncColorsToTailwindColors } from "../types/BingosyncColors";
+import BingosyncColors, { bingosyncColorsToTailwindColors, BingosyncColorStrings } from "../types/BingosyncColors";
 
 export interface TwitchProps {
     twitchUrl: string,
@@ -8,8 +8,8 @@ export interface TwitchProps {
 export interface PlayerHeaderProps {
     playerName: string,
     twitchProps?: TwitchProps
-    bingosyncColorPrimary: BingosyncColors | string,
-    bingosyncColorSecondary: BingosyncColors | string,
+    bingosyncColorPrimary: BingosyncColors | BingosyncColorStrings,
+    bingosyncColorSecondary: BingosyncColors | BingosyncColorStrings,
     countryCode: string,
     subHeader?: string
 }

@@ -4,9 +4,10 @@ import ScheduleTable from '../../components/ScheduleTable'
 import importCsvForBuild from '../../scripts/importCsvForBuild';
 import React from 'react';
 import { useRouter } from 'next/router';
+import MatchData from '../../types/MatchData';
 
 export interface ScheduleProps {
-    matches: any[];
+    matches: MatchData[];
     divisions: string[]
 }
 
@@ -29,7 +30,7 @@ export default function Schedule(props: ScheduleProps) {
     const onSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
         setDivisionToShow(cb.currentTarget.value);
     }, []);
-    const matchMap = new Map<number, any[]>();
+    const matchMap = new Map<number, MatchData[]>();
     let filteredMatches = props.matches;
     switch (divisionToShow) {
         case "all": 
