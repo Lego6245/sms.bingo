@@ -6,10 +6,10 @@ export default interface MatchData {
     status: 'unscheduled' | 'scheduled' | 'played';
     matchTime: number;
     format: string;
-    channel: 'SunshineCommunity' | 'Bingothon' | 'Offline';
-    winner: string;
-    homeScore: number;
-    awayScore: number;
-    matchVod: string;
-    commentators: string[] | 'None';
+    channel?: 'SunshineCommunity' | 'Bingothon' | 'Offline';
+    winner?: string;
+    homeScore?: number;
+    awayScore?: number;
+    matchVod?: string;
+    commentators?: string[] | 'None';
 }

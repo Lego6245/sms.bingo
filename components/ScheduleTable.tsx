@@ -1,7 +1,7 @@
 export interface ScheduleTableProps {
     matches: MatchData[];
     tableTitle: string;
-    forceSpoilers: boolean;
+    forceSpoilers?: boolean;
     hideHomeAway?: boolean;
 }
 import MatchData from '../types/MatchData';
@@ -32,7 +32,7 @@ export default function ScheduleTable(props: ScheduleTableProps) {
                     {props.matches.length > 0 &&
                         props.matches.map(match => (
                             <MatchRow
-                                key={match.homePlayer + match.awayPlayer}
+                                key={match.homePlayer + match.awayPlayer + match.matchTime}
                                 match={match}
                                 forceSpoilers={props.forceSpoilers}
                             />

@@ -5,11 +5,14 @@ import importCsvForBuild from '../../scripts/importCsvForBuild';
 import React from 'react';
 import { useRouter } from 'next/router';
 import MatchData from '../../types/MatchData';
+import ScheduleSlots from '../../consts/ScheduleSlots';
 
 export interface ScheduleProps {
     matches: MatchData[];
     divisions: string[];
 }
+
+const calendarWeeks = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 type MouseEventType = React.MouseEvent<HTMLInputElement>;
 
@@ -18,6 +21,11 @@ export default function Schedule(props: ScheduleProps) {
     const [showScheduledOnly, setShowScheduledOnly] = React.useState(!!router.query.scheduled);
     const [divisionToShow, setDivisionToShow] = React.useState('all');
     const [forceSpoilers, setForceSpoilers] = React.useState(false);
+    const [selectedWeek, setSelectedWeek] = React.useState('none');
+
+    const onWeekSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedWeek(cb.currentTarget.value);
+    }, []);
 
     const onShowScheduleClick = React.useCallback((cb: React.MouseEvent<HTMLInputElement>) => {
         setShowScheduledOnly(cb.currentTarget.checked);
@@ -30,21 +38,9 @@ export default function Schedule(props: ScheduleProps) {
     const onSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
         setDivisionToShow(cb.currentTarget.value);
     }, []);
-    const matchMap = new Map<number, MatchData[]>();
-    let filteredMatches = props.matches;
-    switch (divisionToShow) {
-        case 'all':
-            break;
-        default:
-            filteredMatches = filteredMatches.filter(match => match.division == divisionToShow);
-    }
-
-    if (showScheduledOnly) {
-        matchMap.set(
-            0,
-            filteredMatches.filter(match => match.status == 'scheduled')
-        );
-    } else {
+    const matchMap = new Map<number | string, MatchData[]>();
+    if (selectedWeek == 'none') {
+        const filteredMatches = applyFilters(props.matches, divisionToShow, showScheduledOnly);
         filteredMatches.forEach(match => {
             if (matchMap.has(match.week)) {
                 matchMap.get(match.week).push(match);
@@ -52,13 +48,55 @@ export default function Schedule(props: ScheduleProps) {
                 matchMap.set(match.week, [match]);
             }
         });
-    }
-    const sortedWeeks = Array.from(matchMap.keys()).sort((a, b) => a - b);
-    Array.from(matchMap.keys()).forEach(key => {
-        matchMap.get(key).sort((a, b) => {
-            return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
+
+        Array.from(matchMap.keys()).forEach(key => {
+            matchMap.get(key).sort((a, b) => {
+                return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
+            });
         });
-    });
+    } else {
+        const dateFactor = (parseInt(selectedWeek) - 1) * 604800; // Constant of 1 week.
+        const firstTimestamp = ScheduleSlots.get('1')[0] + dateFactor;
+        const lastTimestamp =
+            ScheduleSlots.get('5')[ScheduleSlots.get('5').length - 1] + dateFactor;
+        let onlyScheduled = props.matches.filter(
+            match =>
+                match.status != 'unscheduled' &&
+                match.matchTime > firstTimestamp &&
+                match.matchTime < lastTimestamp
+        );
+        Array.from(ScheduleSlots.keys()).forEach(key => {
+            const slots = ScheduleSlots.get(key);
+            slots.forEach(slot => {
+                const foundMatch = onlyScheduled.find(match => match.matchTime == slot);
+                const slotData = foundMatch ?? {
+                    homePlayer: 'TBD',
+                    awayPlayer: 'TBD',
+                    week: parseInt(key) ?? -1,
+                    division: 'TBD',
+                    status: 'unscheduled',
+                    matchTime: slot,
+                    format: 'TBD',
+                };
+                if (matchMap.has(key)) {
+                    matchMap.get(key).push(slotData);
+                } else {
+                    matchMap.set(key, [slotData]);
+                }
+            });
+            const filteredMatchSet = applyFilters(
+                matchMap.get(key),
+                divisionToShow,
+                showScheduledOnly
+            );
+            console.log(filteredMatchSet);
+            matchMap.set(key, filteredMatchSet);
+        });
+    }
+    // Yes this is messy sue me.
+    const sortedWeeks = Array.from(matchMap.keys()).sort(
+        (a, b) => parseInt(a as string) - parseInt(b as string)
+    );
     return (
         <div className="bg-tile-background bg-repeat min-h-screen overflow-x-auto">
             <Header title="Super Mario Sunshine Bingo league - Schedule" />
@@ -106,6 +144,25 @@ export default function Schedule(props: ScheduleProps) {
                             Force Spoilers to Show
                         </label>
                     </div>
+                    <div className="mx-5">
+                        <select
+                            className="text-black"
+                            name="divisions"
+                            id="division-select"
+                            onChange={onWeekSelectChange}>
+                            <option value="none">Disable</option>
+                            {calendarWeeks.map(week => {
+                                return (
+                                    <option key={week} value={week}>
+                                        {week}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        <label className="ml-5 text-sm sm:text-lg" htmlFor="division-select">
+                            Show Calendar Weeks
+                        </label>
+                    </div>
                 </div>
                 <div className="sm:w-10/12 sm:mx-auto">
                     {sortedWeeks.map(key => (
@@ -114,7 +171,7 @@ export default function Schedule(props: ScheduleProps) {
                                 forceSpoilers={forceSpoilers}
                                 matches={matchMap.get(key)}
                                 tableTitle={getTableTitleByWeek(key)}
-                                hideHomeAway={key == 5}
+                                hideHomeAway={key === 5}
                             />
                         </div>
                     ))}
@@ -124,7 +181,30 @@ export default function Schedule(props: ScheduleProps) {
     );
 }
 
-function getTableTitleByWeek(key: number) {
+function applyFilters(
+    matches: MatchData[],
+    divisionToShow: string,
+    showScheduledOnly: boolean
+): MatchData[] {
+    let filteredMatches = matches;
+    switch (divisionToShow) {
+        case 'all':
+            break;
+        default:
+            filteredMatches = filteredMatches.filter(match => match.division == divisionToShow);
+    }
+
+    if (showScheduledOnly) {
+        filteredMatches = filteredMatches.filter(match => match.status == 'scheduled');
+    }
+
+    return filteredMatches;
+}
+
+function getTableTitleByWeek(key: number | string) {
+    if (typeof key === 'string') {
+        return 'Day ' + key;
+    }
     switch (key) {
         case 0:
             return 'Upcoming Matches';
