@@ -22,7 +22,7 @@ export default function MatchRow(props: MatchRowProps) {
     let additionalClasses = '';
     if (!!match.matchTime) {
         timeContent = (
-            <Tippy content={getMatchTimeString(match.matchTime, true /* est */)}>
+            <Tippy content={getMatchTimeString(match.matchTime, true /* est */) + ' EST'}>
                 <span>{getMatchTimeString(match.matchTime)}</span>
             </Tippy>
         );
