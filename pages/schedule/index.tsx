@@ -72,7 +72,8 @@ export default function Schedule(props: ScheduleProps) {
             match =>
                 match.status != 'unscheduled' &&
                 match.matchTime >= firstTimestamp &&
-                match.matchTime <= lastTimestamp
+                match.matchTime <= lastTimestamp &&
+                match.channel != 'Offline'
         );
         Array.from(ScheduleSlots.keys()).forEach(key => {
             const slots = ScheduleSlots.get(key);
