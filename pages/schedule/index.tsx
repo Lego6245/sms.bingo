@@ -78,20 +78,25 @@ export default function Schedule(props: ScheduleProps) {
         Array.from(ScheduleSlots.keys()).forEach(key => {
             const slots = ScheduleSlots.get(key);
             slots.forEach(slot => {
-                const foundMatch = onlyScheduled.find(match => match.matchTime == slot);
-                const slotData = foundMatch ?? {
-                    homePlayer: 'TBD',
-                    awayPlayer: 'TBD',
-                    week: parseInt(key) ?? -1,
-                    division: 'TBD',
-                    status: 'unscheduled',
-                    matchTime: slot,
-                    format: 'TBD',
-                };
+                const foundMatch = onlyScheduled.filter(match => match.matchTime == slot);
+                const slotData: MatchData[] =
+                    foundMatch.length > 0
+                        ? foundMatch
+                        : [
+                              {
+                                  homePlayer: 'TBD',
+                                  awayPlayer: 'TBD',
+                                  week: parseInt(key) ?? -1,
+                                  division: 'TBD',
+                                  status: 'unscheduled',
+                                  matchTime: slot,
+                                  format: 'TBD',
+                              },
+                          ];
                 if (matchMap.has(key)) {
-                    matchMap.get(key).push(slotData);
+                    matchMap.get(key).push(...slotData);
                 } else {
-                    matchMap.set(key, [slotData]);
+                    matchMap.set(key, slotData);
                 }
             });
             const filteredMatchSet = applyFilters(

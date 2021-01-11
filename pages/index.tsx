@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import React from 'react';
 import NextMatchOverlay from '../components/NextMatchOverlay';
 import importCsvForBuild from '../scripts/importCsvForBuild';
 import MatchData from '../types/MatchData';
@@ -29,7 +30,13 @@ export default function Home(props: HomeProps) {
         ['Fire Piantas', ' Start Here'],
         ['King Boo Lockout', ' Starts Here'],
     ];
-    const startHereIndex = Math.floor(Math.random() * startHere.length);
+    const [startHereIndex, setStartHereIndex] = React.useState(
+        Math.floor(Math.random() * startHere.length)
+    );
+
+    const randomizeStartHere = React.useCallback(() => {
+        setStartHereIndex(Math.floor(Math.random() * startHere.length));
+    }, []);
     const { upcomingMatches } = props;
     let k = 0;
     let selectedMatch: MatchData;
@@ -66,7 +73,9 @@ export default function Home(props: HomeProps) {
                         <div className="h-auto text-5xl font-bold text-white">
                             Super Mario Sunshine 1v1 Lockout Bingo League
                         </div>
-                        <div className="flex flex-row justify-center text-4xl font-bold text-white my-5 subheadAnimation">
+                        <div
+                            onClick={randomizeStartHere}
+                            className="flex flex-row justify-center text-4xl font-bold text-white my-5 subheadAnimation">
                             <div className="text-yellow-300 text-right w-1/2 mr-2">
                                 {startHere[startHereIndex][0]}
                             </div>
