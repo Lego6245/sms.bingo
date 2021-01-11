@@ -22,13 +22,15 @@ export default function Home(props: HomeProps) {
         ['Sirena Whenever', ' Starts Here'],
         ['Life Grinding', ' Starts Here'],
         ['Wiggler ILs', ' Start Here'],
-        ['Ricco 4 Hoverless', ' Starts Here'],
+        ['Ricco 3 Hoverless', ' Starts Here'],
         ['Fifty from Two', ' Starts Here'],
         ['Seven Shines in Secrets', ' Starts Here'],
         ['Yellow Button Coins', ' Start Here'],
         ['Lighthouse Rush', ' Starts Here'],
         ['Fire Piantas', ' Start Here'],
         ['King Boo Lockout', ' Starts Here'],
+        ['River Gang', ' Starts Here'],
+        ['Hidden Reds Hoverless', ' Starts Here'],
     ];
     const [startHereIndex, setStartHereIndex] = React.useState(
         Math.floor(Math.random() * startHere.length)
