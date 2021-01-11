@@ -77,34 +77,56 @@ export default function Schedule(props: ScheduleProps) {
         );
         Array.from(ScheduleSlots.keys()).forEach(key => {
             const slots = ScheduleSlots.get(key);
+            console.log(slots);
+            const weekStartTimestamp = slots[0] - (dateFactor + 60 * 60 * 2);
+            console.log(weekStartTimestamp);
+            const weekEndTimestamp = slots[slots.length - 1] + (dateFactor + 60 * 60 * 2);
+            console.log(weekEndTimestamp);
+            const insideTimeslots = onlyScheduled.filter(
+                match =>
+                    match.matchTime >= weekStartTimestamp && match.matchTime <= weekEndTimestamp
+            );
+            console.log(insideTimeslots);
             slots.forEach(slot => {
-                const foundMatch = onlyScheduled.filter(match => match.matchTime == slot);
-                const slotData: MatchData[] =
-                    foundMatch.length > 0
-                        ? foundMatch
-                        : [
-                              {
-                                  homePlayer: 'TBD',
-                                  awayPlayer: 'TBD',
-                                  week: parseInt(key) ?? -1,
-                                  division: 'TBD',
-                                  status: 'unscheduled',
-                                  matchTime: slot,
-                                  format: 'TBD',
-                              },
-                          ];
-                if (matchMap.has(key)) {
-                    matchMap.get(key).push(...slotData);
-                } else {
-                    matchMap.set(key, slotData);
+                const foundMatch = insideTimeslots.find(match => match.matchTime == slot);
+                if (!foundMatch) {
+                    insideTimeslots.push({
+                        homePlayer: 'TBD',
+                        awayPlayer: 'TBD',
+                        week: parseInt(key) ?? -1,
+                        division: 'TBD',
+                        status: 'unscheduled',
+                        matchTime: slot,
+                        format: 'TBD',
+                    });
                 }
+                // const slotData: MatchData[] =
+                //     foundMatch.length > 0
+                //         ? foundMatch
+                //         : [
+                //               {
+                //                   homePlayer: 'TBD',
+                //                   awayPlayer: 'TBD',
+                //                   week: parseInt(key) ?? -1,
+                //                   division: 'TBD',
+                //                   status: 'unscheduled',
+                //                   matchTime: slot,
+                //                   format: 'TBD',
+                //               },
+                //           ];
+                // if (matchMap.has(key)) {
+                //     matchMap.get(key).push(...slotData);
+                // } else {
+                //     matchMap.set(key, slotData);
+                // }
             });
             const filteredMatchSet = applyFilters(
-                matchMap.get(key),
+                insideTimeslots,
                 divisionToShow,
                 showScheduledOnly,
                 searchQuery
-            );
+            ).sort((a, b) => a.matchTime - b.matchTime);
+
             matchMap.set(key, filteredMatchSet);
         });
     }
