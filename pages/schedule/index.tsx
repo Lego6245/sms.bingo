@@ -6,7 +6,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import MatchData from '../../types/MatchData';
 import ScheduleSlots from '../../consts/ScheduleSlots';
-import 'tippy.js/dist/tippy.css';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -42,6 +41,17 @@ export default function Schedule(props: ScheduleProps) {
     const onSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
         setDivisionToShow(cb.currentTarget.value);
     }, []);
+
+    React.useEffect(() => {
+        if (!!router.query.scheduled) {
+            setShowScheduledOnly(!!router.query.scheduled);
+        }
+        if (!!router.query.week) {
+            const week =
+                typeof router.query.week === 'string' ? router.query.week : router.query.week[0];
+            setSelectedWeek(calendarWeeks.indexOf(week) > -1 ? week : 'none');
+        }
+    }, [router.query]);
     const matchMap = new Map<number | string, MatchData[]>();
     if (selectedWeek == 'none') {
         const filteredMatches = applyFilters(
@@ -100,25 +110,6 @@ export default function Schedule(props: ScheduleProps) {
                         format: 'TBD',
                     });
                 }
-                // const slotData: MatchData[] =
-                //     foundMatch.length > 0
-                //         ? foundMatch
-                //         : [
-                //               {
-                //                   homePlayer: 'TBD',
-                //                   awayPlayer: 'TBD',
-                //                   week: parseInt(key) ?? -1,
-                //                   division: 'TBD',
-                //                   status: 'unscheduled',
-                //                   matchTime: slot,
-                //                   format: 'TBD',
-                //               },
-                //           ];
-                // if (matchMap.has(key)) {
-                //     matchMap.get(key).push(...slotData);
-                // } else {
-                //     matchMap.set(key, slotData);
-                // }
             });
             const filteredMatchSet = applyFilters(
                 insideTimeslots,
@@ -186,6 +177,7 @@ export default function Schedule(props: ScheduleProps) {
                             className="text-black"
                             name="weeks"
                             id="week-select"
+                            value={selectedWeek}
                             onChange={onWeekSelectChange}>
                             <option value="none">Disable</option>
                             {calendarWeeks.map(week => {

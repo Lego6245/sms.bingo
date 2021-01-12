@@ -3,8 +3,7 @@ import { isFuture } from 'date-fns';
 import TwitchChannelImage from './TwitchChannelImage';
 import ExpandIcon from './ExpandIcon';
 import MatchData from '../types/MatchData';
-import getMatchTimeString from './helpers/getMatchTimeString';
-import Tippy from '@tippyjs/react';
+import TimeSlug from './TimeSlug';
 
 export interface MatchRowProps {
     match: MatchData;
@@ -21,11 +20,7 @@ export default function MatchRow(props: MatchRowProps) {
     let timeContent;
     let additionalClasses = '';
     if (!!match.matchTime) {
-        timeContent = (
-            <Tippy content={getMatchTimeString(match.matchTime, true /* est */)}>
-                <span>{getMatchTimeString(match.matchTime)}</span>
-            </Tippy>
-        );
+        timeContent = <TimeSlug matchTime={match.matchTime} />;
         if (!isFuture(match.matchTime * 1000)) {
             additionalClasses += ' text-gray-400';
         }
