@@ -6,6 +6,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import MatchData from '../../types/MatchData';
 import ScheduleSlots from '../../consts/ScheduleSlots';
+import { isFuture } from 'date-fns';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -98,15 +99,16 @@ export default function Schedule(props: ScheduleProps) {
             );
             console.log(insideTimeslots);
             slots.forEach(slot => {
-                const foundMatch = insideTimeslots.find(match => match.matchTime == slot);
-                if (!foundMatch) {
+                const matchTime = slot + dateFactor;
+                const foundMatch = insideTimeslots.find(match => match.matchTime == matchTime);
+                if (!foundMatch && isFuture(matchTime * 1000)) {
                     insideTimeslots.push({
                         homePlayer: 'TBD',
                         awayPlayer: 'TBD',
                         week: parseInt(key) ?? -1,
                         division: 'TBD',
                         status: 'unscheduled',
-                        matchTime: slot + dateFactor,
+                        matchTime: matchTime,
                         format: 'TBD',
                     });
                 }
