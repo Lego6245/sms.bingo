@@ -85,9 +85,13 @@ export default function MatchRow(props: MatchRowProps) {
                     <td className="hidden sm:table-cell"></td>
                     <td></td>
                     <td>
-                        <a target="_blank" href={match.matchVod}>
-                            Match Vod
-                        </a>
+                        {match.matchVod ? (
+                            <a target="_blank" href={match.matchVod}>
+                                Match Vod
+                            </a>
+                        ) : (
+                            'Match Vod Soon'
+                        )}
                     </td>
                 </tr>
             )}

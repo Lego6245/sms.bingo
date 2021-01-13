@@ -106,7 +106,7 @@ export default function Schedule(props: ScheduleProps) {
                         week: parseInt(key) ?? -1,
                         division: 'TBD',
                         status: 'unscheduled',
-                        matchTime: slot,
+                        matchTime: slot + dateFactor,
                         format: 'TBD',
                     });
                 }
