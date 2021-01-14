@@ -44,7 +44,13 @@ function computeStandings(divMapEntry: DivisionMap): PlayerStanding[] {
     standingArray.sort((a, b) => {
         const aName = typeof a.player === 'string' ? a.player : a.player.name;
         const bName = typeof b.player === 'string' ? b.player : b.player.name;
-        return b.wins - a.wins != 0 ? b.wins - a.wins : aName > bName ? 1 : -1;
+        return b.wins - a.wins != 0
+            ? b.wins - a.wins
+            : b.totalGames - a.totalGames != 0
+            ? b.totalGames - a.totalGames
+            : aName > bName
+            ? 1
+            : -1;
     });
     return standingArray;
 }

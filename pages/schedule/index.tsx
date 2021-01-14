@@ -214,16 +214,18 @@ export default function Schedule(props: ScheduleProps) {
                     Time (EST)
                 </div>
                 <div className="sm:w-10/12 sm:mx-auto">
-                    {sortedWeeks.map(key => (
-                        <div key={getTableTitleByWeek(key)} className="mt-5">
-                            <ScheduleTable
-                                forceSpoilers={forceSpoilers}
-                                matches={matchMap.get(key)}
-                                tableTitle={getTableTitleByWeek(key)}
-                                hideHomeAway={key === 5}
-                            />
-                        </div>
-                    ))}
+                    {sortedWeeks.map(key => {
+                        return matchMap.get(key).length > 0 ? (
+                            <div key={getTableTitleByWeek(key)} className="mt-5">
+                                <ScheduleTable
+                                    forceSpoilers={forceSpoilers}
+                                    matches={matchMap.get(key)}
+                                    tableTitle={getTableTitleByWeek(key)}
+                                    hideHomeAway={key === 5}
+                                />
+                            </div>
+                        ) : null;
+                    })}
                 </div>
             </main>
         </div>
