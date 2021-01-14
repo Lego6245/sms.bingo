@@ -21,7 +21,7 @@ export default function MatchRow(props: MatchRowProps) {
     let additionalClasses = '';
     if (!!match.matchTime) {
         timeContent = <TimeSlug matchTime={match.matchTime} />;
-        if (!isFuture(match.matchTime * 1000)) {
+        if (!isFuture(match.matchTime * 1000) && match.status === 'scheduled') {
             additionalClasses += ' text-gray-400';
         }
     } else {
