@@ -89,8 +89,10 @@ export default function MatchRow(props: MatchRowProps) {
                             <a target="_blank" href={match.matchVod}>
                                 Match Vod
                             </a>
+                        ) : match.channel === 'Offline' ? (
+                            'No VOD'
                         ) : (
-                            'Match Vod Soon'
+                            'Match VOD Soon'
                         )}
                     </td>
                 </tr>
