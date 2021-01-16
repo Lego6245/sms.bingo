@@ -5,14 +5,18 @@ import importCsvForBuild from '../../scripts/importCsvForBuild';
 import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import PlayerStanding, { StandingValues } from '../../types/PlayerStanding';
+import { useRouter } from 'next/router';
 export interface StandingsProps {
     standings: StandingsTableProps[];
 }
 
 export default function Standings(props: StandingsProps) {
+    const router = useRouter();
     return (
         <div className=" bg-tile-background bg-repeat min-h-screen">
-            <Header title="Super Mario Sunshine Bingo League - Standings" />
+            {!router.query.hideHeader && (
+                <Header title="Super Mario Sunshine Bingo League - Standings" />
+            )}
             <main className="text-white flex flex-row flex-wrap w-full">
                 {props.standings.length > 0 &&
                     props.standings.map(divisionStandings => {
