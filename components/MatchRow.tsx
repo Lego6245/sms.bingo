@@ -7,11 +7,12 @@ import TimeSlug from './TimeSlug';
 
 export interface MatchRowProps {
     match: MatchData;
-    forceSpoilers: boolean;
+    forceSpoilers?: boolean;
+    forBroadcast?: boolean;
 }
 
 export default function MatchRow(props: MatchRowProps) {
-    const { match } = props;
+    const { match, forBroadcast } = props;
     const [isExpanded, setIsExpanded] = React.useState(false);
     const toggleExpand = React.useCallback(() => {
         setIsExpanded(!isExpanded);
@@ -20,7 +21,9 @@ export default function MatchRow(props: MatchRowProps) {
     let timeContent;
     let additionalClasses = '';
     if (!!match.matchTime) {
-        timeContent = <TimeSlug matchTime={match.matchTime} />;
+        timeContent = (
+            <TimeSlug matchTime={match.matchTime} forceEst={forBroadcast} short={forBroadcast} />
+        );
         if (!isFuture(match.matchTime * 1000) && match.status === 'scheduled') {
             additionalClasses += ' text-gray-400';
         }
@@ -35,14 +38,20 @@ export default function MatchRow(props: MatchRowProps) {
         additionalClasses += ' bg-yellow-500';
     }
 
+    if (forBroadcast) {
+        additionalClasses += ' xl:h-24';
+    }
+
     return (
         <>
             <tr
                 onClick={match.status == 'played' ? toggleExpand : undefined}
-                className={'h-8 sm:h-12 lg:h-16 bg-opacity-40' + additionalClasses}>
-                <td className="hidden sm:table-cell">
-                    {match.status == 'played' && <ExpandIcon isExpanded={shouldShowSpoilers} />}
-                </td>
+                className={'h-8 sm:h-12 lg:h-16 bg-opacity-40 text-center' + additionalClasses}>
+                {!forBroadcast && (
+                    <td className="hidden sm:table-cell">
+                        {match.status == 'played' && <ExpandIcon isExpanded={shouldShowSpoilers} />}
+                    </td>
+                )}
                 <td>{timeContent}</td>
                 <td
                     className={
@@ -67,7 +76,7 @@ export default function MatchRow(props: MatchRowProps) {
                             'Offline'
                         ) : (
                             <div className="flex flex-row justify-center">
-                                <TwitchChannelImage channel={match.channel} />
+                                <TwitchChannelImage channel={match.channel} forBroadcast />
                             </div>
                         )
                     ) : (

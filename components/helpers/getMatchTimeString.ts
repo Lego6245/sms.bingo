@@ -1,7 +1,11 @@
-export default function getMatchTimeString(rawTime: number, est?: boolean): string {
+export default function getMatchTimeString(
+    rawTime: number,
+    est?: boolean,
+    short?: boolean
+): string {
     const matchTime = new Date(rawTime * 1000);
     const dateString = matchTime.toLocaleDateString(undefined, {
-        weekday: 'short',
+        weekday: short ? undefined : 'short',
         month: 'numeric',
         day: 'numeric',
         timeZone: est ? 'America/New_York' : undefined,
@@ -10,7 +14,7 @@ export default function getMatchTimeString(rawTime: number, est?: boolean): stri
         hour: 'numeric',
         minute: 'numeric',
         timeZone: est ? 'America/New_York' : undefined,
-        timeZoneName: 'short',
+        timeZoneName: short ? undefined : 'short',
     });
     return dateString + '\n\r' + timeString;
 }

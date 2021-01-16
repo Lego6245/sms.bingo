@@ -1,14 +1,21 @@
 export interface TwitchChannelImageProps {
     channel: string;
+    forBroadcast?: boolean;
 }
 
 export default function TwitchChannelImage(props: TwitchChannelImageProps) {
     const { pictureUri, twitchLink } = getChannelData(props.channel);
+    const size = props.forBroadcast ? 'h-20 w-20' : 'h-10 w-10';
     return (
-        <div className="relative h-10 w-10">
+        <div className={'relative ' + size}>
             <a href={twitchLink}>
                 <img src={pictureUri} />
-                <img src="/TwitchGlitchPurple.svg" className="absolute h-3 w-3 bottom-0 left-0" />
+                {!props.forBroadcast && (
+                    <img
+                        src="/TwitchGlitchPurple.svg"
+                        className="absolute h-3 w-3 bottom-0 left-0"
+                    />
+                )}
             </a>
         </div>
     );
