@@ -89,9 +89,9 @@ export default function Schedule(props: ScheduleProps) {
         Array.from(ScheduleSlots.keys()).forEach(key => {
             const slots = ScheduleSlots.get(key);
             console.log(slots);
-            const weekStartTimestamp = slots[0] - (dateFactor + 60 * 60 * 2);
+            const weekStartTimestamp = slots[0] + dateFactor - 60 * 60 * 2;
             console.log(weekStartTimestamp);
-            const weekEndTimestamp = slots[slots.length - 1] + (dateFactor + 60 * 60 * 2);
+            const weekEndTimestamp = slots[slots.length - 1] + dateFactor + 60 * 60 * 2;
             console.log(weekEndTimestamp);
             const insideTimeslots = onlyScheduled.filter(
                 match =>
