@@ -35,7 +35,8 @@ jobs:
         env:
           SHEET_ID: ${{ secrets.SHEET_ID }}
           SHEET_NAME: ${{ secrets.SHEET_NAME }}
-        run: poetry run python ./scripts/downloadScheduleCsv.py "$SHEET_ID" "$SHEET_NAME"
+          SHEET_RANGE: ${{ secrets.SHEET_RANGE }}
+        run: poetry run python ./scripts/downloadScheduleCsv.py "$SHEET_ID" "$SHEET_NAME" "$SHEET_RANGE"
     
       - name: Commit & push
         uses: stefanzweifel/git-auto-commit-action@v4.6.0

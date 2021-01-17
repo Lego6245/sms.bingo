@@ -5,8 +5,9 @@ from string import Template
 def main():
   sheet_id = sys.argv[1]
   sheet_name = sys.argv[2]
+  sheet_range = sys.argv[3]
 
-  fetchUrl = Template('https://docs.google.com/spreadsheets/d/$sheet_id/gviz/tq?tqx=out:csv&sheet=$sheet_name').substitute(sheet_id=sheet_id, sheet_name=sheet_name)
+  fetchUrl = Template('https://docs.google.com/spreadsheets/d/$sheet_id/gviz/tq?tqx=out:csv&sheet=$sheet_name&range=$sheet_range').substitute(sheet_id=sheet_id, sheet_name=sheet_name, sheet_range=sheet_range)
 
   r = requests.get(fetchUrl, stream=True)
 
