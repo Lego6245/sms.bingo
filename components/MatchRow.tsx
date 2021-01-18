@@ -76,7 +76,10 @@ export default function MatchRow(props: MatchRowProps) {
                             'Offline'
                         ) : (
                             <div className="flex flex-row justify-center">
-                                <TwitchChannelImage channel={match.channel} forBroadcast />
+                                <TwitchChannelImage
+                                    channel={match.channel}
+                                    forBroadcast={forBroadcast}
+                                />
                             </div>
                         )
                     ) : (
