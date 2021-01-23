@@ -42,6 +42,14 @@ export default function MatchRow(props: MatchRowProps) {
         additionalClasses += ' xl:h-24';
     }
 
+    const homeClassName =
+        'text-right' +
+        (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold bg-yellow-500' : '');
+
+    const awayClassName =
+        'text-left' +
+        (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold bg-yellow-500' : '');
+
     return (
         <>
             <tr
@@ -53,21 +61,9 @@ export default function MatchRow(props: MatchRowProps) {
                     </td>
                 )}
                 <td>{timeContent}</td>
-                <td
-                    className={
-                        'text-right' +
-                        (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold' : '')
-                    }>
-                    {match.homePlayer}
-                </td>
+                <td className={homeClassName}>{match.homePlayer}</td>
                 <td>Vs.</td>
-                <td
-                    className={
-                        'text-left' +
-                        (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold' : '')
-                    }>
-                    {match.awayPlayer}
-                </td>
+                <td className={awayClassName}>{match.awayPlayer}</td>
                 <td className="hidden sm:table-cell">{match.division}</td>
                 <td>{match.format ?? 'TBD'}</td>
                 <td>
@@ -91,9 +87,9 @@ export default function MatchRow(props: MatchRowProps) {
                 <tr className="h-16 bg-opacity-40 bg-blue-500">
                     <td className="hidden sm:table-cell"></td>
                     <td>Final Score:</td>
-                    <td className="text-right">{match.homeScore}</td>
+                    <td className={homeClassName}>{match.homeScore}</td>
                     <td className="text-center"> - </td>
-                    <td className="text-left">{match.awayScore}</td>
+                    <td className={awayClassName}>{match.awayScore}</td>
                     <td className="hidden sm:table-cell"></td>
                     <td></td>
                     <td>
