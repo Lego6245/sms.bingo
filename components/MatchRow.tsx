@@ -44,11 +44,11 @@ export default function MatchRow(props: MatchRowProps) {
 
     const homeClassName =
         'text-right' +
-        (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold bg-yellow-500' : '');
+        (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold bg-yellow-600' : '');
 
     const awayClassName =
         'text-left' +
-        (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold bg-yellow-500' : '');
+        (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold bg-yellow-600' : '');
 
     return (
         <>
