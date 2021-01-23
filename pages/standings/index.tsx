@@ -50,6 +50,8 @@ function computeStandings(divMapEntry: DivisionMap): PlayerStanding[] {
         const bName = typeof b.player === 'string' ? b.player : b.player.name;
         return b.wins - a.wins != 0
             ? b.wins - a.wins
+            : a.totalGames - a.wins - (b.totalGames - b.wins) != 0
+            ? a.totalGames - a.wins - (b.totalGames - b.wins)
             : b.totalGames - a.totalGames != 0
             ? b.totalGames - a.totalGames
             : aName > bName
