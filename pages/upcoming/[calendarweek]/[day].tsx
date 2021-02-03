@@ -29,9 +29,11 @@ export const getStaticProps: GetStaticProps = async context => {
     const { calendarweek, day } = context.params;
     const matches = (await importCsvForBuild()).matches;
     const dateFactor = (parseInt(calendarweek as string) - 1) * 604800; // Constant of 1 week.
-    const firstTimestamp = ScheduleSlots.get(day as string)[0] + dateFactor;
+    const firstTimestamp = ScheduleSlots.get(day as string)[0] + dateFactor - 60 * 60 * 2;
     const lastTimestamp =
-        ScheduleSlots.get(day as string)[ScheduleSlots.get(day as string).length - 1] + dateFactor;
+        ScheduleSlots.get(day as string)[ScheduleSlots.get(day as string).length - 1] +
+        dateFactor +
+        60 * 60 * 2;
     let onlyScheduled = matches.filter(
         match =>
             match.status != 'unscheduled' &&
