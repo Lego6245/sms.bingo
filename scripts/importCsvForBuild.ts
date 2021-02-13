@@ -45,6 +45,7 @@ export default async function importCsvForBuild(): Promise<DataImport> {
             secondaryColor: player[2].toLowerCase(),
             country: player[3].toLowerCase(),
             division: player[4],
+            twitchName: player[5],
         });
     });
     return {

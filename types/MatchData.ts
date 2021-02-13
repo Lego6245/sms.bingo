@@ -5,7 +5,7 @@ export default interface MatchData {
     division: string;
     status: 'unscheduled' | 'scheduled' | 'played';
     matchTime: number;
-    format: string;
+    format: 'Lockout' | 'Invasion' | 'Connect 5' | 'Draft' | 'Row Control';
     channel?: 'SunshineCommunity' | 'Bingothon' | 'Offline';
     winner?: string;
     homeScore?: number;
