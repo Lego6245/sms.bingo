@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import BingosyncColors, {
     bingosyncColorsToTailwindColors,
     BingosyncColorStrings,
@@ -30,9 +31,11 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
                 <div>
                     <span className={'text-lg md:text-xl mr-5 flag-icon ' + flagIconClass}></span>
                 </div>
-                <span className="text-2xl md:text-3xl mx-5 font-bold text-white">
-                    {props.playerName}
-                </span>
+                <Link href={'/player/' + props.playerName}>
+                    <span className="text-2xl md:text-3xl mx-5 font-bold text-white cursor-pointer">
+                        {props.playerName}
+                    </span>
+                </Link>
                 {props.twitchProps && (
                     <div className="relative h-20 w-20 mx-5">
                         <img src={props.twitchProps.twitchProfilePictureUrl} />

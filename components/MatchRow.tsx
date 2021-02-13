@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import { isFuture } from 'date-fns';
 import TwitchChannelImage from './TwitchChannelImage';
@@ -43,11 +44,11 @@ export default function MatchRow(props: MatchRowProps) {
     }
 
     const homeClassName =
-        'text-right' +
+        'text-right cursor-pointer' +
         (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold bg-yellow-600' : '');
 
     const awayClassName =
-        'text-left' +
+        'text-left cursor-pointer' +
         (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold bg-yellow-600' : '');
 
     return (
@@ -61,9 +62,13 @@ export default function MatchRow(props: MatchRowProps) {
                     </td>
                 )}
                 <td>{timeContent}</td>
-                <td className={homeClassName}>{match.homePlayer}</td>
+                <Link href={'/player/' + match.homePlayer}>
+                    <td className={homeClassName}>{match.homePlayer}</td>
+                </Link>
                 <td>Vs.</td>
-                <td className={awayClassName}>{match.awayPlayer}</td>
+                <Link href={'/player/' + match.awayPlayer}>
+                    <td className={awayClassName}>{match.awayPlayer}</td>
+                </Link>
                 <td className="hidden sm:table-cell">{match.division}</td>
                 <td>{match.format ?? 'TBD'}</td>
                 <td>
