@@ -44,11 +44,11 @@ export default function MatchRow(props: MatchRowProps) {
     }
 
     const homeClassName =
-        'text-right cursor-pointer' +
+        'text-right' +
         (shouldShowSpoilers && match.homePlayer == match.winner ? ' font-bold bg-yellow-600' : '');
 
     const awayClassName =
-        'text-left cursor-pointer' +
+        'text-left' +
         (shouldShowSpoilers && match.awayPlayer == match.winner ? ' font-bold bg-yellow-600' : '');
 
     return (
@@ -62,13 +62,17 @@ export default function MatchRow(props: MatchRowProps) {
                     </td>
                 )}
                 <td>{timeContent}</td>
-                <Link href={'/player/' + match.homePlayer}>
-                    <td className={homeClassName}>{match.homePlayer}</td>
-                </Link>
+                <td className={homeClassName}>
+                    <Link href={'/player/' + match.homePlayer}>
+                        <span className="cursor-pointer">{match.homePlayer}</span>
+                    </Link>
+                </td>
                 <td>Vs.</td>
-                <Link href={'/player/' + match.awayPlayer}>
-                    <td className={awayClassName}>{match.awayPlayer}</td>
-                </Link>
+                <td className={awayClassName}>
+                    <Link href={'/player/' + match.awayPlayer}>
+                        <span className="cursor-pointer">{match.awayPlayer}</span>
+                    </Link>
+                </td>
                 <td className="hidden sm:table-cell">{match.division}</td>
                 <td>{match.format ?? 'TBD'}</td>
                 <td>
