@@ -13,6 +13,10 @@ export default function Header(props: { title: string }) {
             route: '/schedule',
             label: 'Schedule',
         },
+        {
+            route: '/playoffs/bracket',
+            label: 'Playoff Bracket',
+        },
     ];
     return (
         <>
