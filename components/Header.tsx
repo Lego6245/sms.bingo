@@ -11,7 +11,7 @@ export default function Header(props: { title: string }) {
         },
         {
             route: '/schedule',
-            label: 'Schedule',
+            label: 'Regular Season Schedule',
         },
         {
             route: '/playoffs/bracket',
