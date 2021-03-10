@@ -1,7 +1,7 @@
 export default interface MatchData {
     homePlayer: string;
     awayPlayer: string;
-    week: number;
+    week: string;
     division: string;
     status: 'unscheduled' | 'scheduled' | 'played';
     matchTime: number;

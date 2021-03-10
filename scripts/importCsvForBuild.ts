@@ -19,7 +19,7 @@ export default async function importCsvForBuild(): Promise<DataImport> {
         return {
             homePlayer: entry[0],
             awayPlayer: entry[1],
-            week: parseInt(entry[2]),
+            week: entry[2],
             division: entry[3],
             status: entry[4].toLowerCase(),
             matchTime: parseInt(entry[6]),

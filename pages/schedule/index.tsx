@@ -88,16 +88,12 @@ export default function Schedule(props: ScheduleProps) {
         );
         Array.from(ScheduleSlots.keys()).forEach(key => {
             const slots = ScheduleSlots.get(key);
-            console.log(slots);
             const weekStartTimestamp = slots[0] + dateFactor - 60 * 60 * 2;
-            console.log(weekStartTimestamp);
             const weekEndTimestamp = slots[slots.length - 1] + dateFactor + 60 * 60 * 2;
-            console.log(weekEndTimestamp);
             const insideTimeslots = onlyScheduled.filter(
                 match =>
                     match.matchTime >= weekStartTimestamp && match.matchTime <= weekEndTimestamp
             );
-            console.log(insideTimeslots);
             slots.forEach(slot => {
                 const matchTime = slot + dateFactor;
                 const foundMatch = insideTimeslots.find(match => match.matchTime == matchTime);
@@ -105,7 +101,7 @@ export default function Schedule(props: ScheduleProps) {
                     insideTimeslots.push({
                         homePlayer: 'TBD',
                         awayPlayer: 'TBD',
-                        week: parseInt(key) ?? -1,
+                        week: key ?? 'none',
                         division: 'TBD',
                         status: 'unscheduled',
                         matchTime: matchTime,
@@ -216,11 +212,13 @@ export default function Schedule(props: ScheduleProps) {
                 <div className="sm:w-10/12 sm:mx-auto">
                     {sortedWeeks.map(key => {
                         return matchMap.get(key).length > 0 ? (
-                            <div key={getTableTitleByWeek(key)} className="mt-5">
+                            <div
+                                key={getTableTitleByWeek(key, selectedWeek == 'none')}
+                                className="mt-5">
                                 <ScheduleTable
                                     forceSpoilers={forceSpoilers}
                                     matches={matchMap.get(key)}
-                                    tableTitle={getTableTitleByWeek(key)}
+                                    tableTitle={getTableTitleByWeek(key, selectedWeek == 'none')}
                                     hideHomeAway={key === 5}
                                 />
                             </div>
@@ -258,15 +256,14 @@ function applyFilters(
                 match.awayPlayer.toLowerCase().indexOf(normalizedSearchQuery) > -1
         );
     }
-
     return filteredMatches;
 }
 
-function getTableTitleByWeek(key: number | string) {
-    if (typeof key === 'string') {
+function getTableTitleByWeek(key: number | string, useWeekText?: boolean) {
+    if (!useWeekText || !parseInt(key as string)) {
         return 'Day ' + key;
     }
-    switch (key) {
+    switch (parseInt(key as string)) {
         case 0:
             return 'Upcoming Matches';
         case 5:
@@ -284,15 +281,20 @@ function getTableTitleByWeek(key: number | string) {
 
 export const getStaticProps: GetStaticProps = async context => {
     const matches = (await importCsvForBuild()).matches;
+    const filteredMatches = matches.filter(
+        match =>
+            match.week.toLowerCase().indexOf('playoff') == -1 &&
+            match.week.toLowerCase().indexOf('showcase') == -1
+    );
     const divisions = [];
-    matches.forEach(match => {
+    filteredMatches.forEach(match => {
         if (divisions.indexOf(match.division) == -1) {
             divisions.push(match.division);
         }
     });
     return {
         props: {
-            matches,
+            matches: filteredMatches,
             divisions,
         },
     };

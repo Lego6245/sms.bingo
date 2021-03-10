@@ -108,7 +108,12 @@ function splitIntoDivisions(matches: MatchData[], players: Map<string, PlayerDat
 
 export const getStaticProps: GetStaticProps = async context => {
     const { matches, players } = await importCsvForBuild();
-    const filteredMatches = matches.filter(match => match.status == 'played');
+    const filteredMatches = matches.filter(
+        match =>
+            match.status == 'played' &&
+            match.week.toLowerCase().indexOf('playoff') == -1 &&
+            match.week.toLowerCase().indexOf('showcase') == -1
+    );
     const divisionMapping = splitIntoDivisions(filteredMatches, players);
     const standingsArray = [];
     Array.from(divisionMapping.keys()).forEach(key => {
