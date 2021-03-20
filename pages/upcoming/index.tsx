@@ -3,24 +3,35 @@ import ScheduleTable from '../../components/ScheduleTable';
 import importCsvForBuild from '../../scripts/importCsvForBuild';
 import React from 'react';
 import MatchData from '../../types/MatchData';
-import ScheduleSlots from '../../consts/ScheduleSlots';
 import Header from '../../components/Header';
+import { useRouter } from 'next/router';
+import { match } from 'assert';
 
 export interface ScheduleProps {
     matches: MatchData[];
 }
 
 export default function Schedule(props: ScheduleProps) {
+    const router = useRouter();
+    let matchSet = props.matches;
+    if (!!router.query.broadcast) {
+        matchSet = props.matches.filter(value => {
+            const futureCrimp = Math.floor(Date.now() / 1000) + 60 * 60 * 12;
+            return value.matchTime <= futureCrimp;
+        });
+    }
     return (
         <div className="bg-tile-background bg-repeat min-h-screen overflow-x-auto">
-            <Header title="Super Mario Sunshine Bingo League - Upcoming Matches" />
+            {!router.query.broadcast && (
+                <Header title="Super Mario Sunshine Bingo League - Upcoming Matches" />
+            )}
             <main className="text-white flex flex-col h-full">
                 <div className="sm:w-10/12 sm:mx-auto sm:my-auto">
-                    {props.matches.length > 0 ? (
+                    {matchSet.length > 0 ? (
                         <ScheduleTable
-                            matches={props.matches}
+                            matches={matchSet}
                             tableTitle={'Upcoming Matches'}
-                            forBroadcast={false}
+                            forBroadcast={!!router.query.broadcast}
                         />
                     ) : (
                         <div className="text-3xl mx-auto text-center mb-5 font-bold">
