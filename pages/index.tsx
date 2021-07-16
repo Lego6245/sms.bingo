@@ -87,18 +87,11 @@ export default function Home(props: HomeProps) {
                         </div>
                     </div>
                     <div className="flex flex-row justify-center">
-                        <Link href="/upcoming">
-                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Upcoming Matches
-                            </div>
-                        </Link>
-                        <Link href="/playoffs/bracket">
-                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Playoff Bracket
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="flex flex-row justify-center">
+                        <a
+                            className="transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6"
+                            href="https://docs.google.com/document/d/1mxfgoNsUy6XAjIgRQLbBPTmP6R5P-FsUDvby4lL2jqA/edit">
+                            Sign up for Season 3
+                        </a>
                         <a
                             className="transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6"
                             href="https://discord.gg/MVnV2qb">
