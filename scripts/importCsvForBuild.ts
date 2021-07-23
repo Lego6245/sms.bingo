@@ -1,7 +1,11 @@
 import { createReadStream } from 'fs';
 import parse from 'csv-parse';
+import path from 'path';
+import getConfig from 'next/config';
 import MatchData from '../types/MatchData';
 import PlayerData from '../types/PlayerData';
+
+const { serverRuntimeConfig } = getConfig();
 
 export interface DataImport {
     matches: MatchData[];
@@ -10,7 +14,9 @@ export interface DataImport {
 
 export default async function importCsvForBuild(): Promise<DataImport> {
     const records = [];
-    const parser = createReadStream('./schedule.csv').pipe(parse());
+    const parser = createReadStream(
+        path.join(serverRuntimeConfig.PROJECT_ROOT, './schedule.csv')
+    ).pipe(parse());
     for await (const record of parser) {
         records.push(record);
     }
