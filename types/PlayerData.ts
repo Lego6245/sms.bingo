@@ -7,4 +7,5 @@ export default interface PlayerData {
     country: string;
     division: string;
     twitchName?: string;
+    pronouns?: string;
 }

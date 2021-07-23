@@ -11,6 +11,7 @@
     "dependencies": {
         "@tippyjs/react": "^4.2.0",
         "autoprefixer": "^10.2.0",
+        "cors": "^2.8.5",
         "csv-parse": "^4.14.2",
         "date-fns": "^2.16.1",
         "flag-icon-css": "^3.5.0",

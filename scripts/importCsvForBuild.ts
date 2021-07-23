@@ -46,6 +46,7 @@ export default async function importCsvForBuild(): Promise<DataImport> {
             country: player[3].toLowerCase(),
             division: player[4],
             twitchName: player[5],
+            pronouns: player[7],
         });
     });
     return {
