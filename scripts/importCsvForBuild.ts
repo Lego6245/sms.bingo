@@ -33,7 +33,7 @@ export default async function importCsvForBuild(): Promise<DataImport> {
             commentators: entry[13] ? entry[13].split(',') : 'None',
         };
     });
-    const parser2 = createReadStream(path.resolve('./public', 'schedule.csv')).pipe(parse());
+    const parser2 = createReadStream(path.resolve('./public', 'players.csv')).pipe(parse());
     const playerRecords = [];
     for await (const record of parser2) {
         playerRecords.push(record);
