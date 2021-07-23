@@ -11,7 +11,7 @@ def main():
 
   r = requests.get(fetchUrl, stream=True)
 
-  with open('./schedule.csv', 'wb') as fd:
+  with open('./public/schedule.csv', 'wb') as fd:
     for chunk in r.iter_content(chunk_size=128):
       fd.write(chunk)
   fd.close()
