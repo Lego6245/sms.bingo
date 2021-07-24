@@ -3,6 +3,7 @@ import importCsvForBuild from '../../scripts/importCsvForBuild';
 import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import { RunData } from '../../types/RunData';
+import { v4 as uuidv4 } from 'uuid';
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -56,20 +57,22 @@ function convertToSpeedControlFormat(
     homePlayer: PlayerData,
     awayPlayer: PlayerData
 ): RunData {
+    const homeTeamId = uuidv4();
+    const awayTeamId = uuidv4();
     return {
         game: 'Super Mario Sunshine',
         gameTwitch: 'Super Mario Sunshine',
         category: match.format,
         scheduledS: match.matchTime,
-        id: match.homePlayer + match.awayPlayer + match.matchTime,
+        id: uuidv4(),
         teams: [
             {
-                id: 'home',
+                id: homeTeamId,
                 players: [
                     {
                         name: homePlayer.name,
-                        id: 'homePlayer',
-                        teamID: 'home',
+                        id: uuidv4(),
+                        teamID: homeTeamId,
                         country: convertCountryForNodeCG(homePlayer.country),
                         pronouns: homePlayer.pronouns,
                         social: {
@@ -80,12 +83,12 @@ function convertToSpeedControlFormat(
                 ],
             },
             {
-                id: 'away',
+                id: awayTeamId,
                 players: [
                     {
                         name: awayPlayer.name,
-                        id: 'awayPlayer',
-                        teamID: 'away',
+                        id: uuidv4(),
+                        teamID: awayTeamId,
                         country: convertCountryForNodeCG(awayPlayer.country),
                         pronouns: awayPlayer.pronouns,
                         social: {
