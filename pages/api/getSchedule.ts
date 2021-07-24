@@ -70,7 +70,7 @@ function convertToSpeedControlFormat(
                         name: homePlayer.name,
                         id: 'homePlayer',
                         teamID: 'home',
-                        country: homePlayer.country,
+                        country: convertCountryForNodeCG(homePlayer.country),
                         pronouns: homePlayer.pronouns,
                         social: {
                             twitch: homePlayer.twitchName,
@@ -86,7 +86,7 @@ function convertToSpeedControlFormat(
                         name: awayPlayer.name,
                         id: 'awayPlayer',
                         teamID: 'away',
-                        country: awayPlayer.country,
+                        country: convertCountryForNodeCG(awayPlayer.country),
                         pronouns: awayPlayer.pronouns,
                         social: {
                             twitch: awayPlayer.twitchName,
@@ -97,9 +97,36 @@ function convertToSpeedControlFormat(
             },
         ],
         customData: {
-            Bingotype: match.format,
+            Bingotype: convertFormatToBingotype(match.format),
         },
     };
+}
+
+function convertCountryForNodeCG(country: string): string {
+    switch (country) {
+        case 'FR-QC':
+            return 'ca/qc';
+        case 'GB-ENG':
+            return 'gb/eng';
+        default:
+            return country.toLowerCase();
+    }
+}
+
+function convertFormatToBingotype(format: string): string {
+    switch (format) {
+        case 'Invasion':
+            return 'invasion';
+        case 'Connect 5':
+            return 'connect5';
+        case 'Draft':
+            return 'draftlockout';
+        case 'Row Control':
+            return 'rowcontrol';
+        default:
+        case 'Lockout':
+            return 'lockout';
+    }
 }
 
 export default handler;
