@@ -32,7 +32,9 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
                 )}
                 {subHeader && (
                     <span className="text-2xl md:text-3xl font-bold text-white ml-auto">
-                        {'Division ' + playerData.division + ': ' + subHeader}
+                        {playerData.division
+                            ? 'Division ' + playerData.division
+                            : 'Elo' + ': ' + subHeader}
                     </span>
                 )}
             </div>

@@ -3,8 +3,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 import NextMatchOverlay from '../components/NextMatchOverlay';
-import importCsvForBuild from '../scripts/importCsvForBuild';
 import MatchData from '../types/MatchData';
+import Airtable from 'airtable';
+import convertAirtableDataToMatchData from '../types/convertAirtableDataToMatchData';
 
 export interface HomeProps {
     upcomingMatches: MatchData[];
@@ -87,11 +88,18 @@ export default function Home(props: HomeProps) {
                         </div>
                     </div>
                     <div className="flex flex-row justify-center">
-                        <a
-                            className="transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6"
-                            href="https://docs.google.com/document/d/1mxfgoNsUy6XAjIgRQLbBPTmP6R5P-FsUDvby4lL2jqA/edit">
-                            Sign up for Season 3
-                        </a>
+                        <Link href="/upcoming">
+                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+                                Upcoming Matches
+                            </div>
+                        </Link>
+                        <Link href="/standings">
+                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+                                Standings
+                            </div>
+                        </Link>
+                    </div>
+                    <div className="flex flex-row justify-center">
                         <a
                             className="transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6"
                             href="https://discord.gg/MVnV2qb">
@@ -110,16 +118,28 @@ export default function Home(props: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const { matches, players } = await importCsvForBuild();
-    const filteredMatches = matches.filter(
-        match =>
-            match.status == 'scheduled' &&
-            (match.channel == 'Bingothon' || match.channel == 'SunshineCommunity')
-    );
-    filteredMatches.sort((a, b) => a.matchTime - b.matchTime);
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const matches: MatchData[] = [];
+    await base('Season 3 Matches')
+        .select({
+            filterByFormula:
+                'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',
+            sort: [{ field: 'Match Time (UTC)' }],
+        })
+        .eachPage((records, fetchNextPage) => {
+            try {
+                records.forEach(record => {
+                    matches.push(convertAirtableDataToMatchData(record));
+                });
+                fetchNextPage();
+            } catch (e) {
+                return;
+            }
+        });
     return {
         props: {
-            upcomingMatches: filteredMatches,
+            upcomingMatches: matches,
         },
+        revalidate: 60,
     };
 };

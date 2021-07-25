@@ -5,7 +5,8 @@ export default interface PlayerData {
     primaryColor: BingosyncColors | BingosyncColorStrings;
     secondaryColor: BingosyncColors | BingosyncColorStrings;
     country: string;
-    division: string;
+    division?: string;
     twitchName?: string;
     pronouns?: string;
+    elo?: number;
 }

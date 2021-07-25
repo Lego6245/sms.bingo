@@ -1,17 +1,18 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ScheduleTable from '../../components/ScheduleTable';
-import importCsvForBuild from '../../scripts/importCsvForBuild';
 import React from 'react';
 import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import ProfileHeader from '../../components/ProfileHeader';
 import Header from '../../components/Header';
+import Airtable from 'airtable';
+import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
+import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
 
 export interface PlayerProfileProps {
     matches: MatchData[];
     record: string;
     player: PlayerData;
-    formatCounts: { [key: string]: number };
 }
 
 export default function PlayerProfile(props: PlayerProfileProps) {
@@ -34,43 +35,49 @@ export default function PlayerProfile(props: PlayerProfileProps) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const playername = context.params.playername as string;
-    const { matches, players } = await importCsvForBuild();
-    const playerData = players.get(playername as string);
-    const playerMatches = matches.filter(
-        match => match.homePlayer == playername || match.awayPlayer == playername
+    const playerId = context.params.playername as string;
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const playerRecord = await base('Season 3 Players').find(playerId);
+    console.log(playerRecord.get('Home Matches'));
+    const playerData = convertAirtableDataToPlayerData(playerRecord);
+    const matchIds = [
+        ...((playerRecord.get('Home Matches') as string[]) ?? []),
+        ...((playerRecord.get('Away Matches') as string[]) ?? []),
+    ];
+    const playerMatches: MatchData[] = await Promise.all(
+        matchIds.map(async id => {
+            return convertAirtableDataToMatchData(await base('Season 3 Matches').find(id));
+        })
     );
-    let wins = 0;
-    let played = 0;
-    let formatCounts = {
-        Lockout: 0,
-        Invasion: 0,
-        'Connect 5': 0,
-        Draft: 0,
-        'Row Control': 0,
-    };
-    playerMatches.forEach(val => {
-        formatCounts[val.format]++;
-        if (val.status == 'played') {
-            played++;
-            wins = wins + (val.winner == playername ? 1 : 0);
-        }
-    });
-    const record = '' + wins + ' - ' + (played - wins);
     return {
         props: {
             matches: playerMatches,
-            record: record,
+            record: playerData.elo,
             player: playerData,
-            formatCounts,
         },
+        revalidate: 60,
     };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const players = Array.from((await importCsvForBuild()).players.keys());
-    const gennedPaths = players.map(player => {
-        return { params: { playername: player } };
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const playerIds: string[] = [];
+    await base('Season 3 Players')
+        .select({
+            fields: [],
+        })
+        .eachPage((records, fetchNextPage) => {
+            records.forEach(record => {
+                playerIds.push(record.id);
+            });
+            try {
+                fetchNextPage();
+            } catch {
+                return;
+            }
+        });
+    const gennedPaths = playerIds.map(id => {
+        return { params: { playername: id } };
     });
     return {
         paths: gennedPaths,

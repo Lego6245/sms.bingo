@@ -10,22 +10,25 @@
     },
     "dependencies": {
         "@tippyjs/react": "^4.2.0",
+        "airtable": "^0.11.1",
         "autoprefixer": "^10.2.0",
         "cors": "^2.8.5",
         "csv-parse": "^4.14.2",
         "date-fns": "^2.16.1",
         "flag-icon-css": "^3.5.0",
+        "got": "^11.7.0",
         "next": "10.0.5",
         "postcss": "^8.2.2",
         "react": "17.0.1",
         "react-dom": "17.0.1",
         "tailwindcss": "^2.0.2",
-        "tippy.js": "^6.2.7",
+        "tough-cookie": "^4.0.0",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@types/node": "^14.14.20",
         "@types/react": "^17.0.0",
+        "@types/tough-cookie": "^2.3.2",
         "prettier": "2.2.1",
         "typescript": "^4.1.3"
     }

@@ -1,12 +1,13 @@
 import { GetStaticProps } from 'next';
 import Header from '../../components/Header';
 import ScheduleTable from '../../components/ScheduleTable';
-import importCsvForBuild from '../../scripts/importCsvForBuild';
 import React from 'react';
 import { useRouter } from 'next/router';
 import MatchData from '../../types/MatchData';
 import ScheduleSlots from '../../consts/ScheduleSlots';
 import { isFuture } from 'date-fns';
+import Airtable from 'airtable';
+import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -18,7 +19,7 @@ const calendarWeeks = ['1', '2', '3', '4', '5', '6', '7', '8'];
 export default function Schedule(props: ScheduleProps) {
     const router = useRouter();
     const [showScheduledOnly, setShowScheduledOnly] = React.useState(!!router.query.scheduled);
-    const [divisionToShow, setDivisionToShow] = React.useState('all');
+    // const [divisionToShow, setDivisionToShow] = React.useState('all');
     const [forceSpoilers, setForceSpoilers] = React.useState(false);
     const [selectedWeek, setSelectedWeek] = React.useState('none');
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -39,9 +40,9 @@ export default function Schedule(props: ScheduleProps) {
         setForceSpoilers(cb.currentTarget.checked);
     }, []);
 
-    const onSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
-        setDivisionToShow(cb.currentTarget.value);
-    }, []);
+    // const onSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
+    //     setDivisionToShow(cb.currentTarget.value);
+    // }, []);
 
     React.useEffect(() => {
         if (!!router.query.scheduled) {
@@ -57,7 +58,7 @@ export default function Schedule(props: ScheduleProps) {
     if (selectedWeek == 'none') {
         const filteredMatches = applyFilters(
             props.matches,
-            divisionToShow,
+            //divisionToShow,
             showScheduledOnly,
             searchQuery
         );
@@ -111,7 +112,7 @@ export default function Schedule(props: ScheduleProps) {
             });
             const filteredMatchSet = applyFilters(
                 insideTimeslots,
-                divisionToShow,
+                //divisionToShow,
                 showScheduledOnly,
                 searchQuery
             ).sort((a, b) => a.matchTime - b.matchTime);
@@ -139,7 +140,7 @@ export default function Schedule(props: ScheduleProps) {
                             Show Scheduled Matches Only
                         </label>
                     </div>
-                    <div className="mx-5">
+                    {/* <div className="mx-5">
                         <select
                             className="text-black"
                             name="divisions"
@@ -159,7 +160,7 @@ export default function Schedule(props: ScheduleProps) {
                         <label className="ml-5 text-sm sm:text-lg" htmlFor="division-select">
                             Division Filter
                         </label>
-                    </div>
+                    </div> */}
                     <div className="mx-5">
                         <input
                             type="checkbox"
@@ -232,17 +233,17 @@ export default function Schedule(props: ScheduleProps) {
 
 function applyFilters(
     matches: MatchData[],
-    divisionToShow: string,
+    //divisionToShow: string,
     showScheduledOnly: boolean,
     searchQuery: string
 ): MatchData[] {
     let filteredMatches = matches;
-    switch (divisionToShow) {
-        case 'all':
-            break;
-        default:
-            filteredMatches = filteredMatches.filter(match => match.division == divisionToShow);
-    }
+    // switch (divisionToShow) {
+    //     case 'all':
+    //         break;
+    //     default:
+    //         filteredMatches = filteredMatches.filter(match => match.division == divisionToShow);
+    // }
 
     if (showScheduledOnly) {
         filteredMatches = filteredMatches.filter(match => match.status == 'scheduled');
@@ -280,22 +281,26 @@ function getTableTitleByWeek(key: number | string, useWeekText?: boolean) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const matches = (await importCsvForBuild()).matches;
-    const filteredMatches = matches.filter(
-        match =>
-            match.week.toLowerCase().indexOf('playoff') == -1 &&
-            match.week.toLowerCase().indexOf('showcase') == -1
-    );
-    const divisions = [];
-    filteredMatches.forEach(match => {
-        if (divisions.indexOf(match.division) == -1) {
-            divisions.push(match.division);
-        }
-    });
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const matches: MatchData[] = [];
+    await base('Season 3 Matches')
+        .select({
+            sort: [{ field: 'Match Time (UTC)' }],
+        })
+        .eachPage((records, fetchNextPage) => {
+            try {
+                records.forEach(record => {
+                    matches.push(convertAirtableDataToMatchData(record));
+                });
+                fetchNextPage();
+            } catch (e) {
+                return;
+            }
+        });
     return {
         props: {
-            matches: filteredMatches,
-            divisions,
+            matches: matches,
         },
+        revalidate: 60,
     };
 };

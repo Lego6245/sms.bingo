@@ -1,13 +1,14 @@
 import { GetStaticProps } from 'next';
 import StandingsTable, { StandingsTableProps } from '../../components/StandingsTable';
 import Header from '../../components/Header';
-import importCsvForBuild from '../../scripts/importCsvForBuild';
 import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import PlayerStanding, { StandingValues } from '../../types/PlayerStanding';
 import { useRouter } from 'next/router';
+import Airtable from 'airtable';
+import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
 export interface StandingsProps {
-    standings: StandingsTableProps[];
+    standings: PlayerData[];
 }
 
 export default function Standings(props: StandingsProps) {
@@ -17,15 +18,8 @@ export default function Standings(props: StandingsProps) {
             {!router.query.hideHeader && (
                 <Header title="Super Mario Sunshine Bingo League - Standings" />
             )}
-            <main className="text-white flex flex-row flex-wrap w-full">
-                {props.standings.length > 0 &&
-                    props.standings.map(divisionStandings => {
-                        return (
-                            <div key={divisionStandings.division} className="mx-auto my-10">
-                                <StandingsTable {...divisionStandings} />
-                            </div>
-                        );
-                    })}
+            <main className="text-white flex flex-row flex-wrap w-1/2 m-auto">
+                <StandingsTable standings={props.standings} />
             </main>
         </div>
     );
@@ -107,25 +101,26 @@ function splitIntoDivisions(matches: MatchData[], players: Map<string, PlayerDat
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const { matches, players } = await importCsvForBuild();
-    const filteredMatches = matches.filter(
-        match =>
-            match.status == 'played' &&
-            match.week.toLowerCase().indexOf('playoff') == -1 &&
-            match.week.toLowerCase().indexOf('showcase') == -1
-    );
-    const divisionMapping = splitIntoDivisions(filteredMatches, players);
-    const standingsArray = [];
-    Array.from(divisionMapping.keys()).forEach(key => {
-        standingsArray.push({
-            division: key,
-            standings: computeStandings(divisionMapping.get(key)),
+    const sortedPlayers: PlayerData[] = [];
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    await base('Season 3 Players')
+        .select({
+            sort: [{ field: 'Elo', direction: 'desc' }],
+        })
+        .eachPage((records, fetchNextPage) => {
+            records.forEach(record => {
+                sortedPlayers.push(convertAirtableDataToPlayerData(record));
+            });
+            try {
+                fetchNextPage();
+            } catch {
+                return;
+            }
         });
-    });
-    standingsArray.sort((a, b) => (a.division > b.division ? 1 : -1));
     return {
         props: {
-            standings: standingsArray,
+            standings: sortedPlayers,
         },
+        revalidate: 60,
     };
 };

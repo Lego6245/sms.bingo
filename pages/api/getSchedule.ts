@@ -1,9 +1,11 @@
 import Cors from 'cors';
-import importCsvForBuild from '../../scripts/importCsvForBuild';
 import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import { RunData } from '../../types/RunData';
 import { v4 as uuidv4 } from 'uuid';
+import Airtable from 'airtable';
+import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
+import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -28,25 +30,42 @@ async function handler(req, res) {
     // Run the middleware
     await runMiddleware(req, res, cors);
 
-    const { matches, players } = await importCsvForBuild();
-    const firstTimestamp = Math.floor(Date.now() / 1000) - 60 * 60 * 2;
-    const lastTimestamp = Math.floor(Date.now() / 1000) + 604800;
-    let onlyScheduled = matches
-        .filter(
-            match =>
-                match.status != 'unscheduled' &&
-                match.matchTime >= firstTimestamp &&
-                match.matchTime <= lastTimestamp &&
-                match.channel != 'Offline'
-        )
-        .sort((a, b) => {
-            return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const matches: MatchData[] = [];
+    await base('Season 3 Matches')
+        .select({
+            filterByFormula:
+                'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',
+            sort: [{ field: 'Match Time (UTC)' }],
+        })
+        .eachPage((records, fetchNextPage) => {
+            try {
+                records.forEach(record => {
+                    matches.push(convertAirtableDataToMatchData(record));
+                });
+                fetchNextPage();
+            } catch (e) {
+                return;
+            }
         });
-    let processedMatches = onlyScheduled.map(match =>
+    const playerMap = new Map<string, PlayerData>();
+    await base('Season 3 Players')
+        .select()
+        .eachPage((records, fetchNextPage) => {
+            records.forEach(record => {
+                playerMap.set(record.id, convertAirtableDataToPlayerData(record));
+            });
+            try {
+                fetchNextPage();
+            } catch {
+                return;
+            }
+        });
+    let processedMatches = matches.map(match =>
         convertToSpeedControlFormat(
             match,
-            players.get(match.homePlayer),
-            players.get(match.awayPlayer)
+            playerMap.get(match.homePlayerId),
+            playerMap.get(match.awayPlayerId)
         )
     );
     res.json(processedMatches);

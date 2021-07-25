@@ -13,14 +13,6 @@ export default function Header(props: { title: string }) {
             route: '/upcoming',
             label: 'Upcoming Matches',
         },
-        {
-            route: '/schedule',
-            label: 'Regular Season Schedule',
-        },
-        {
-            route: '/playoffs/bracket',
-            label: 'Playoff Bracket',
-        },
     ];
     return (
         <>

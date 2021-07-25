@@ -1,11 +1,11 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ScheduleTable from '../../components/ScheduleTable';
-import importCsvForBuild from '../../scripts/importCsvForBuild';
 import React from 'react';
 import MatchData from '../../types/MatchData';
 import Header from '../../components/Header';
 import { useRouter } from 'next/router';
-import { match } from 'assert';
+import Airtable from 'airtable';
+import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -45,23 +45,28 @@ export default function Schedule(props: ScheduleProps) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const matches = (await importCsvForBuild()).matches;
-    const firstTimestamp = Math.floor(Date.now() / 1000) - 60 * 60 * 2;
-    const lastTimestamp = Math.floor(Date.now() / 1000) + 604800;
-    let onlyScheduled = matches
-        .filter(
-            match =>
-                match.status != 'unscheduled' &&
-                match.matchTime >= firstTimestamp &&
-                match.matchTime <= lastTimestamp &&
-                match.channel != 'Offline'
-        )
-        .sort((a, b) => {
-            return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const matches: MatchData[] = [];
+    await base('Season 3 Matches')
+        .select({
+            filterByFormula:
+                'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',
+            sort: [{ field: 'Match Time (UTC)' }],
+        })
+        .eachPage((records, fetchNextPage) => {
+            try {
+                records.forEach(record => {
+                    matches.push(convertAirtableDataToMatchData(record));
+                });
+                fetchNextPage();
+            } catch (e) {
+                return;
+            }
         });
     return {
         props: {
-            matches: onlyScheduled,
+            matches,
         },
+        revalidate: 60,
     };
 };

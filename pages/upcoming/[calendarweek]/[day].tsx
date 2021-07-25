@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ScheduleTable from '../../../components/ScheduleTable';
-import importCsvForBuild from '../../../scripts/importCsvForBuild';
+import fetchAllS3Data from '../../../scripts/fetchAllS3Data';
 import React from 'react';
 import MatchData from '../../../types/MatchData';
 import ScheduleSlots from '../../../consts/ScheduleSlots';
@@ -27,7 +27,7 @@ export default function Schedule(props: ScheduleProps) {
 
 export const getStaticProps: GetStaticProps = async context => {
     const { calendarweek, day } = context.params;
-    const matches = (await importCsvForBuild()).matches;
+    const matches = (await fetchAllS3Data()).matches;
     const dateFactor = (parseInt(calendarweek as string) - 1) * 604800; // Constant of 1 week.
     const firstTimestamp = ScheduleSlots.get(day as string)[0] + dateFactor - 60 * 60 * 2;
     const lastTimestamp =
@@ -45,6 +45,7 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             matches: onlyScheduled,
         },
+        revalidate: 60,
     };
 };
 

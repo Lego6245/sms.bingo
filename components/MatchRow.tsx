@@ -63,13 +63,13 @@ export default function MatchRow(props: MatchRowProps) {
                 )}
                 <td>{timeContent}</td>
                 <td className={homeClassName}>
-                    <Link href={'/player/' + match.homePlayer}>
+                    <Link href={'/player/' + match.homePlayerId ?? match.homePlayer}>
                         <span className="cursor-pointer">{match.homePlayer}</span>
                     </Link>
                 </td>
                 <td>Vs.</td>
                 <td className={awayClassName}>
-                    <Link href={'/player/' + match.awayPlayer}>
+                    <Link href={'/player/' + match.awayPlayerId ?? match.awayPlayer}>
                         <span className="cursor-pointer">{match.awayPlayer}</span>
                     </Link>
                 </td>
