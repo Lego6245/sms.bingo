@@ -9,8 +9,8 @@ export default function convertAirtableDataToMatchData(record: any): MatchData {
         week: (record.get('Week') as string) ?? '',
         //division: (record.get('Division') as string) ?? '',
         status: (record.get('Status') as any) ?? 'unscheduled',
-        matchTime: record.get('Match Time (UTC')
-            ? Date.parse(record.get('Match Time (UTC') as string) / 1000
+        matchTime: record.get('Match Time (UTC)')
+            ? Date.parse(record.get('Match Time (UTC)') as string) / 1000
             : NaN,
         format: (record.get('Match Format') as any) ?? 'TBD',
         channel: (record.get('Restream Channel') as any) ?? 'Offline',
