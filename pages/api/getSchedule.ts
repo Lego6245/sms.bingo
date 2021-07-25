@@ -97,7 +97,9 @@ function convertToSpeedControlFormat(
                         social: {
                             twitch: homePlayer.twitchName,
                         },
-                        customData: {},
+                        customData: {
+                            score: homePlayer.elo.toString(),
+                        },
                     },
                 ],
             },
@@ -113,7 +115,9 @@ function convertToSpeedControlFormat(
                         social: {
                             twitch: awayPlayer.twitchName,
                         },
-                        customData: {},
+                        customData: {
+                            score: awayPlayer.elo.toString(),
+                        },
                     },
                 ],
             },
