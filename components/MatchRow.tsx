@@ -73,7 +73,7 @@ export default function MatchRow(props: MatchRowProps) {
                         <span className="cursor-pointer">{match.awayPlayer}</span>
                     </Link>
                 </td>
-                <td className="hidden sm:table-cell">{match.division}</td>
+                {/* <td className="hidden sm:table-cell">{match.division}</td> */}
                 <td>{match.format ?? 'TBD'}</td>
                 <td>
                     {match.channel ? (

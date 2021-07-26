@@ -1,9 +1,6 @@
 import { GetStaticProps } from 'next';
-import StandingsTable, { StandingsTableProps } from '../../components/StandingsTable';
 import Header from '../../components/Header';
-import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
-import PlayerStanding, { StandingValues } from '../../types/PlayerStanding';
 import { useRouter } from 'next/router';
 import Airtable from 'airtable';
 import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';

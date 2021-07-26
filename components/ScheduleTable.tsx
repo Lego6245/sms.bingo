@@ -35,7 +35,7 @@ export default function ScheduleTable(props: ScheduleTableProps) {
                         <th className="w-3/12 sm:w-2/12 text-left mx-2">
                             {props.hideHomeAway ? '' : 'Away'}
                         </th>
-                        <th className="w-1/12 mx-2 hidden sm:table-cell">Division</th>
+                        {/* <th className="w-1/12 mx-2 hidden sm:table-cell">Division</th> */}
                         <th className="w-2/12 mx-2">Format</th>
                         <th className="w-2/12 mx-2">Channel</th>
                     </tr>
