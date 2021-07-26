@@ -8,7 +8,7 @@ export default function convertAirtableDataToPlayerData(record: any): PlayerData
         country: (record.get('Country') as string)?.toLowerCase(),
         //division: record.get('Division') as string,
         twitchName: record.get('Twitch') as string,
-        pronouns: (record.get('Pronouns') as string) ?? 'None',
+        pronouns: (record.get('Pronouns') as string) ?? '',
         elo: record.get('Elo') as number,
     };
 }

@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Airtable from 'airtable';
 import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
 import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 // Initializing the cors middleware
 const cors = Cors({
@@ -26,16 +27,25 @@ function runMiddleware(req, res, fn) {
     });
 }
 
-async function handler(req, res) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Run the middleware
     await runMiddleware(req, res, cors);
 
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    let additionalFilter =
+        'OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity")';
+    if (!!req.query.channel) {
+        switch (req.query.channel) {
+            case 'bingothon':
+                additionalFilter = '{Restream Channel} = "Bingothon"';
+            case 'sunshine':
+                additionalFilter = '{Restream Channel} = "SunshineCommunity"';
+        }
+    }
     const matches: MatchData[] = [];
     await base('Season 3 Matches')
         .select({
-            filterByFormula:
-                'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',
+            filterByFormula: `AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, ${additionalFilter})`,
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
