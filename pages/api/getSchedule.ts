@@ -35,14 +35,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     let additionalFilter =
         'OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity")';
     if (!!req.query.channel) {
+        console.log(req.query.channel);
         switch (req.query.channel) {
             case 'bingothon':
                 additionalFilter = '{Restream Channel} = "Bingothon"';
+                break;
             case 'sunshine':
                 additionalFilter = '{Restream Channel} = "SunshineCommunity"';
+                break;
         }
     }
     const matches: MatchData[] = [];
+    console.log(`AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, ${additionalFilter})`);
     await base('Season 3 Matches')
         .select({
             filterByFormula: `AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, ${additionalFilter})`,

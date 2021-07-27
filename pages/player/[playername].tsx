@@ -38,7 +38,6 @@ export const getStaticProps: GetStaticProps = async context => {
     const playerId = context.params.playername as string;
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
     const playerRecord = await base('Season 3 Players').find(playerId);
-    console.log(playerRecord.get('Home Matches'));
     const playerData = convertAirtableDataToPlayerData(playerRecord);
     const matchIds = [
         ...((playerRecord.get('Home Matches') as string[]) ?? []),

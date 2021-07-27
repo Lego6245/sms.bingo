@@ -24,7 +24,6 @@ export default async function fetchAllS3Data(): Promise<DataImport> {
                 return;
             }
         });
-    console.log(matchArray[0]);
     const playerMap = new Map<string, PlayerData>();
     await base('Season 3 Players')
         .select()
