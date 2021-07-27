@@ -49,8 +49,7 @@ export const getStaticProps: GetStaticProps = async context => {
     const matches: MatchData[] = [];
     await base('Season 3 Matches')
         .select({
-            filterByFormula:
-                'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',
+            filterByFormula: 'DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7)',
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
