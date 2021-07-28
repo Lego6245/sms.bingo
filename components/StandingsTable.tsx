@@ -22,6 +22,7 @@ export default function StandingsTable(props: StandingsTableProps) {
                                     <td>
                                         <PlayerHeader
                                             playerName={player.name}
+                                            playerId={player.id}
                                             bingosyncColorPrimary={player.primaryColor}
                                             bingosyncColorSecondary={player.secondaryColor}
                                             countryCode={player.country}

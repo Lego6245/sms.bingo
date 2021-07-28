@@ -1,6 +1,7 @@
+import { Record, FieldSet } from 'airtable';
 import PlayerData from './PlayerData';
 
-export default function convertAirtableDataToPlayerData(record: any): PlayerData {
+export default function convertAirtableDataToPlayerData(record: Record<FieldSet>): PlayerData {
     return {
         name: record.get('Name') as string,
         primaryColor: (record.get('Primary') as string)?.toLowerCase() as any,
@@ -10,5 +11,6 @@ export default function convertAirtableDataToPlayerData(record: any): PlayerData
         twitchName: record.get('Twitch') as string,
         pronouns: (record.get('Pronouns') as string) ?? '',
         elo: record.get('Elo') as number,
+        id: record.id,
     };
 }

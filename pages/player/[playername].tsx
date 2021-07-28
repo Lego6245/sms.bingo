@@ -48,9 +48,10 @@ export const getStaticProps: GetStaticProps = async context => {
             return convertAirtableDataToMatchData(await base('Season 3 Matches').find(id));
         })
     );
+    const sortedPlayerMatches = playerMatches.sort((a, b) => a.matchTime - b.matchTime);
     return {
         props: {
-            matches: playerMatches,
+            matches: sortedPlayerMatches,
             record: playerData.elo,
             player: playerData,
         },

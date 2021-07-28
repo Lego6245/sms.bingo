@@ -9,4 +9,5 @@ export default interface PlayerData {
     twitchName?: string;
     pronouns?: string;
     elo?: number;
+    id?: string;
 }

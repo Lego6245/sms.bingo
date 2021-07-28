@@ -16,6 +16,7 @@ export interface PlayerHeaderProps {
     bingosyncColorSecondary: BingosyncColors | BingosyncColorStrings;
     countryCode: string;
     subHeader?: string;
+    playerId?: string;
 }
 
 export default function PlayerHeader(props: PlayerHeaderProps) {
@@ -31,7 +32,7 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
                 <div>
                     <span className={'text-lg md:text-xl mr-5 flag-icon ' + flagIconClass}></span>
                 </div>
-                <Link href={'/player/' + props.playerName}>
+                <Link href={'/player/' + (props.playerId ?? props.playerName)}>
                     <span className="text-2xl md:text-3xl mx-5 font-bold text-white cursor-pointer">
                         {props.playerName}
                     </span>
