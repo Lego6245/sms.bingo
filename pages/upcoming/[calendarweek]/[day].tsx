@@ -1,9 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ScheduleTable from '../../../components/ScheduleTable';
-import fetchAllS3Data from '../../../scripts/fetchAllS3Data';
 import React from 'react';
 import MatchData from '../../../types/MatchData';
-import ScheduleSlots from '../../../consts/ScheduleSlots';
+import Airtable from 'airtable';
+import convertAirtableDataToMatchData from '../../../types/convertAirtableDataToMatchData';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -27,23 +27,31 @@ export default function Schedule(props: ScheduleProps) {
 
 export const getStaticProps: GetStaticProps = async context => {
     const { calendarweek, day } = context.params;
-    const matches = (await fetchAllS3Data()).matches;
-    const dateFactor = (parseInt(calendarweek as string) - 1) * 604800; // Constant of 1 week.
-    const firstTimestamp = ScheduleSlots.get(day as string)[0] + dateFactor - 60 * 60 * 2;
-    const lastTimestamp =
-        ScheduleSlots.get(day as string)[ScheduleSlots.get(day as string).length - 1] +
-        dateFactor +
-        60 * 60 * 2;
-    let onlyScheduled = matches.filter(
-        match =>
-            match.status != 'unscheduled' &&
-            match.matchTime >= firstTimestamp &&
-            match.matchTime <= lastTimestamp &&
-            match.channel != 'Offline'
-    );
+    const WEEK_OF_YEAR_START = 29;
+    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const matches: MatchData[] = [];
+    await base('Season 3 Matches')
+        .select({
+            filterByFormula: `AND(WEEKDAY({Match Time (EST)}, "Monday") = ${
+                parseInt(day as string) + 1
+            }, WEEKNUM({Match Time (EST)}, "Monday") = ${
+                WEEK_OF_YEAR_START + parseInt(calendarweek as string)
+            }, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))`,
+            sort: [{ field: 'Match Time (UTC)' }],
+        })
+        .eachPage((records, fetchNextPage) => {
+            try {
+                records.forEach(record => {
+                    matches.push(convertAirtableDataToMatchData(record));
+                });
+                fetchNextPage();
+            } catch (e) {
+                return;
+            }
+        });
     return {
         props: {
-            matches: onlyScheduled,
+            matches: matches,
         },
         revalidate: 60,
     };
@@ -51,7 +59,7 @@ export const getStaticProps: GetStaticProps = async context => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const calendarWeeks = ['1', '2', '3', '4', '5', '6', '7', '8'];
-    const scheduleSlotDays = Array.from(ScheduleSlots.keys());
+    const scheduleSlotDays = ['1', '2', '3', '4', '5'];
     const genedPaths = [];
     calendarWeeks.forEach(week => {
         scheduleSlotDays.forEach(day => {
