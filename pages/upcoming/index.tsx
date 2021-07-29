@@ -49,7 +49,8 @@ export const getStaticProps: GetStaticProps = async context => {
     const matches: MatchData[] = [];
     await base('Season 3 Matches')
         .select({
-            filterByFormula: 'DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7',
+            filterByFormula:
+                'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7, DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") >= 0)',
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {

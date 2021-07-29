@@ -21,16 +21,16 @@ export default function Schedule(props: ScheduleProps) {
     const [showScheduledOnly, setShowScheduledOnly] = React.useState(!!router.query.scheduled);
     // const [divisionToShow, setDivisionToShow] = React.useState('all');
     const [forceSpoilers, setForceSpoilers] = React.useState(false);
-    const [selectedWeek, setSelectedWeek] = React.useState('none');
+    // const [selectedWeek, setSelectedWeek] = React.useState('none');
     const [searchQuery, setSearchQuery] = React.useState('');
 
     const onSearchQueryChange = React.useCallback((cb: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(cb.currentTarget.value);
     }, []);
 
-    const onWeekSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedWeek(cb.currentTarget.value);
-    }, []);
+    // const onWeekSelectChange = React.useCallback((cb: React.ChangeEvent<HTMLSelectElement>) => {
+    //     setSelectedWeek(cb.currentTarget.value);
+    // }, []);
 
     const onShowScheduleClick = React.useCallback((cb: React.MouseEvent<HTMLInputElement>) => {
         setShowScheduledOnly(cb.currentTarget.checked);
@@ -48,78 +48,78 @@ export default function Schedule(props: ScheduleProps) {
         if (!!router.query.scheduled) {
             setShowScheduledOnly(!!router.query.scheduled);
         }
-        if (!!router.query.week) {
-            const week =
-                typeof router.query.week === 'string' ? router.query.week : router.query.week[0];
-            setSelectedWeek(calendarWeeks.indexOf(week) > -1 ? week : 'none');
-        }
+        // if (!!router.query.week) {
+        //     const week =
+        //         typeof router.query.week === 'string' ? router.query.week : router.query.week[0];
+        //     setSelectedWeek(calendarWeeks.indexOf(week) > -1 ? week : 'none');
+        // }
     }, [router.query]);
     const matchMap = new Map<number | string, MatchData[]>();
-    if (selectedWeek == 'none') {
-        const filteredMatches = applyFilters(
-            props.matches,
-            //divisionToShow,
-            showScheduledOnly,
-            searchQuery
-        );
-        filteredMatches.forEach(match => {
-            if (matchMap.has(match.week)) {
-                matchMap.get(match.week).push(match);
-            } else {
-                matchMap.set(match.week, [match]);
-            }
-        });
+    // if (selectedWeek == 'none') {
+    const filteredMatches = applyFilters(
+        props.matches,
+        //divisionToShow,
+        showScheduledOnly,
+        searchQuery
+    );
+    filteredMatches.forEach(match => {
+        if (matchMap.has(match.week)) {
+            matchMap.get(match.week).push(match);
+        } else {
+            matchMap.set(match.week, [match]);
+        }
+    });
 
-        Array.from(matchMap.keys()).forEach(key => {
-            matchMap.get(key).sort((a, b) => {
-                return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
-            });
+    Array.from(matchMap.keys()).forEach(key => {
+        matchMap.get(key).sort((a, b) => {
+            return !!a.matchTime ? (!!b.matchTime ? a.matchTime - b.matchTime : -1) : 1;
         });
-    } else {
-        const dateFactor = (parseInt(selectedWeek) - 1) * 604800; // Constant of 1 week.
-        const firstTimestamp = ScheduleSlots.get('1')[0] + dateFactor;
-        const lastTimestamp =
-            ScheduleSlots.get('5')[ScheduleSlots.get('5').length - 1] + dateFactor;
-        let onlyScheduled = props.matches.filter(
-            match =>
-                match.status != 'unscheduled' &&
-                match.matchTime >= firstTimestamp &&
-                match.matchTime <= lastTimestamp &&
-                match.channel != 'Offline'
-        );
-        Array.from(ScheduleSlots.keys()).forEach(key => {
-            const slots = ScheduleSlots.get(key);
-            const weekStartTimestamp = slots[0] + dateFactor - 60 * 60 * 2;
-            const weekEndTimestamp = slots[slots.length - 1] + dateFactor + 60 * 60 * 2;
-            const insideTimeslots = onlyScheduled.filter(
-                match =>
-                    match.matchTime >= weekStartTimestamp && match.matchTime <= weekEndTimestamp
-            );
-            slots.forEach(slot => {
-                const matchTime = slot + dateFactor;
-                const foundMatch = insideTimeslots.find(match => match.matchTime == matchTime);
-                if (!foundMatch && isFuture(matchTime * 1000)) {
-                    insideTimeslots.push({
-                        homePlayer: 'TBD',
-                        awayPlayer: 'TBD',
-                        week: key ?? 'none',
-                        division: 'TBD',
-                        status: 'unscheduled',
-                        matchTime: matchTime,
-                        format: 'TBD',
-                    });
-                }
-            });
-            const filteredMatchSet = applyFilters(
-                insideTimeslots,
-                //divisionToShow,
-                showScheduledOnly,
-                searchQuery
-            ).sort((a, b) => a.matchTime - b.matchTime);
+    });
+    // } else {
+    //     const dateFactor = (parseInt(selectedWeek) - 1) * 604800; // Constant of 1 week.
+    //     const firstTimestamp = ScheduleSlots.get('1')[0] + dateFactor;
+    //     const lastTimestamp =
+    //         ScheduleSlots.get('5')[ScheduleSlots.get('5').length - 1] + dateFactor;
+    //     let onlyScheduled = props.matches.filter(
+    //         match =>
+    //             match.status != 'unscheduled' &&
+    //             match.matchTime >= firstTimestamp &&
+    //             match.matchTime <= lastTimestamp &&
+    //             match.channel != 'Offline'
+    //     );
+    //     Array.from(ScheduleSlots.keys()).forEach(key => {
+    //         const slots = ScheduleSlots.get(key);
+    //         const weekStartTimestamp = slots[0] + dateFactor - 60 * 60 * 2;
+    //         const weekEndTimestamp = slots[slots.length - 1] + dateFactor + 60 * 60 * 2;
+    //         const insideTimeslots = onlyScheduled.filter(
+    //             match =>
+    //                 match.matchTime >= weekStartTimestamp && match.matchTime <= weekEndTimestamp
+    //         );
+    //         slots.forEach(slot => {
+    //             const matchTime = slot + dateFactor;
+    //             const foundMatch = insideTimeslots.find(match => match.matchTime == matchTime);
+    //             if (!foundMatch && isFuture(matchTime * 1000)) {
+    //                 insideTimeslots.push({
+    //                     homePlayer: 'TBD',
+    //                     awayPlayer: 'TBD',
+    //                     week: key ?? 'none',
+    //                     division: 'TBD',
+    //                     status: 'unscheduled',
+    //                     matchTime: matchTime,
+    //                     format: 'TBD',
+    //                 });
+    //             }
+    //         });
+    //         const filteredMatchSet = applyFilters(
+    //             insideTimeslots,
+    //             //divisionToShow,
+    //             showScheduledOnly,
+    //             searchQuery
+    //         ).sort((a, b) => a.matchTime - b.matchTime);
 
-            matchMap.set(key, filteredMatchSet);
-        });
-    }
+    //         matchMap.set(key, filteredMatchSet);
+    //     });
+    // }
     // Yes this is messy sue me.
     const sortedWeeks = Array.from(matchMap.keys()).sort(
         (a, b) => parseInt(a as string) - parseInt(b as string)
@@ -171,7 +171,7 @@ export default function Schedule(props: ScheduleProps) {
                             Force Spoilers to Show
                         </label>
                     </div>
-                    <div className="mx-5">
+                    {/* <div className="mx-5">
                         <select
                             className="text-black"
                             name="weeks"
@@ -190,7 +190,7 @@ export default function Schedule(props: ScheduleProps) {
                         <label className="ml-5 text-sm sm:text-lg" htmlFor="week-select">
                             Show Calendar Weeks
                         </label>
-                    </div>
+                    </div> */}
                     <div className="mx-5">
                         <input
                             className="text-black"
@@ -214,12 +214,15 @@ export default function Schedule(props: ScheduleProps) {
                     {sortedWeeks.map(key => {
                         return matchMap.get(key).length > 0 ? (
                             <div
-                                key={getTableTitleByWeek(key, selectedWeek == 'none')}
+                                key={getTableTitleByWeek(key, true /* selectedWeek == 'none' */)}
                                 className="mt-5">
                                 <ScheduleTable
                                     forceSpoilers={forceSpoilers}
                                     matches={matchMap.get(key)}
-                                    tableTitle={getTableTitleByWeek(key, selectedWeek == 'none')}
+                                    tableTitle={getTableTitleByWeek(
+                                        key,
+                                        true /* selectedWeek == 'none' */
+                                    )}
                                     hideHomeAway={key === 5}
                                 />
                             </div>

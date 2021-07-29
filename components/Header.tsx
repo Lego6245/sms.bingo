@@ -13,6 +13,10 @@ export default function Header(props: { title: string }) {
             route: '/upcoming',
             label: 'Upcoming Matches',
         },
+        {
+            route: '/schedule',
+            label: 'Full Match History',
+        },
     ];
     return (
         <>
