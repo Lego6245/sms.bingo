@@ -2,9 +2,9 @@ import MatchData from './MatchData';
 
 export default function convertAirtableDataToMatchData(record: any): MatchData {
     return {
-        homePlayer: record.get('home_player_name') as string,
+        homePlayer: record.get('home_player_name')[0] as string,
         homePlayerId: record.get('Home Player')[0],
-        awayPlayer: record.get('away_player_name') as string,
+        awayPlayer: record.get('away_player_name')[0] as string,
         awayPlayerId: record.get('Away Player')[0],
         week: (record.get('Week') as string) ?? '',
         //division: (record.get('Division') as string) ?? '',
@@ -14,7 +14,9 @@ export default function convertAirtableDataToMatchData(record: any): MatchData {
             : NaN,
         format: (record.get('Match Format') as any) ?? 'TBD',
         channel: (record.get('Restream Channel') as any) ?? 'Offline',
-        winner: (record.get('winning_player_name') as string) ?? '',
+        winner: record.get('winning_player_name')
+            ? (record.get('winning_player_name')[0] as string) ?? ''
+            : '',
         homeScore: (record.get('Home Score') as number) ?? NaN,
         awayScore: (record.get('Away Score') as number) ?? NaN,
         matchVod: (record.get('Vod') as string) ?? '',

@@ -53,10 +53,14 @@ export const getStaticProps: GetStaticProps = async context => {
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
-            try {
-                records.forEach(record => {
+            records.forEach(record => {
+                try {
                     matches.push(convertAirtableDataToMatchData(record));
-                });
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+            try {
                 fetchNextPage();
             } catch (e) {
                 return;

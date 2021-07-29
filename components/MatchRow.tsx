@@ -99,7 +99,7 @@ export default function MatchRow(props: MatchRowProps) {
                     <td className={homeClassName}>{match.homeScore}</td>
                     <td className="text-center"> - </td>
                     <td className={awayClassName}>{match.awayScore}</td>
-                    <td className="hidden sm:table-cell"></td>
+                    {/* <td className="hidden sm:table-cell"></td> */}
                     <td></td>
                     <td>
                         {match.matchVod ? (
