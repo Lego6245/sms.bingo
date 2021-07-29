@@ -107,7 +107,6 @@ export default function Schedule(props: ScheduleProps) {
                         status: 'unscheduled',
                         matchTime: matchTime,
                         format: 'TBD',
-                        matchId: 'TBD',
                     });
                 }
             });

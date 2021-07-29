@@ -17,5 +17,5 @@ export default interface MatchData {
     bingosyncBoardId?: string;
     homePlayerEloGain?: number;
     awayPlayerEloGain?: number;
-    matchId: string;
+    matchId?: string;
 }
