@@ -2,6 +2,7 @@ import got, { ToughCookieJar } from 'got';
 import { CookieJar } from 'tough-cookie';
 import Airtable from 'airtable';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { GoalEvent } from '../../../types/FeedEvent';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { boardSlug } = req.query;
@@ -13,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 filterByFormula: '{bingosync_slug} = "' + boardSlug + '"',
                 maxRecords: 1,
                 fields: [
-                    'raw_feed_data',
+                    'goal_feed_data',
                     'raw_board_data',
                     'raw_settings_data',
                     'bingosync_password',
@@ -22,11 +23,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             .all();
     } catch (e) {
         console.log(e);
-        // failed here
+        if (!!req.query.bingosyncPassword) {
+            matchData = [
+                {
+                    bingosync_password: req.query.bingosyncPassword,
+                },
+            ];
+        } else {
+            res.status(500);
+            res.send('No Board Found. Provide a bingosyncPassword as a query parameter.');
+            return;
+        }
     }
     if (!!matchData && matchData.length > 0) {
         const {
-            raw_feed_data,
+            goal_feed_data,
             raw_board_data,
             raw_settings_data,
             bingosync_password,
@@ -35,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         if (!!raw_board_data) {
             res.json({
                 boardSlug: boardSlug,
-                raw_feed_data: JSON.parse(raw_feed_data),
+                goal_feed_data: JSON.parse(goal_feed_data),
                 raw_board_data: JSON.parse(raw_board_data),
                 raw_settings_data: JSON.parse(raw_settings_data),
             });
@@ -78,15 +89,29 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                         boardResponse,
                         settingsResponse,
                     ]);
-                    await base('Season 2 Match Data').update(airtable_matchdata_id, {
-                        raw_feed_data: JSON.stringify(feedData.body),
-                        raw_board_data: JSON.stringify(boardData.body),
-                        raw_settings_data: JSON.stringify(settingsData.body),
-                    });
+                    const clicksList: GoalEvent[] = (feedData.body as any).events.filter(
+                        event => event.type == 'goal'
+                    );
+                    if (airtable_matchdata_id) {
+                        await base('Season 3 Match Data').update(airtable_matchdata_id, {
+                            raw_feed_data: JSON.stringify(feedData.body),
+                            raw_board_data: JSON.stringify(boardData.body),
+                            raw_settings_data: JSON.stringify(settingsData.body),
+                            goal_feed_data: JSON.stringify(clicksList),
+                        });
+                    } else {
+                        await base('Season 3 Match Data').create({
+                            bingosync_slug: boardSlug,
+                            raw_feed_data: JSON.stringify(feedData.body),
+                            raw_board_data: JSON.stringify(boardData.body),
+                            raw_settings_data: JSON.stringify(settingsData.body),
+                            goal_feed_data: JSON.stringify(clicksList),
+                        });
+                    }
 
                     res.json({
                         boardSlug: boardSlug,
-                        raw_feed_data: feedData.body,
+                        goal_feed_data: clicksList,
                         raw_board_data: boardData.body,
                         raw_settings_data: settingsData.body,
                     });

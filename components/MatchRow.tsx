@@ -95,15 +95,19 @@ export default function MatchRow(props: MatchRowProps) {
             {shouldShowSpoilers && (
                 <tr className="h-16 bg-opacity-40 bg-blue-500">
                     <td className="hidden sm:table-cell"></td>
-                    <td>Final Score:</td>
+                    <td className="text-center">Final Score:</td>
                     <td className={homeClassName}>{match.homeScore}</td>
                     <td className="text-center"> - </td>
                     <td className={awayClassName}>{match.awayScore}</td>
                     {/* <td className="hidden sm:table-cell"></td> */}
-                    <td></td>
-                    <td>
+                    <td className={'text-center'}>
+                        <Link href={'/match/' + match.matchId}>
+                            <span className="cursor-pointer">{'Board Details'}</span>
+                        </Link>
+                    </td>
+                    <td className={'text-center'}>
                         {match.matchVod ? (
-                            <a target="_blank" href={match.matchVod}>
+                            <a className="cursor-pointer" target="_blank" href={match.matchVod}>
                                 Match Vod
                             </a>
                         ) : match.channel === 'Offline' ? (

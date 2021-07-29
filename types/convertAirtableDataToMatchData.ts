@@ -1,6 +1,7 @@
+import { FieldSet, Record } from 'airtable';
 import MatchData from './MatchData';
 
-export default function convertAirtableDataToMatchData(record: any): MatchData {
+export default function convertAirtableDataToMatchData(record: Record<FieldSet>): MatchData {
     return {
         homePlayer: record.get('home_player_name')[0] as string,
         homePlayerId: record.get('Home Player')[0],
@@ -21,5 +22,11 @@ export default function convertAirtableDataToMatchData(record: any): MatchData {
         awayScore: (record.get('Away Score') as number) ?? NaN,
         matchVod: (record.get('Vod') as string) ?? '',
         commentators: (record.get('Commentators') as string[]) ?? 'None',
+        bingosyncBoardId: record.get('bingosync_slug')
+            ? (record.get('bingosync_slug')[0] as string) ?? ''
+            : '',
+        homePlayerEloGain: (record.get('home_win_delta') as number) ?? NaN,
+        awayPlayerEloGain: (record.get('away_win_delta') as number) ?? NaN,
+        matchId: record.id,
     };
 }
