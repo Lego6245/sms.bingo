@@ -8,7 +8,9 @@ interface SquareProps {
 export default function Square(props: SquareProps) {
     let color = props.color;
     if (props.color == 'bingosync-blank') {
-        color = 'gray-900';
+        color = 'bg-gray-900';
+    } else {
+        color = 'bg-' + props.color;
     }
     let textColor = 'text-white';
     if (colorWillFailContrast(color)) {
@@ -16,7 +18,7 @@ export default function Square(props: SquareProps) {
     }
     return (
         <div
-            className={`flex h-1/5 w-1/5 border-black border-2 box-border text-center justify-center items-center text-l ${textColor} p-1 bg-${color}`}>
+            className={`flex h-1/5 w-1/5 border-black border-2 box-border text-center justify-center items-center text-l ${textColor} p-1 ${color}`}>
             {props.goalText}
         </div>
     );
