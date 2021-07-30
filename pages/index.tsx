@@ -65,7 +65,7 @@ export default function Home(props: HomeProps) {
                     muted
                     loop
                     id="bgvideo"
-                    poster="/bingo-poster.png">
+                    poster="/bingo-poster.webp">
                     <source src="/background.mp4" type="video/mp4" />
                 </video>
                 <div className="fixed min-h-full min-w-full bg-black opacity-60" />
