@@ -98,7 +98,12 @@ export default function MatchView(props: MatchDataProps) {
                     ) : !data ? (
                         <div>Loading board data...</div>
                     ) : (
-                        <Board boardJson={data.raw_board_data} goalFeed={data.goal_feed_data} />
+                        <Board
+                            boardJson={data.raw_board_data}
+                            goalFeed={data.goal_feed_data}
+                            startTimestamp={data.detected_start_timestamp}
+                            matchFormat={matchData.format}
+                        />
                     )}
                 </div>
             </main>

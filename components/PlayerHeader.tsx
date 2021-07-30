@@ -46,7 +46,11 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
                             src={props.twitchProps.twitchProfilePictureUrl}
                         />
                         <div className="absolute h-5 w-5 bottom-0 left-0">
-                            <Image src="/TwitchGlitchPurple.svg" layout="fill" />
+                            <Image
+                                alt="The twitch logo"
+                                src="/TwitchGlitchPurple.svg"
+                                layout="fill"
+                            />
                         </div>
                     </div>
                 )}

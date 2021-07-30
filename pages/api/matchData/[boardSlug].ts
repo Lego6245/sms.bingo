@@ -2,7 +2,7 @@ import got, { ToughCookieJar } from 'got';
 import { CookieJar } from 'tough-cookie';
 import Airtable from 'airtable';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { GoalEvent } from '../../../types/FeedEvent';
+import { ChatEvent, FeedEvent, GoalEvent } from '../../../types/FeedEvent';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { boardSlug } = req.query;
@@ -15,9 +15,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 maxRecords: 1,
                 fields: [
                     'goal_feed_data',
+                    'raw_feed_data',
                     'raw_board_data',
                     'raw_settings_data',
                     'bingosync_password',
+                    'detected_start_timestamp',
+                    'match_format',
                 ],
             })
             .all();
@@ -41,14 +44,34 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             raw_board_data,
             raw_settings_data,
             bingosync_password,
+            detected_start_timestamp,
+            raw_feed_data,
+            match_format,
         } = matchData[0].fields;
         const airtable_matchdata_id = matchData[0].id;
+        if (!detected_start_timestamp && !!raw_feed_data) {
+            const events = JSON.parse(raw_feed_data).events;
+            console.log(events);
+            const potential_start = getPotentialStart(events, match_format == 'draft');
+            await base('Season 3 Match Data').update(airtable_matchdata_id, {
+                detected_start_timestamp: potential_start,
+            });
+            res.json({
+                boardSlug: boardSlug,
+                goal_feed_data: JSON.parse(goal_feed_data),
+                raw_board_data: JSON.parse(raw_board_data),
+                raw_settings_data: JSON.parse(raw_settings_data),
+                detected_start_timestamp: potential_start,
+            });
+            return;
+        }
         if (!!raw_board_data) {
             res.json({
                 boardSlug: boardSlug,
                 goal_feed_data: JSON.parse(goal_feed_data),
                 raw_board_data: JSON.parse(raw_board_data),
                 raw_settings_data: JSON.parse(raw_settings_data),
+                detected_start_timestamp,
             });
             return;
         } else if (!!bingosync_password) {
@@ -92,12 +115,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                     const clicksList: GoalEvent[] = (feedData.body as any).events.filter(
                         event => event.type == 'goal'
                     );
+
+                    const startStamp = getPotentialStart(
+                        (feedData.body as any).events,
+                        match_format == 'draft'
+                    );
+
                     if (airtable_matchdata_id) {
                         await base('Season 3 Match Data').update(airtable_matchdata_id, {
                             raw_feed_data: JSON.stringify(feedData.body),
                             raw_board_data: JSON.stringify(boardData.body),
                             raw_settings_data: JSON.stringify(settingsData.body),
                             goal_feed_data: JSON.stringify(clicksList),
+                            detected_start_timestamp: startStamp,
                         });
                     } else {
                         await base('Season 3 Match Data').create({
@@ -106,6 +136,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                             raw_board_data: JSON.stringify(boardData.body),
                             raw_settings_data: JSON.stringify(settingsData.body),
                             goal_feed_data: JSON.stringify(clicksList),
+                            detected_start_timestamp: startStamp,
                         });
                     }
 
@@ -114,6 +145,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                         goal_feed_data: clicksList,
                         raw_board_data: boardData.body,
                         raw_settings_data: settingsData.body,
+                        detected_start_timestamp: startStamp,
                     });
                     return;
                 } catch (e) {
@@ -138,3 +170,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 export default handler;
+
+function getPotentialStart(rawFeed: FeedEvent[], useSecond: boolean): number {
+    const potentialStarts: ChatEvent[] = (rawFeed as ChatEvent[]).filter(
+        event =>
+            event.type == 'chat' &&
+            event.text.toLowerCase().indexOf('go') == 0 &&
+            event.text.length <= 3
+    );
+    const indexOfInterest = useSecond ? 0 : 1;
+    return potentialStarts.length > indexOfInterest
+        ? Math.round(potentialStarts[indexOfInterest].timestamp)
+        : NaN;
+}

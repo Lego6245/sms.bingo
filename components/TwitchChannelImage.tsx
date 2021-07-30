@@ -12,10 +12,14 @@ export default function TwitchChannelImage(props: TwitchChannelImageProps) {
     return (
         <div className={'relative ' + size}>
             <a href={twitchLink}>
-                <Image layout="fill" src={pictureUri} />
+                <Image
+                    layout="fill"
+                    alt={`Profile picture for ${props.channel}`}
+                    src={pictureUri}
+                />
                 {!props.forBroadcast && (
                     <div className="absolute h-3 w-3 bottom-0 left-0">
-                        <Image layout="fill" src="/TwitchGlitchPurple.svg" />
+                        <Image alt="The twitch logo" layout="fill" src="/TwitchGlitchPurple.svg" />
                     </div>
                 )}
             </a>
