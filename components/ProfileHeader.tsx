@@ -25,14 +25,13 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
                     {playerData.name}
                 </span>
                 {playerData.twitchName && (
-                    <div className="mx-5">
+                    <div className="h-10 w-10 mx-5">
                         <a href={encodeURI('https://twitch.tv/' + playerData.twitchName)}>
                             <Image
                                 alt="The twitch glitch logo. Click here to visit the user's twitch profile"
                                 height={40}
                                 width={40}
                                 src="/TwitchGlitchPurple.svg"
-                                className="h-10 w-10"
                             />
                         </a>
                     </div>

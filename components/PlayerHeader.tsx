@@ -45,11 +45,9 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
                             alt={`${props.playerName}'s profile picture`}
                             src={props.twitchProps.twitchProfilePictureUrl}
                         />
-                        <Image
-                            src="/TwitchGlitchPurple.svg"
-                            layout="fill"
-                            className="absolute h-5 w-5 bottom-0 left-0"
-                        />
+                        <div className="absolute h-5 w-5 bottom-0 left-0">
+                            <Image src="/TwitchGlitchPurple.svg" layout="fill" />
+                        </div>
                     </div>
                 )}
                 {props.subHeader && (

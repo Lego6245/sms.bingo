@@ -14,11 +14,9 @@ export default function TwitchChannelImage(props: TwitchChannelImageProps) {
             <a href={twitchLink}>
                 <Image layout="fill" src={pictureUri} />
                 {!props.forBroadcast && (
-                    <Image
-                        layout="fill"
-                        src="/TwitchGlitchPurple.svg"
-                        className="absolute h-3 w-3 bottom-0 left-0"
-                    />
+                    <div className="absolute h-3 w-3 bottom-0 left-0">
+                        <Image layout="fill" src="/TwitchGlitchPurple.svg" />
+                    </div>
                 )}
             </a>
         </div>
