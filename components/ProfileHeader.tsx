@@ -1,5 +1,6 @@
 import BingosyncColors, { bingosyncColorsToTailwindColors } from '../types/BingosyncColors';
 import PlayerData from '../types/PlayerData';
+import Image from 'next/image';
 
 export interface ProfileHeaderProps {
     playerData: PlayerData;
@@ -26,7 +27,13 @@ export default function ProfileHeader(props: ProfileHeaderProps) {
                 {playerData.twitchName && (
                     <div className="mx-5">
                         <a href={encodeURI('https://twitch.tv/' + playerData.twitchName)}>
-                            <img src="/TwitchGlitchPurple.svg" className="h-10 w-10" />
+                            <Image
+                                alt="The twitch glitch logo. Click here to visit the user's twitch profile"
+                                height={40}
+                                width={40}
+                                src="/TwitchGlitchPurple.svg"
+                                className="h-10 w-10"
+                            />
                         </a>
                     </div>
                 )}

@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export default function Header(props: { title: string }) {
@@ -28,7 +29,12 @@ export default function Header(props: { title: string }) {
                 <div className="p-3 flex flex-row items-center">
                     <div className="mr-10">
                         <Link href="/">
-                            <img src="/shine.png" height={50} width={50} />
+                            <Image
+                                alt="Picture of a shine sprite from Super Mario Sunshine. Click here to return to the homepage."
+                                src="/shine.png"
+                                height={50}
+                                width={50}
+                            />
                         </Link>
                     </div>
                     {hrefs.map(href => (

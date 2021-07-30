@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import BingosyncColors, {
     bingosyncColorsToTailwindColors,
     BingosyncColorStrings,
@@ -39,9 +40,14 @@ export default function PlayerHeader(props: PlayerHeaderProps) {
                 </Link>
                 {props.twitchProps && (
                     <div className="relative h-20 w-20 mx-5">
-                        <img src={props.twitchProps.twitchProfilePictureUrl} />
-                        <img
+                        <Image
+                            layout="fill"
+                            alt={`${props.playerName}'s profile picture`}
+                            src={props.twitchProps.twitchProfilePictureUrl}
+                        />
+                        <Image
                             src="/TwitchGlitchPurple.svg"
+                            layout="fill"
                             className="absolute h-5 w-5 bottom-0 left-0"
                         />
                     </div>
