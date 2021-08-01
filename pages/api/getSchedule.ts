@@ -47,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const matches: MatchData[] = [];
     await base('Season 3 Matches')
         .select({
-            filterByFormula: `AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, ${additionalFilter})`,
+            filterByFormula: `AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, DATETIME_DIFF(NOW(), {Match Time (UTC)}, "hours") <= 1, ${additionalFilter})`,
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
