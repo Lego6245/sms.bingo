@@ -14,7 +14,7 @@ export default function convertAirtableDataToMatchData(record: Record<FieldSet>)
             ? Date.parse(record.get('Match Time (UTC)') as string) / 1000
             : NaN,
         format: (record.get('Match Format') as any) ?? 'TBD',
-        channel: (record.get('Restream Channel') as any) ?? 'Offline',
+        channel: (record.get('Restream Channel') as any) ?? 'TBD',
         winner: record.get('winning_player_name')
             ? (record.get('winning_player_name')[0] as string) ?? ''
             : '',
