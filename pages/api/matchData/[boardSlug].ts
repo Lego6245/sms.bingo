@@ -51,7 +51,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         const airtable_matchdata_id = matchData[0].id;
         if (!detected_start_timestamp && !!raw_feed_data) {
             const events = JSON.parse(raw_feed_data).events;
-            console.log(events);
             const potential_start = getPotentialStart(events, match_format == 'draft');
             await base('Season 3 Match Data').update(airtable_matchdata_id, {
                 detected_start_timestamp: potential_start,
@@ -175,10 +174,10 @@ function getPotentialStart(rawFeed: FeedEvent[], useSecond: boolean): number {
     const potentialStarts: ChatEvent[] = (rawFeed as ChatEvent[]).filter(
         event =>
             event.type == 'chat' &&
-            event.text.toLowerCase().indexOf('go') == 0 &&
-            event.text.length <= 3
+            event.text.toLowerCase().trim().indexOf('go') == 0 &&
+            event.text.trim().length <= 3
     );
-    const indexOfInterest = useSecond ? 0 : 1;
+    const indexOfInterest = useSecond ? 1 : 0;
     return potentialStarts.length > indexOfInterest
         ? Math.round(potentialStarts[indexOfInterest].timestamp)
         : NaN;
