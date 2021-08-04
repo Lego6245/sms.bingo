@@ -8,7 +8,7 @@ export default interface MatchData {
     status: 'unscheduled' | 'scheduled' | 'played';
     matchTime: number;
     format: 'Lockout' | 'Invasion' | 'Connect 5' | 'Draft' | 'Row Control' | 'TBD';
-    channel?: 'SunshineCommunity' | 'Bingothon' | 'Offline';
+    channel?: 'SunshineCommunity' | 'Bingothon' | 'Offline' | 'TBD';
     winner?: string;
     homeScore?: number;
     awayScore?: number;

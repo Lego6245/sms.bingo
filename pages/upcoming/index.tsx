@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import ScheduleTable from '../../components/ScheduleTable';
 import React from 'react';
 import MatchData from '../../types/MatchData';

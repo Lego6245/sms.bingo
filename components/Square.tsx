@@ -8,7 +8,6 @@ interface SquareProps {
 }
 
 export default function Square(props: SquareProps) {
-    console.log(props);
     let squareColor = getBgColorFromString(props.color);
     let draftColor = getBgColorFromString(props.draftedColor);
 

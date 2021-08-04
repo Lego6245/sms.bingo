@@ -77,8 +77,8 @@ export default function MatchRow(props: MatchRowProps) {
                 <td>{match.format ?? 'TBD'}</td>
                 <td>
                     {match.channel ? (
-                        match.channel == 'Offline' ? (
-                            'Offline'
+                        match.channel == 'Offline' || match.channel == 'TBD' ? (
+                            match.channel
                         ) : (
                             <div className="flex flex-row justify-center">
                                 <TwitchChannelImage

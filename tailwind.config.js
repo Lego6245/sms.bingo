@@ -24,8 +24,30 @@ module.exports = {
                 'bingosync-pink': '#ED86AA',
                 'bingosync-yellow': '#D8D014',
             },
+            typography: {
+                DEFAULT: {
+                    css: {
+                        color: '#fff',
+                        h1: {
+                            color: '#fff',
+                        },
+                        h2: {
+                            color: '#fff',
+                        },
+                        h3: {
+                            color: '#fff',
+                        },
+                        th: {
+                            color: '#fff',
+                        },
+                        strong: {
+                            color: '#fff',
+                        },
+                    },
+                },
+            },
         },
     },
     variants: {},
-    plugins: [],
+    plugins: [require('@tailwindcss/typography')],
 };
