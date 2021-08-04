@@ -16,7 +16,7 @@ The goal of this 3.1 patch is to reduce some of the strength a straight Pianta/R
 
 The balance team did not aim to make drastic changes, but rather, to try to find the smallest scope of changes that can bring the meta to a more healthier state and achieve a better balance of stars, and ultimately, enable slower players to have counterplay options available to them.
 
-While we don’t want to make this a common occurrence, the unique circumstances around the release of patch 3.0 (where there was minimal scrim activity for a variety of factors, including the 2v2 tournament), meant that we wanted to respond in much the same way we
+While we don’t want to make this a common occurrence, the unique circumstances around the release of patch 3.0 (where there was minimal scrim activity for a variety of factors, including the 2v2 tournament), meant that we wanted to respond quickly. We are open to further changes, though this should not be expected to be a common occurance.
 
 ## Goal Changes
 
