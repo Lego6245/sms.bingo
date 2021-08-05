@@ -16,7 +16,7 @@ The goal of this 3.1 patch is to reduce some of the strength a straight Pianta/R
 
 The balance team did not aim to make drastic changes, but rather, to try to find the smallest scope of changes that can bring the meta to a more healthy state and achieve a better balance of starts, and ultimately, enable slower players to have counterplay options available to them.
 
-While we don’t want to make this a common occurrence, the unique circumstances around the release of patch 3.0 (where there was minimal scrim activity for a variety of factors, including the 2v2 tournament), meant that we wanted to respond quickly. We are open to further changes, though this should not be expected to be a common occurance.
+While we don’t want to make this a common occurrence, the unique circumstances around the release of patch 3.0 (where there was minimal scrim activity for a variety of factors, including the 2v2 tournament), meant that we wanted to respond quickly. We are open to further changes, though this should not be expected to happen often.
 
 ## Goal Changes
 
@@ -26,7 +26,7 @@ We’re seeing more and more players routing lives into their normal gameplan wh
 
 ### All 15 Pinna Yellow Button Coins -> 10 Yellow Button Coins (List 12)
 
-The absence of a word can change everything. Pinna Yellow Button now has a counter starting in Gelato 3, where you can ground pound it’s yellow button and achieve it’s goal. The hope is this will allow for some counter to Pinna yellow button by allowing for an alternative in a slower, but earlier place. While we don’t expect this to be a massive change, it opens up some doors to alternatives (much like 16 Noki Blues OR 5 Gelato Shines). This did require a change in the count of coins from 15 to 10, but that shouldn’t impact the Pinna side much.
+The absence of a word can change everything. Pinna Yellow Button now has a counter starting in Gelato 3, where you can utilize it's yellow button and achieve the goal in a different way. The hope is this will allow for some counter to Pinna yellow button by allowing for an alternative in a slower, but earlier place. While we don’t expect this to be a massive change, it opens up some doors to alternatives (much like 16 Noki Blues OR 5 Gelato Shines). This did require a change in the count of coins from 15 to 10, but that shouldn’t impact the Pinna side much.
 
 ### Pinna 4 AND Lily Pad Shine -> Lily Pad No Pipe Clipping (List 14)
 
