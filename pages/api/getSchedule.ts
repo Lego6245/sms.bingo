@@ -141,10 +141,10 @@ function convertToSpeedControlFormat(
 }
 
 function convertCountryForNodeCG(country: string): string {
-    switch (country) {
-        case 'FR-QC':
+    switch (country.toLowerCase()) {
+        case 'fr-qc':
             return 'ca/qc';
-        case 'GB-ENG':
+        case 'gb-eng':
             return 'gb/eng';
         default:
             return country.toLowerCase();
