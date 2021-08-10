@@ -49,9 +49,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             match_format,
         } = matchData[0].fields;
         const airtable_matchdata_id = matchData[0].id;
+        const format = match_format[0];
         if (!detected_start_timestamp && !!raw_feed_data) {
             const events = JSON.parse(raw_feed_data).events;
-            const potential_start = getPotentialStart(events, match_format == 'draft');
+            const potential_start = getPotentialStart(events, format == 'Draft');
             await base('Season 3 Match Data').update(airtable_matchdata_id, {
                 detected_start_timestamp: potential_start,
             });
@@ -117,7 +118,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
                     const startStamp = getPotentialStart(
                         (feedData.body as any).events,
-                        match_format == 'draft'
+                        format == 'Draft'
                     );
 
                     if (airtable_matchdata_id) {
