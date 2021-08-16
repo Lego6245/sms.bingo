@@ -3,7 +3,7 @@
         "silent": true
     },
     "functions": {
-        "*": {
+        "pages/**/*.js": {
             "memory": 512
         }
     }
