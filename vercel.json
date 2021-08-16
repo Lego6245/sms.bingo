@@ -1,5 +1,8 @@
 {
     "github": {
         "silent": true
+    },
+    "functions": {
+        "memory": 512
     }
 }
