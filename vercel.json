@@ -3,6 +3,8 @@
         "silent": true
     },
     "functions": {
-        "memory": 512
+        "*": {
+            "memory": 512
+        }
     }
 }
