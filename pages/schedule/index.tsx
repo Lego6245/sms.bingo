@@ -304,6 +304,6 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             matches: matches,
         },
-        revalidate: 60,
+        revalidate: 600,
     };
 };

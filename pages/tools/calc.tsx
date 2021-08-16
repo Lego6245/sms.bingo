@@ -124,6 +124,6 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             players: sortedPlayers,
         },
-        revalidate: 60,
+        revalidate: 600,
     };
 };

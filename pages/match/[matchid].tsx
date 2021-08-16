@@ -127,7 +127,7 @@ export const getStaticProps: GetStaticProps = async context => {
             homePlayerData,
             awayPlayerData,
         },
-        revalidate: 60,
+        revalidate: 6000,
     };
 };
 

@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async context => {
             record: playerData.elo,
             player: playerData,
         },
-        revalidate: 60,
+        revalidate: 600,
     };
 };
 
