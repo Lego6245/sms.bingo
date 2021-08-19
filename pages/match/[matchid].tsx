@@ -153,6 +153,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     });
     return {
         paths: gennedPaths,
-        fallback: false,
+        fallback: 'blocking',
     };
 };
