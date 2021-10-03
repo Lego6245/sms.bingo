@@ -7,16 +7,21 @@ export default function Header(props: { title: string }) {
     const router = useRouter();
     const hrefs = [
         {
-            route: '/standings',
-            label: 'Standings',
-        },
-        {
             route: '/upcoming',
             label: 'Upcoming Matches',
         },
         {
+            route: '/standings',
+            label: 'Standings',
+        },
+        {
             route: '/schedule',
             label: 'Full Match History',
+        },
+        {
+            route:
+                'https://docs.google.com/spreadsheets/d/1gN6xyfIoaDTwf04Oz_Yvf5AKNwhfTPi4pA0Bx4_ebMk/edit#gid=0',
+            label: 'Playoff Bracket',
         },
     ];
     return (
