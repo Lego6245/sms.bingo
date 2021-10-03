@@ -30,6 +30,6 @@ This is one of the most important balancing tools that the balance team has. By 
 
 ## Concluding Notes
 
-There are other mechanisms used by other types of bingos that allow for different wrinkles in card generation, such as tags on goals to prevent them showing up in the same line (important for non-lockout bingos to prevent broken rows), but for 1v1 Lockout Bingo, since we don't care as much about how strong an individual string of 5 goals is given the fact your opponent can lock you out of goals there, the SMS 1v1 generator doesn't include them.
+There are other mechanisms used by other types of bingos that allow for different wrinkles in card generation, such as tags on goals to prevent them showing up in the same line (important for non-lockout bingos to prevent broken rows), but for 1v1 Lockout Bingo, since we don't care as much about how strong an individual string of 5 goals is. Given the fact your opponent can lock you out of goals, the SMS 1v1 generator doesn't include tags to prevent a strong string of 5 (But pour one for Connect 5, where it does actually matter).
 
 Knowing what goals can show up together, and which can't show up at the same time, can be a very powerful tool for any bingo player or viewer who wants to better theorize how to react to synergies when they show up. You can always find the latest version of the SMS 1v1 generator [here](https://github.com/kbuzsaki/bingosync/blob/master/bingosync-app/generators/super_mario_sunshine_1v1_generator.js), so you can see the pools and how they're grouped together.
