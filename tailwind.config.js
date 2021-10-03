@@ -37,6 +37,9 @@ module.exports = {
                         h3: {
                             color: '#fff',
                         },
+                        h4: {
+                            color: '#fff',
+                        },
                         th: {
                             color: '#fff',
                         },
