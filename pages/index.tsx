@@ -93,9 +93,9 @@ export default function Home(props: HomeProps) {
                                 Upcoming Matches
                             </div>
                         </Link>
-                        <Link href="/standings">
+                        <Link href="https://docs.google.com/spreadsheets/d/1gN6xyfIoaDTwf04Oz_Yvf5AKNwhfTPi4pA0Bx4_ebMk/edit#gid=0">
                             <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Standings
+                                Playoff Bracket
                             </div>
                         </Link>
                     </div>
