@@ -16,7 +16,7 @@ For all formats (unless stated otherwise), Super Mario Sunshine Bingo is played 
 
 Once a goal is clicked by one player, it cannot be clicked by their opponent. This is the "lockout" in "lockout bingo".
 
-GBS, or Gelato Beach Skip, is **banned** from use during matches, as it complicates the balance of Bingo. All other techniques are allowed, including all forms of EYG, Sirena Whenever, Damage Boosting, Pipe Clipping, etc. unless otherwise stated by a goal to be not allowed (Such as Pianta 3 Damageless, or Lilypad NO Pipe Clipping)
+GBS, or Gelato Beach Skip, is **banned** from use during matches, as it complicates the balance of Bingo. All other techniques are allowed, including all forms of EYG, Sirena Whenever, Damage Boosting, Pipe Clipping, etc. unless otherwise stated by a goal to be not allowed (Such as Pianta 3 Damageless, or Lily pad NO Pipe Clipping)
 
 If you game over or crash during a match, you may resume play from an earlier save, but you must unclick any goals that you no longer have achieved on your file. For instance, if you restart play on airstrip, you must unclick all of your goals.
 

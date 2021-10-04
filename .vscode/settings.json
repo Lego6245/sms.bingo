@@ -1,9 +1,4 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "cSpell.words": [
-        "Delfino",
-        "Delfino's",
-        "synergize"
-    ]
 }

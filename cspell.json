@@ -1,0 +1,35 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        "node_modules/**",
+        "yarn.lock"
+    ],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "airtable",
+        "autoplay",
+        "Bianco",
+        "bingosync",
+        "Damageless",
+        "Delfino",
+        "Delfino's",
+        "frontmatter",
+        "Gelato",
+        "Petey",
+        "Pianta",
+        "restreamers",
+        "Sirena",
+        "synergize",
+        "tailwindcss",
+        "tippyjs",
+        "unachieved",
+        "unclick",
+        "unclicked",
+        "undrafted",
+        "vfile",
+        "Yoshi"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
