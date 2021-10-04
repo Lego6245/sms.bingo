@@ -46,6 +46,9 @@ module.exports = {
                         strong: {
                             color: '#fff',
                         },
+                        a: {
+                            color: '#fff',
+                        },
                     },
                 },
             },

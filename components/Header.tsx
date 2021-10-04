@@ -19,7 +19,7 @@ export default function Header(props: { title: string }) {
             label: 'Full Match History',
         },
         {
-            route: '/blog',
+            route: '/resources',
             label: 'Resources',
         },
         {

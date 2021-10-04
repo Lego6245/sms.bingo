@@ -1,6 +1,8 @@
 import fs from 'fs';
+import { readSync } from 'to-vfile';
 import { join } from 'path';
 import matter from 'gray-matter';
+import markdownToHtml from './markdownToHtml';
 
 type PostDirectory = 'blog' | 'resources';
 
@@ -18,45 +20,61 @@ export interface BlogPost {
     };
     content: string;
     excerpt: string;
+    sort: string;
 }
 
 type BlogPostKeys = keyof BlogPost;
 
-export function getPostBySlug(
+export async function getPostBySlug(
     slug: string,
     fields: BlogPostKeys[] = [],
     type: PostDirectory
-): Partial<BlogPost> {
+): Promise<Partial<BlogPost>> {
     const realSlug = slug.replace(/\.md$/, '');
     const postsDirectory = join(process.cwd(), '_posts/' + type);
     const fullPath = join(postsDirectory, `${realSlug}.md`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
+    const fileContents = readSync(fullPath);
+    const { data } = matter(fileContents.toString());
 
     const item: Partial<BlogPost> = {};
 
     // Ensure only the minimal needed data is exposed
-    fields.forEach(field => {
-        if (field === 'slug') {
-            item.slug = realSlug;
-        }
-        if (field === 'content') {
-            item.content = content;
-        }
+    const properties = await Promise.all(
+        fields.map(field => {
+            if (field === 'slug') {
+                return realSlug;
+            } else if (field === 'content') {
+                return markdownToHtml(fileContents);
+            } else if (data[field]) {
+                return data[field];
+            } else {
+                return null;
+            }
+        })
+    );
 
-        if (data[field]) {
-            item[field] = data[field];
-        }
+    properties.forEach((val, index) => {
+        item[fields[index]] = val;
     });
 
     return item;
 }
 
-export function getAllPosts(fields = [], type: PostDirectory = 'blog') {
+export async function getAllPosts(fields = [], type: PostDirectory = 'blog') {
     const slugs = getPostSlugs(type);
-    const posts = slugs
-        .map(slug => getPostBySlug(slug, fields, type))
+    const posts = (await Promise.all(slugs.map(slug => getPostBySlug(slug, fields, type))))
         // sort posts by date in descending order
-        .sort((post1, post2) => (post1?.date > post2?.date ? -1 : 1));
+        // fallback to sorting by sort number in ascending order
+        .sort((post1, post2) =>
+            !!post1?.date && !!post2?.date
+                ? post1.date > post2.date
+                    ? -1
+                    : 1
+                : !!post1?.sort && post2?.sort
+                ? parseInt(post1.sort) > parseInt(post2.sort)
+                    ? 1
+                    : -1
+                : 0
+        );
     return posts;
 }

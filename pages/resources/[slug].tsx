@@ -20,21 +20,19 @@ export default function Post({ post }) {
 }
 
 export async function getStaticProps({ params }) {
-    const post = getPostBySlug(params.slug, ['title', 'content'], 'resources');
-    const content = await markdownToHtml(post.content || '');
+    const post = await getPostBySlug(params.slug, ['title', 'content'], 'resources');
 
     return {
         props: {
             post: {
                 ...post,
-                content,
             },
         },
     };
 }
 
 export async function getStaticPaths() {
-    const posts = getAllPosts(['slug'], 'resources');
+    const posts = await getAllPosts(['slug'], 'resources');
     return {
         paths: posts.map(post => {
             return {
