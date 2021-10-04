@@ -8,7 +8,7 @@ import frontmatter from 'remark-frontmatter';
 
 export default async function markdownToHtml(markdown) {
     const result = await remark()
-        .use(frontmatter, 'yaml')
+        .use(frontmatter, ['yaml'])
         .use(toc)
         .use(slug)
         .use(img)
