@@ -30,7 +30,7 @@ export default function BlogIndex(props: { posts: Partial<BlogPost>[] }) {
 }
 
 export async function getStaticProps() {
-    const posts = getAllPosts(['title', 'excerpt', 'date', 'slug', 'author'], 'blog');
+    const posts = await getAllPosts(['title', 'excerpt', 'date', 'slug', 'author'], 'blog');
     return {
         props: {
             posts,
