@@ -11,7 +11,6 @@ export default function Post({ post }) {
                 <div className="flex mx-auto mb-5 flex-row items-baseline text-3xl">
                     {post.title}
                 </div>
-                <div className="flex mx-auto flex-row items-baseline text-xl mb-5">{`By: ${post.author.name}`}</div>
                 <article className="w-3/4 mx-auto max-w-none prose lg:prose-xl bg-gray-900 bg-opacity-50 p-5 rounded-md">
                     <div dangerouslySetInnerHTML={{ __html: post.content }} />
                 </article>
@@ -21,11 +20,7 @@ export default function Post({ post }) {
 }
 
 export async function getStaticProps({ params }) {
-    const post = await getPostBySlug(
-        params.slug,
-        ['title', 'date', 'slug', 'author', 'content'],
-        'blog'
-    );
+    const post = await getPostBySlug(params.slug, ['title', 'content'], 'resources');
 
     return {
         props: {
@@ -37,7 +32,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const posts = await getAllPosts(['slug']);
+    const posts = await getAllPosts(['slug'], 'resources');
     return {
         paths: posts.map(post => {
             return {
