@@ -22,11 +22,6 @@ export default function Header(props: { title: string }) {
             route: '/resources',
             label: 'Resources',
         },
-        {
-            route:
-                'https://docs.google.com/spreadsheets/d/1gN6xyfIoaDTwf04Oz_Yvf5AKNwhfTPi4pA0Bx4_ebMk/edit#gid=0',
-            label: 'Playoff Bracket',
-        },
     ];
     return (
         <>

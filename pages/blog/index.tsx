@@ -10,7 +10,7 @@ export default function BlogIndex(props: { posts: Partial<BlogPost>[] }) {
             <main className="text-white flex flex-row">
                 {props.posts.map(post => {
                     return (
-                        <Link href={'/blog/' + post.slug}>
+                        <Link href={'/blog/' + post.slug} key={post.slug}>
                             <div
                                 className="flex flex-col justify-between cursor-pointer w-80 text-center m-10 p-4 hover:bg-gray-900 border-gray-900 border-solid border-4 rounded-md bg-gray-800 bg-opacity-75"
                                 key={post.slug}>

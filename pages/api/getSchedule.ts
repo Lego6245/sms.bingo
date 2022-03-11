@@ -45,7 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }
     }
     const matches: MatchData[] = [];
-    await base('Season 3 Matches')
+    await base('Season 4 Matches')
         .select({
             filterByFormula: `AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, DATETIME_DIFF(NOW(), {Match Time (UTC)}, "hours") <= 1, ${additionalFilter})`,
             sort: [{ field: 'Match Time (UTC)' }],
@@ -61,7 +61,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             }
         });
     const playerMap = new Map<string, PlayerData>();
-    await base('Season 3 Players')
+    await base('Season 4 Players')
         .select()
         .eachPage((records, fetchNextPage) => {
             records.forEach(record => {

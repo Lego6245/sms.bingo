@@ -37,7 +37,7 @@ export default function PlayerProfile(props: PlayerProfileProps) {
 export const getStaticProps: GetStaticProps = async context => {
     const playerId = context.params.playername as string;
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
-    const playerRecord = await base('Season 3 Players').find(playerId);
+    const playerRecord = await base('Season 4 Players').find(playerId);
     const playerData = convertAirtableDataToPlayerData(playerRecord);
     const matchIds = [
         ...((playerRecord.get('Home Matches') as string[]) ?? []),
@@ -45,7 +45,7 @@ export const getStaticProps: GetStaticProps = async context => {
     ];
     const playerMatches: MatchData[] = await Promise.all(
         matchIds.map(async id => {
-            return convertAirtableDataToMatchData(await base('Season 3 Matches').find(id));
+            return convertAirtableDataToMatchData(await base('Season 4 Matches').find(id));
         })
     );
     const sortedPlayerMatches = playerMatches.sort((a, b) => a.matchTime - b.matchTime);
@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps = async context => {
 export const getStaticPaths: GetStaticPaths = async () => {
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
     const playerIds: string[] = [];
-    await base('Season 3 Players')
+    await base('Season 4 Players')
         .select({
             fields: [],
         })

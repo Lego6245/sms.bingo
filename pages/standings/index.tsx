@@ -103,7 +103,7 @@ function splitIntoDivisions(matches: MatchData[], players: Map<string, PlayerDat
 export const getStaticProps: GetStaticProps = async context => {
     const sortedPlayers: PlayerData[] = [];
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
-    await base('Season 3 Players')
+    await base('Season 4 Players')
         .select({
             sort: [{ field: 'Elo', direction: 'desc' }],
         })

@@ -114,12 +114,12 @@ export default function MatchView(props: MatchDataProps) {
 export const getStaticProps: GetStaticProps = async context => {
     const matchId = context.params.matchid as string;
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
-    const matchData = convertAirtableDataToMatchData(await base('Season 3 Matches').find(matchId));
+    const matchData = convertAirtableDataToMatchData(await base('Season 4 Matches').find(matchId));
     const homePlayerData = convertAirtableDataToPlayerData(
-        await base('Season 3 Players').find(matchData.homePlayerId)
+        await base('Season 4 Players').find(matchData.homePlayerId)
     );
     const awayPlayerData = convertAirtableDataToPlayerData(
-        await base('Season 3 Players').find(matchData.awayPlayerId)
+        await base('Season 4 Players').find(matchData.awayPlayerId)
     );
     return {
         props: {
@@ -134,7 +134,7 @@ export const getStaticProps: GetStaticProps = async context => {
 export const getStaticPaths: GetStaticPaths = async () => {
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
     const matchIds: string[] = [];
-    await base('Season 3 Matches')
+    await base('Season 4 Matches')
         .select({
             fields: [],
         })

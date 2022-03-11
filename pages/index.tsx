@@ -120,7 +120,7 @@ export default function Home(props: HomeProps) {
 export const getStaticProps: GetStaticProps = async context => {
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
     const matches: MatchData[] = [];
-    await base('Season 3 Matches')
+    await base('Season 4 Matches')
         .select({
             filterByFormula:
                 'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',

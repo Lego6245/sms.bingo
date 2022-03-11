@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps = async context => {
     const WEEK_OF_YEAR_START = 29;
     const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
     const matches: MatchData[] = [];
-    await base('Season 3 Matches')
+    await base('Season 4 Matches')
         .select({
             filterByFormula: `AND(WEEKDAY({Match Time (EST)}, "Monday") = ${
                 parseInt(day as string) + 1
