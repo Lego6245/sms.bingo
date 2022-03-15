@@ -2,7 +2,7 @@ import Airtable from 'airtable';
 import type { AirtableBase } from 'airtable/lib/airtable_base';
 
 export default function getBase(): AirtableBase {
-    return Airtable.base(process.env.AIRTABLE_BASE_ID);
+    return Airtable.base(process.env.AIRTABLE_SEASON_4_BASE);
 }
 
 export function getBaseName(
@@ -31,5 +31,5 @@ export function getBaseName(
 }
 
 export function getRevalidateTimer(isLong?: boolean) {
-    return isLong ? 6000 : 600;
+    return undefined;
 }

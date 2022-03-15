@@ -18,10 +18,6 @@ export default function Header(props: { title: string }) {
             route: '/schedule',
             label: 'Season 4 Match History',
         },
-        {
-            route: '/resources',
-            label: 'Resources',
-        },
     ];
     return (
         <>
@@ -35,7 +31,7 @@ export default function Header(props: { title: string }) {
                         <Link href="/">
                             <Image
                                 alt="Picture of a shine sprite from Super Mario Sunshine. Click here to return to the homepage."
-                                src="/shine.png"
+                                src="/invertedShine.png"
                                 height={50}
                                 width={50}
                             />
