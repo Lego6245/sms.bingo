@@ -1,15 +1,15 @@
 import got, { ToughCookieJar } from 'got';
 import { CookieJar } from 'tough-cookie';
-import Airtable from 'airtable';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ChatEvent, FeedEvent, GoalEvent } from '../../../types/FeedEvent';
+import getBase, { getBaseName } from '../../../data/airtable/getBase';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { boardSlug } = req.query;
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const base = getBase();
     let matchData;
     try {
-        matchData = await base('Season 4 Match Data')
+        matchData = await base(getBaseName('match data'))
             .select({
                 filterByFormula: '{bingosync_slug} = "' + boardSlug + '"',
                 maxRecords: 1,
@@ -53,7 +53,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         if (!detected_start_timestamp && !!raw_feed_data) {
             const events = JSON.parse(raw_feed_data).events;
             const potential_start = getPotentialStart(events, format == 'Draft');
-            await base('Season 4 Match Data').update(airtable_matchdata_id, {
+            await base(getBaseName('match data')).update(airtable_matchdata_id, {
                 detected_start_timestamp: potential_start,
             });
             res.json({
@@ -122,7 +122,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                     );
 
                     if (airtable_matchdata_id) {
-                        await base('Season 4 Match Data').update(airtable_matchdata_id, {
+                        await base(getBaseName('match data')).update(airtable_matchdata_id, {
                             raw_feed_data: JSON.stringify(feedData.body),
                             raw_board_data: JSON.stringify(boardData.body),
                             raw_settings_data: JSON.stringify(settingsData.body),
@@ -130,7 +130,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                             detected_start_timestamp: startStamp,
                         });
                     } else {
-                        await base('Season 4 Match Data').create({
+                        await base(getBaseName('match data')).create({
                             bingosync_slug: boardSlug,
                             raw_feed_data: JSON.stringify(feedData.body),
                             raw_board_data: JSON.stringify(boardData.body),

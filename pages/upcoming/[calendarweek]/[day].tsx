@@ -2,8 +2,8 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import ScheduleTable from '../../../components/ScheduleTable';
 import React from 'react';
 import MatchData from '../../../types/MatchData';
-import Airtable from 'airtable';
 import convertAirtableDataToMatchData from '../../../types/convertAirtableDataToMatchData';
+import getBase, { getBaseName } from '../../../data/airtable/getBase';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -28,9 +28,9 @@ export default function Schedule(props: ScheduleProps) {
 export const getStaticProps: GetStaticProps = async context => {
     const { calendarweek, day } = context.params;
     const WEEK_OF_YEAR_START = 29;
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const base = getBase();
     const matches: MatchData[] = [];
-    await base('Season 4 Matches')
+    await base(getBaseName('matches'))
         .select({
             filterByFormula: `AND(WEEKDAY({Match Time (EST)}, "Monday") = ${
                 parseInt(day as string) + 1

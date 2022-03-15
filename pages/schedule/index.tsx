@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import MatchData from '../../types/MatchData';
 import ScheduleSlots from '../../consts/ScheduleSlots';
 import { isFuture } from 'date-fns';
-import Airtable from 'airtable';
 import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
+import getBase, { getBaseName } from '../../data/airtable/getBase';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -284,9 +284,9 @@ function getTableTitleByWeek(key: number | string, useWeekText?: boolean) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const base = getBase();
     const matches: MatchData[] = [];
-    await base('Season 4 Matches')
+    await base(getBaseName('matches'))
         .select({
             sort: [{ field: 'Match Time (UTC)' }],
         })

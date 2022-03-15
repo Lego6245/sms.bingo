@@ -5,13 +5,13 @@ import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import ProfileHeader from '../../components/ProfileHeader';
 import Header from '../../components/Header';
-import Airtable from 'airtable';
 import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
 import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
 import Board from '../../components/Board';
 import useSWR from 'swr';
 import PlayerHeader from '../../components/PlayerHeader';
 import TimeSlug from '../../components/TimeSlug';
+import getBase, { getBaseName } from '../../data/airtable/getBase';
 
 const fetcher = (...args) => (fetch as Function)(...args).then(res => res.json());
 
@@ -113,13 +113,15 @@ export default function MatchView(props: MatchDataProps) {
 
 export const getStaticProps: GetStaticProps = async context => {
     const matchId = context.params.matchid as string;
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
-    const matchData = convertAirtableDataToMatchData(await base('Season 4 Matches').find(matchId));
+    const base = getBase();
+    const matchData = convertAirtableDataToMatchData(
+        await base(getBaseName('matches')).find(matchId)
+    );
     const homePlayerData = convertAirtableDataToPlayerData(
-        await base('Season 4 Players').find(matchData.homePlayerId)
+        await base(getBaseName('players')).find(matchData.homePlayerId)
     );
     const awayPlayerData = convertAirtableDataToPlayerData(
-        await base('Season 4 Players').find(matchData.awayPlayerId)
+        await base(getBaseName('players')).find(matchData.awayPlayerId)
     );
     return {
         props: {
@@ -132,9 +134,9 @@ export const getStaticProps: GetStaticProps = async context => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const base = getBase();
     const matchIds: string[] = [];
-    await base('Season 4 Matches')
+    await base(getBaseName('matches'))
         .select({
             fields: [],
         })

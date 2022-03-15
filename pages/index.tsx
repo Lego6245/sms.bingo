@@ -4,8 +4,8 @@ import Link from 'next/link';
 import React from 'react';
 import NextMatchOverlay from '../components/NextMatchOverlay';
 import MatchData from '../types/MatchData';
-import Airtable from 'airtable';
 import convertAirtableDataToMatchData from '../types/convertAirtableDataToMatchData';
+import getBase, { getBaseName } from '../data/airtable/getBase';
 
 export interface HomeProps {
     upcomingMatches: MatchData[];
@@ -123,9 +123,9 @@ export default function Home(props: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const base = getBase();
     const matches: MatchData[] = [];
-    await base('Season 4 Matches')
+    await base(getBaseName('matches'))
         .select({
             filterByFormula:
                 'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") <= 24, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))',

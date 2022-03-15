@@ -4,8 +4,8 @@ import React from 'react';
 import MatchData from '../../types/MatchData';
 import Header from '../../components/Header';
 import { useRouter } from 'next/router';
-import Airtable from 'airtable';
 import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
+import getBase, { getBaseName } from '../../data/airtable/getBase';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -45,9 +45,9 @@ export default function Schedule(props: ScheduleProps) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+    const base = getBase();
     const matches: MatchData[] = [];
-    await base('Season 4 Matches')
+    await base(getBaseName('matches'))
         .select({
             filterByFormula:
                 'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7, DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") >= 0)',

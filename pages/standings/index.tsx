@@ -5,8 +5,8 @@ import MatchData from '../../types/MatchData';
 import PlayerData from '../../types/PlayerData';
 import PlayerStanding, { StandingValues } from '../../types/PlayerStanding';
 import { useRouter } from 'next/router';
-import Airtable from 'airtable';
 import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
+import getBase, { getBaseName } from '../../data/airtable/getBase';
 export interface StandingsProps {
     standings: PlayerData[];
 }
@@ -102,8 +102,8 @@ function splitIntoDivisions(matches: MatchData[], players: Map<string, PlayerDat
 
 export const getStaticProps: GetStaticProps = async context => {
     const sortedPlayers: PlayerData[] = [];
-    const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
-    await base('Season 4 Players')
+    const base = getBase();
+    await base(getBaseName('players'))
         .select({
             sort: [{ field: 'Elo', direction: 'desc' }],
         })
