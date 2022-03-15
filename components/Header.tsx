@@ -10,16 +10,8 @@ export default function Header(props: { title: string }) {
             label: 'Standings',
         },
         {
-            route: '/upcoming',
-            label: 'Upcoming Matches',
-        },
-        {
             route: '/schedule',
-            label: 'Regular Season Schedule',
-        },
-        {
-            route: '/playoffs/bracket',
-            label: 'Playoff Bracket',
+            label: 'Historical Matches',
         },
     ];
     return (
@@ -32,7 +24,7 @@ export default function Header(props: { title: string }) {
                 <div className="p-3 flex flex-row items-center">
                     <div className="mr-10">
                         <Link href="/">
-                            <img src="/shine.png" height={50} width={50} />
+                            <img src="/invertedShine.png" height={50} width={50} />
                         </Link>
                     </div>
                     {hrefs.map(href => (
