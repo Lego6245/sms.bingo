@@ -7,20 +7,12 @@ export default function Header(props: { title: string }) {
     const router = useRouter();
     const hrefs = [
         {
-            route: '/upcoming',
-            label: 'Upcoming Matches',
-        },
-        {
             route: '/standings',
             label: 'Standings',
         },
         {
             route: '/schedule',
             label: 'Full Match History',
-        },
-        {
-            route: '/resources',
-            label: 'Resources',
         },
     ];
     return (
@@ -35,7 +27,7 @@ export default function Header(props: { title: string }) {
                         <Link href="/">
                             <Image
                                 alt="Picture of a shine sprite from Super Mario Sunshine. Click here to return to the homepage."
-                                src="/shine.png"
+                                src="/invertedShine.png"
                                 height={50}
                                 width={50}
                             />
