@@ -15,3 +15,7 @@ export function getBaseName(baseType: 'matches' | 'players' | 'match data') {
             return 'Season 4 Match Data';
     }
 }
+
+export function getRevalidateTimer(isLong?: boolean) {
+    return isLong ? 6000 : 600;
+}

@@ -7,7 +7,7 @@ import ProfileHeader from '../../components/ProfileHeader';
 import Header from '../../components/Header';
 import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
 import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
-import getBase, { getBaseName } from '../../data/airtable/getBase';
+import getBase, { getBaseName, getRevalidateTimer } from '../../data/airtable/getBase';
 
 export interface PlayerProfileProps {
     matches: MatchData[];
@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async context => {
             record: playerData.elo,
             player: playerData,
         },
-        revalidate: 600,
+        revalidate: getRevalidateTimer(),
     };
 };
 

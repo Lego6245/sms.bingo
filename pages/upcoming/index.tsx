@@ -5,7 +5,7 @@ import MatchData from '../../types/MatchData';
 import Header from '../../components/Header';
 import { useRouter } from 'next/router';
 import convertAirtableDataToMatchData from '../../types/convertAirtableDataToMatchData';
-import getBase, { getBaseName } from '../../data/airtable/getBase';
+import getBase, { getBaseName, getRevalidateTimer } from '../../data/airtable/getBase';
 
 export interface ScheduleProps {
     matches: MatchData[];
@@ -71,6 +71,6 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             matches,
         },
-        revalidate: 600,
+        revalidate: getRevalidateTimer(),
     };
 };

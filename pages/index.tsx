@@ -5,7 +5,7 @@ import React from 'react';
 import NextMatchOverlay from '../components/NextMatchOverlay';
 import MatchData from '../types/MatchData';
 import convertAirtableDataToMatchData from '../types/convertAirtableDataToMatchData';
-import getBase, { getBaseName } from '../data/airtable/getBase';
+import getBase, { getBaseName, getRevalidateTimer } from '../data/airtable/getBase';
 
 export interface HomeProps {
     upcomingMatches: MatchData[];
@@ -145,6 +145,6 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             upcomingMatches: matches,
         },
-        revalidate: 600,
+        revalidate: getRevalidateTimer(),
     };
 };

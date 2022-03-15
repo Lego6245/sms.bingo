@@ -11,7 +11,7 @@ import Board from '../../components/Board';
 import useSWR from 'swr';
 import PlayerHeader from '../../components/PlayerHeader';
 import TimeSlug from '../../components/TimeSlug';
-import getBase, { getBaseName } from '../../data/airtable/getBase';
+import getBase, { getBaseName, getRevalidateTimer } from '../../data/airtable/getBase';
 
 const fetcher = (...args) => (fetch as Function)(...args).then(res => res.json());
 
@@ -129,7 +129,7 @@ export const getStaticProps: GetStaticProps = async context => {
             homePlayerData,
             awayPlayerData,
         },
-        revalidate: 6000,
+        revalidate: getRevalidateTimer(true),
     };
 };
 

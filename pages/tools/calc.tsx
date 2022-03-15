@@ -4,7 +4,7 @@ import PlayerData from '../../types/PlayerData';
 import { useRouter } from 'next/router';
 import convertAirtableDataToPlayerData from '../../types/convertAirtableDataToPlayerData';
 import React from 'react';
-import getBase, { getBaseName } from '../../data/airtable/getBase';
+import getBase, { getBaseName, getRevalidateTimer } from '../../data/airtable/getBase';
 export interface StandingsProps {
     players: PlayerData[];
 }
@@ -124,6 +124,6 @@ export const getStaticProps: GetStaticProps = async context => {
         props: {
             players: sortedPlayers,
         },
-        revalidate: 600,
+        revalidate: getRevalidateTimer(),
     };
 };
