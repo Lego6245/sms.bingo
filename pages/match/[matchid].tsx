@@ -24,7 +24,11 @@ export interface MatchDataProps {
 export default function MatchView(props: MatchDataProps) {
     const { matchData, homePlayerData, awayPlayerData } = props;
     const boardId = matchData.bingosyncBoardId;
-    const { data, error } = useSWR(`/api/matchData/${boardId}`, fetcher);
+    const { data, error } = useSWR(
+        `/api/matchData/${boardId}` +
+            (matchData.bingosyncBoardSource == 'Bingothon' ? '?bingothon' : ''),
+        fetcher
+    );
     let eloSlug = '';
     if (matchData.winner == matchData.homePlayer && matchData.homePlayerEloGain) {
         eloSlug = `+${matchData.homePlayerEloGain} Elo`;

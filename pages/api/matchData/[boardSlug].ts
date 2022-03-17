@@ -19,6 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                     'raw_board_data',
                     'raw_settings_data',
                     'bingosync_password',
+                    'bingosync_source',
                     'detected_start_timestamp',
                     'match_format',
                 ],
@@ -47,6 +48,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             detected_start_timestamp,
             raw_feed_data,
             match_format,
+            bingosync_source,
         } = matchData[0].fields;
         const airtable_matchdata_id = matchData[0].id;
         const format = match_format[0];
@@ -80,14 +82,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 responseType: 'json',
                 cookieJar: cookieJar as ToughCookieJar, // Cast is safe here as got only interacts with two functions.
             });
+            const rootUrl =
+                !!bingosync_source && bingosync_source == 'Bingothon'
+                    ? 'https://bingosync.bingothon.com/'
+                    : 'https://bingosync.com/';
             try {
                 const data = {
                     room: boardSlug,
                     nickname: 'match_history_bot',
                     password: bingosync_password[0],
                 };
-
-                await custom.post('https://bingosync.com/api/join-room', {
+                console.log(rootUrl + 'api/join-room');
+                await custom.post(rootUrl + 'api/join-room', {
                     json: data,
                     followRedirect: false,
                 });
@@ -97,14 +103,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 return;
             }
 
-            if (cookieJar.getCookiesSync('https://bingosync.com/').length > 0) {
-                const feedResponse = custom(
-                    `https://bingosync.com/room/${boardSlug}/feed?full=true`
-                );
-                const boardResponse = custom(`https://bingosync.com/room/${boardSlug}/board`);
-                const settingsResponse = custom(
-                    `https://bingosync.com/room/${boardSlug}/room-settings`
-                );
+            if (cookieJar.getCookiesSync(rootUrl).length > 0) {
+                const feedResponse = custom(rootUrl + `room/${boardSlug}/feed?full=true`);
+                const boardResponse = custom(rootUrl + `room/${boardSlug}/board`);
+                const settingsResponse = custom(rootUrl + `room/${boardSlug}/room-settings`);
 
                 try {
                     const [feedData, boardData, settingsData] = await Promise.all([

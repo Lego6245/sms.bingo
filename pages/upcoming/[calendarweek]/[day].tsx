@@ -27,7 +27,7 @@ export default function Schedule(props: ScheduleProps) {
 
 export const getStaticProps: GetStaticProps = async context => {
     const { calendarweek, day } = context.params;
-    const WEEK_OF_YEAR_START = 29;
+    const WEEK_OF_YEAR_START = 10;
     const base = getBase();
     const matches: MatchData[] = [];
     await base(getBaseName('matches'))

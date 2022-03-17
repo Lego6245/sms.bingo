@@ -25,6 +25,7 @@ export default function convertAirtableDataToMatchData(record: Record<FieldSet>)
         bingosyncBoardId: record.get('bingosync_slug')
             ? (record.get('bingosync_slug')[0] as string) ?? ''
             : '',
+        bingosyncBoardSource: (record.get('Bingosync Source') as string) ?? '',
         homePlayerEloGain: (record.get('home_win_delta') as number) ?? NaN,
         awayPlayerEloGain: (record.get('away_win_delta') as number) ?? NaN,
         matchId: record.id,

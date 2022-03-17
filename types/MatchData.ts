@@ -15,6 +15,7 @@ export default interface MatchData {
     matchVod?: string;
     commentators?: string[] | 'None';
     bingosyncBoardId?: string;
+    bingosyncBoardSource?: string;
     homePlayerEloGain?: number;
     awayPlayerEloGain?: number;
     matchId?: string;
