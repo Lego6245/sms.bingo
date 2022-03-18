@@ -38,18 +38,19 @@ export default function Schedule(props: ScheduleProps) {
 
 export const getStaticProps: GetStaticProps = async context => {
     const day = context.params['dayOfWeek'] as string;
+    const nowInEST = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    const timeZoneOffset = (nowInEST.getTimezoneOffset() / 60) * -1;
     const dayDelta =
         day == 'today'
             ? 0
             : day == 'tomorrow'
             ? 1
-            : parseInt(day as string) - new Date().getDay() + 1;
+            : parseInt(day as string) - nowInEST.getDay() + 1;
     const base = getBase();
     const matches: MatchData[] = [];
-    // Be mindful of DST
     await base(getBaseName('matches'))
         .select({
-            filterByFormula: `AND(IS_SAME({Match Time (EST)}, DATEADD(DATEADD(TODAY(), -4, "hours"), ${dayDelta}, "days"), "day"), OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))`,
+            filterByFormula: `AND(IS_SAME({Match Time (EST)}, DATEADD(DATEADD(TODAY(), ${timeZoneOffset}, "hours"), ${dayDelta}, "days"), "day"), OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))`,
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
