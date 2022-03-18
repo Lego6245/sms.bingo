@@ -7,7 +7,18 @@ import getBase, { getBaseName, getRevalidateTimer } from '../../../data/airtable
 
 export interface ScheduleProps {
     matches: MatchData[];
+    title: string;
 }
+
+const arrayOfWeekdays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+];
 
 export default function Schedule(props: ScheduleProps) {
     return (
@@ -16,7 +27,7 @@ export default function Schedule(props: ScheduleProps) {
                 <div className="sm:w-10/12 sm:mx-auto sm:my-auto">
                     <ScheduleTable
                         matches={props.matches}
-                        tableTitle={"Today's Matches"}
+                        tableTitle={props.title}
                         forBroadcast={true}
                     />
                 </div>
@@ -26,17 +37,19 @@ export default function Schedule(props: ScheduleProps) {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-    const { calendarweek, day } = context.params;
-    const WEEK_OF_YEAR_START = 10;
+    const day = context.params['dayOfWeek'] as string;
+    const dayDelta =
+        day == 'today'
+            ? 0
+            : day == 'tomorrow'
+            ? 1
+            : parseInt(day as string) - new Date().getDay() + 1;
     const base = getBase();
     const matches: MatchData[] = [];
+    // Be mindful of DST
     await base(getBaseName('matches'))
         .select({
-            filterByFormula: `AND(WEEKDAY({Match Time (EST)}, "Monday") = ${
-                parseInt(day as string) + 1
-            }, WEEKNUM({Match Time (EST)}, "Monday") = ${
-                WEEK_OF_YEAR_START + parseInt(calendarweek as string)
-            }, OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))`,
+            filterByFormula: `AND(IS_SAME({Match Time (EST)}, DATEADD(DATEADD(TODAY(), -4, "hours"), ${dayDelta}, "days"), "day"), OR({Restream Channel} = "Bingothon", {Restream Channel} = "SunshineCommunity"))`,
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
@@ -52,20 +65,24 @@ export const getStaticProps: GetStaticProps = async context => {
     return {
         props: {
             matches: matches,
+            title:
+                day == 'today'
+                    ? "Today's Matches"
+                    : day == 'tomorrow'
+                    ? "Tomorrow's Matches"
+                    : `${arrayOfWeekdays[parseInt(day)]}'s Matches`,
         },
         revalidate: getRevalidateTimer(),
     };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const calendarWeeks = ['1', '2', '3', '4', '5', '6', '7', '8'];
-    const scheduleSlotDays = ['1', '2', '3', '4', '5'];
-    const genedPaths = [];
-    calendarWeeks.forEach(week => {
-        scheduleSlotDays.forEach(day => {
-            genedPaths.push({ params: { calendarweek: week, day: day } });
-        });
-    });
+    const dayOfWeek = ['today', 'tomorrow', '0', '1', '2', '3', '4', '5', '6'];
+    const genedPaths = dayOfWeek.map(day => ({
+        params: {
+            dayOfWeek: day,
+        },
+    }));
     return {
         paths: genedPaths,
         fallback: false,
