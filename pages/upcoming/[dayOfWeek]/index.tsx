@@ -39,7 +39,7 @@ export default function Schedule(props: ScheduleProps) {
 export const getStaticProps: GetStaticProps = async context => {
     const day = context.params['dayOfWeek'] as string;
     const nowInEST = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
-    const timeZoneOffset = (nowInEST.getTimezoneOffset() / 60) * -1;
+    const timeZoneOffset = -4;
     const dayDelta =
         day == 'today'
             ? 0
