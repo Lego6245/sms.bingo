@@ -79,9 +79,9 @@ function InternalScheduleTable(props: InternalScheduleTableProps) {
                 {props.header}
                 <tbody className={tbodyClassName}>
                     {props.matches.length > 0 &&
-                        props.matches.map(match => (
+                        (props.matches as (MatchData | NonLockoutMatchData)[]).map(match => (
                             <props.row
-                                key={match.id}
+                                key={match.matchId}
                                 match={match}
                                 forceSpoilers={props.forceSpoilers}
                                 forBroadcast={props.forBroadcast}
