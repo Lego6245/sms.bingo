@@ -1,7 +1,46 @@
 import { FieldSet, Record } from 'airtable';
-import MatchData from './MatchData';
+import MatchData, { NonLockoutMatchData } from './MatchData';
 
-export default function convertAirtableDataToMatchData(record: Record<FieldSet>): MatchData {
+export default function convertAirtableDataToMatchData(record: Record<FieldSet>): MatchData;
+export default function convertAirtableDataToMatchData(
+    record: Record<FieldSet>,
+    nonLockout: true
+): NonLockoutMatchData;
+export default function convertAirtableDataToMatchData(
+    record: Record<FieldSet>,
+    nonLockout?: true
+) {
+    if (!!nonLockout) {
+        return convertAirtableDataToMatchDataNonLockout(record);
+    } else {
+        return convertAirtableDataToMatchDataLockout(record);
+    }
+}
+
+function convertAirtableDataToMatchDataNonLockout(record: Record<FieldSet>): NonLockoutMatchData {
+    return {
+        players: record.get('player_names') as string[],
+        playerIds: (record.get('Players') as string[]) ?? [],
+        round: (record.get('Round') as string) ?? '',
+        status: (record.get('Status') as any).toLowerCase() ?? 'unscheduled',
+        matchTime: record.get('Match Time (UTC)')
+            ? Date.parse(record.get('Match Time (UTC)') as string) / 1000
+            : NaN,
+        channel: (record.get('Restream Channel') as any) ?? 'TBD',
+        places: (record.get('placing_order') as string[]) ?? [],
+        placeIds: (record.get('Placing') as string[]) ?? [],
+        times: (record.get('Times') as string[]) ?? [],
+        matchVod: (record.get('Vod') as string) ?? '',
+        commentators: (record.get('Commentators') as string[]) ?? 'None',
+        bingosyncBoardId: record.get('bingosync_slug')
+            ? (record.get('bingosync_slug')[0] as string) ?? ''
+            : '',
+        bingosyncBoardSource: (record.get('Bingosync Source') as string) ?? '',
+        matchId: record.id,
+    };
+}
+
+function convertAirtableDataToMatchDataLockout(record: Record<FieldSet>): MatchData {
     return {
         homePlayer: record.get('home_player_name')[0] as string,
         homePlayerId: record.get('Home Player')[0],

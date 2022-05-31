@@ -32,6 +32,11 @@ export default function Home(props: HomeProps) {
         ['King Boo Lockout', ' Starts Here'],
         ['River Gang', ' Starts Here'],
         ['Hidden Reds Hoverless', ' Starts Here'],
+        ['Community', ' Starts Here'],
+        ['Epic Snipes', ' Start Here'],
+        ['Slick Synergies', ' Start Here'],
+        ['Bingo GOATs', ' Start Here'],
+        ['Brogores', ' Start Here'],
     ];
     const [startHereIndex, setStartHereIndex] = React.useState(
         Math.floor(Math.random() * startHere.length)
@@ -74,7 +79,7 @@ export default function Home(props: HomeProps) {
                 <main className={'min-h-screen flex flex-col justify-center text-center z-20'}>
                     <div>
                         <div className="h-auto text-5xl font-bold text-white">
-                            Super Mario Sunshine 1v1 Lockout Bingo League
+                            Super Mario Sunshine Bingo
                         </div>
                         <div
                             onClick={randomizeStartHere}
@@ -88,21 +93,16 @@ export default function Home(props: HomeProps) {
                         </div>
                     </div>
                     <div className="flex flex-row justify-center">
-                        <Link href="/upcoming">
+                        <Link href="/non-lockout">
                             <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Upcoming Matches
+                                Non Lockout Tournament
                             </div>
                         </Link>
                         <Link href="/standings">
                             <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Current Standings
+                                Current Elo Rankings
                             </div>
                         </Link>
-                        {/* <Link href="https://docs.google.com/spreadsheets/d/1gN6xyfIoaDTwf04Oz_Yvf5AKNwhfTPi4pA0Bx4_ebMk/edit#gid=0">
-                            <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Playoff Bracket
-                            </div>
-                        </Link> */}
                     </div>
                     <div className="flex flex-row justify-center">
                         <a
