@@ -61,8 +61,6 @@ export const getStaticProps: GetStaticProps = async context => {
     const matches: NonLockoutMatchData[] = [];
     await base(getBaseName('non-lockout matches'))
         .select({
-            // filterByFormula:
-            //     'AND(DATETIME_DIFF({Match Time (UTC)}, NOW(),"days") <= 7, DATETIME_DIFF({Match Time (UTC)}, NOW(),"hours") >= 0)',
             sort: [{ field: 'Match Time (UTC)' }],
         })
         .eachPage((records, fetchNextPage) => {
