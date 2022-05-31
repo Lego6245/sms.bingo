@@ -1,6 +1,6 @@
 import React from 'react';
 import MatchData, { NonLockoutMatchData } from '../types/MatchData';
-import MatchRow, { MatchRowProps, NonLockoutMatchRow } from './MatchRow';
+import MatchRow, { BaseMatchRowProps, NonLockoutMatchRow } from './MatchRow';
 
 interface ScheduleTablePropsShared {
     matches: MatchData[] | NonLockoutMatchData[];
@@ -20,7 +20,7 @@ export interface NonLockoutScheduleTableProps extends ScheduleTablePropsShared {
 
 interface InternalScheduleTableProps extends ScheduleTablePropsShared {
     header: React.ReactNode;
-    row: React.ComponentType<MatchRowProps>;
+    row: React.ComponentType<BaseMatchRowProps>;
 }
 
 export function NonLockoutScheduleTable(props: NonLockoutScheduleTableProps) {
