@@ -26,7 +26,11 @@ export default function StandingsTable(props: StandingsTableProps) {
                                             bingosyncColorPrimary={player.primaryColor}
                                             bingosyncColorSecondary={player.secondaryColor}
                                             countryCode={player.country}
-                                            subHeader={player.elo.toString()}
+                                            subHeader={
+                                                player.elo.toString() != '-1'
+                                                    ? player.elo.toString()
+                                                    : undefined
+                                            }
                                         />
                                     </td>
                                 </tr>
