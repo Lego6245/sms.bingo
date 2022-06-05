@@ -20,3 +20,20 @@ export default interface MatchData {
     awayPlayerEloGain?: number;
     matchId?: string;
 }
+
+export interface NonLockoutMatchData {
+    players: string[] | 'None';
+    playerIds: string[];
+    round: string;
+    status: 'unscheduled' | 'scheduled' | 'played';
+    matchTime: number;
+    channel?: 'SunshineCommunity' | 'Bingothon' | 'Offline' | 'TBD';
+    places?: string[] | 'None';
+    placeIds?: string[];
+    times?: string[] | 'None';
+    matchVod?: string;
+    commentators?: string[] | 'None';
+    bingosyncBoardId?: string;
+    bingosyncBoardSource?: string;
+    matchId?: string;
+}

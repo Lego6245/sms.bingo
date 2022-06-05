@@ -10,7 +10,7 @@ export default function convertAirtableDataToPlayerData(record: Record<FieldSet>
         //division: record.get('Division') as string,
         twitchName: record.get('Twitch') as string,
         pronouns: (record.get('Pronouns') as string) ?? '',
-        elo: record.get('Elo') as number,
+        elo: (record.get('Elo') as number) ?? -1,
         id: record.id,
     };
 }
