@@ -265,7 +265,7 @@ function applyFilters(
 
 function getTableTitleByWeek(key: number | string, useWeekText?: boolean) {
     if (!useWeekText || !parseInt(key as string)) {
-        return 'Day ' + key;
+        return 'Upcoming Matches';
     }
     switch (parseInt(key as string)) {
         case 0:
