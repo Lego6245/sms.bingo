@@ -7,16 +7,16 @@ export default function Header(props: { title: string }) {
     const router = useRouter();
     const hrefs = [
         {
-            route: '/non-lockout',
-            label: 'Non-Lockout Tournament',
+            route: '/upcoming',
+            label: 'Schedule',
         },
         {
             route: '/standings',
-            label: 'Lockout League Standings',
+            label: 'Standings',
         },
         {
             route: '/schedule',
-            label: 'Season 4 Match History',
+            label: 'Match History',
         },
         {
             route: '/resources',

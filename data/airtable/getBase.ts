@@ -16,11 +16,11 @@ export function getBaseName(
 ) {
     switch (baseType) {
         case 'matches':
-            return 'Season 4 Matches';
+            return 'Season 5 Matches';
         case 'players':
-            return 'Season 4 Players';
+            return 'Season 5 Players';
         case 'match data':
-            return 'Season 4 Match Data';
+            return 'Season 5 Match Data';
         case 'non-lockout matches':
             return '2022 Non Lockout Matches';
         case 'non-lockout players':

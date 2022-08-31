@@ -79,7 +79,7 @@ export default function Home(props: HomeProps) {
                 <main className={'min-h-screen flex flex-col justify-center text-center z-20'}>
                     <div>
                         <div className="h-auto text-5xl font-bold text-white">
-                            Super Mario Sunshine Bingo
+                            Super Mario Sunshine 1v1 Lockout Bingo League
                         </div>
                         <div
                             onClick={randomizeStartHere}
@@ -93,14 +93,14 @@ export default function Home(props: HomeProps) {
                         </div>
                     </div>
                     <div className="flex flex-row justify-center">
-                        <Link href="/non-lockout">
+                        <Link href="/upcoming">
                             <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Non Lockout Tournament
+                                Upcoming Matches
                             </div>
                         </Link>
                         <Link href="/standings">
                             <div className="cursor-pointer transition-colors bg-yellow-300 hover:bg-yellow-500 rounded-md text-black font-bold m-2 p-2 text-2xl w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
-                                Current Elo Rankings
+                                Current League Rankings
                             </div>
                         </Link>
                     </div>

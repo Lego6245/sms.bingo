@@ -5,18 +5,21 @@ import PlayerHeader from './PlayerHeader';
 
 export interface StandingsTableProps {
     standings: PlayerData[];
+    tableHeader?: string;
+    computeSubHeader?: (player: PlayerData) => string | undefined;
 }
 
 export default function StandingsTable(props: StandingsTableProps) {
+    const { standings, tableHeader, computeSubHeader } = props;
     return (
         <div className="w-full mx-auto">
             <div className="w-full text-3xl md:text-5xl font-bold text-center mb-5">
-                {'Standings'}
+                {!!tableHeader ? tableHeader : 'Standings'}
             </div>
             <table className="w-full">
                 <tbody>
-                    {props.standings.length > 0 &&
-                        props.standings.map(player => {
+                    {standings.length > 0 &&
+                        standings.map(player => {
                             return (
                                 <tr key={player.name}>
                                     <td>
@@ -27,7 +30,9 @@ export default function StandingsTable(props: StandingsTableProps) {
                                             bingosyncColorSecondary={player.secondaryColor}
                                             countryCode={player.country}
                                             subHeader={
-                                                player.elo.toString() != '-1'
+                                                !!computeSubHeader
+                                                    ? computeSubHeader(player)
+                                                    : player.elo.toString() != '-1'
                                                     ? player.elo.toString()
                                                     : undefined
                                             }

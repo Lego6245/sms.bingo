@@ -7,7 +7,15 @@ export default interface MatchData {
     division?: string;
     status: 'unscheduled' | 'scheduled' | 'played';
     matchTime: number;
-    format: 'Lockout' | 'Invasion' | 'Connect 5' | 'Draft' | 'Row Control' | 'TBD';
+    format:
+        | 'Lockout'
+        | 'Invasion'
+        | 'Connect 5'
+        | 'Draft'
+        | 'Row Control'
+        | 'Bomber'
+        | 'Blockout'
+        | 'TBD';
     channel?: 'SunshineCommunity' | 'Bingothon' | 'Offline' | 'TBD';
     winner?: string;
     homeScore?: number;

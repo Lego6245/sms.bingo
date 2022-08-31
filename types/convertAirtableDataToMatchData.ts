@@ -47,7 +47,7 @@ function convertAirtableDataToMatchDataLockout(record: Record<FieldSet>): MatchD
         awayPlayer: record.get('away_player_name')[0] as string,
         awayPlayerId: record.get('Away Player')[0],
         week: (record.get('Week') as string) ?? '',
-        //division: (record.get('Division') as string) ?? '',
+        division: (record.get('Division') as string) ?? '',
         status: (record.get('Status') as any).toLowerCase() ?? 'unscheduled',
         matchTime: record.get('Match Time (UTC)')
             ? Date.parse(record.get('Match Time (UTC)') as string) / 1000
