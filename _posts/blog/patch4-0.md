@@ -8,7 +8,7 @@ author:
 
 ## Philosophy
 
-4.0 represents a big leap in terms of goal type and uniqueness to add variety and challenge to play. While 3.2 was in a "good state" during Season 4, we wanted to branch out and try new and different goal types in the hopes of creating more gameplay oppertunity and interesting decision points during matches. We would like to note we are heavily keeping an eye on matches and scrims and the possibility of making a “4.1” if needed, as we did for 3.0, but as of right now we have no reason to believe that this will be necessary.
+4.0 represents a big leap in terms of goal type and uniqueness to add variety and challenge to play. While 3.2 was in a "good state" during Season 4, we wanted to branch out and try new and different goal types in the hopes of creating more gameplay opportunity and interesting decision points during matches. We would like to note we are heavily keeping an eye on matches and scrims and the possibility of making a “4.1” if needed, as we did for 3.0, but as of right now we have no reason to believe that this will be necessary.
 
 ## New Concepts
 
@@ -16,11 +16,11 @@ For the first time in a while, there is a new goal type (and a returning goal ty
 
 ### Mini-Boss Shines
 
-Shines that count as a “Mini-Boss” are: **Bianco 1, Gelato 2, Pianta 1, Pianta 4, Pinna 4, and Pinna 5**. We wanted to provide a goal that provides synergy between Pianta and other worlds, something that is quite difficult as Pianta is a void-world. All of these episodes involve creatures that spawn shines, which was the criteria for inclusion. Notibly absent is Airstrip, which is ignored due to it being a required shine.
+Shines that count as a “Mini-Boss” are: **Bianco 1, Gelato 2, Pianta 1, Pianta 4, Pinna 4, and Pinna 5**. We wanted to provide a goal that provides synergy between Pianta and other worlds, something that is quite difficult as Pianta is a void-world. All of these episodes involve creatures that spawn shines, which was the criteria for inclusion. Notably absent is Airstrip, which is ignored due to it being a required shine.
 
 ### Jumpless
 
-Previously in the format and removed due to complexity, the meta has evolved such that inclusion of jumpless goals can help provide some much needed "challenge" style shine representation. "Jumpless" uses the Super Mario Oddyssey definition, banning specifically the pressing of the "A" button while standing or running to give Mario vertical height. This includes regular jumps, double and triple jumps, spinjumps, sideflips, and backflips. Use of the hover nozzle, wall kicks, glitchy wall kicks, and roll-outs are acceptable.
+Previously in the format and removed due to complexity, the meta has evolved such that inclusion of jumpless goals can help provide some much needed "challenge" style shine representation. "Jumpless" uses the Super Mario Odyssey definition, banning specifically the pressing of the "A" button while standing or running to give Mario vertical height. This includes regular jumps, double and triple jumps, spinjumps, sideflips, and backflips. Use of the hover nozzle, wall kicks, glitchy wall kicks, and roll-outs are acceptable.
 
 ## New / Returning Goals
 
@@ -35,7 +35,7 @@ We considered two main routes to achieve this goal.
 -   Pianta 1-4 -> Pinna 4,5: This is the classic “Pianta into Pinna” play. However, this goal does have counterplay with the below:
 -   Pianta 1-4 -> Bianco 1, Gelato 2: This should be faster than the above play, and with cards where Gelato is strong, is not unreasonable to consider.
 
-As this is the first new “category” goal we’ve had in a long time, we are keeping a close eye on this one. Our rationale for 4 and not 3 as hinted at before, is that 3 favors speedier players too heavily without the oppertunity for a slower player to work around it.
+As this is the first new “category” goal we’ve had in a long time, we are keeping a close eye on this one. Our rationale for 4 and not 3 as hinted at before, is that 3 favors speedier players too heavily without the opportunity for a slower player to work around it.
 
 ### 100 Coin Shine in an Episode 2 (Pool 15)
 
@@ -68,7 +68,7 @@ A commonly requested buff, and one that's worth giving due to the nature of 15 D
 | 17          | { name: "5 Secret Shines"},<br>{ name: "2 Secrets in 1 Level"},<br>**{ name: "Bianco Shadow Mario"}**,<br>{ name: "6 Hidden Shines"},<br>{ name: "4 Noki Shines"}     | { name: "5 Secret Shines"},<br>{ name: "2 Secrets in 1 Level"},<br>**{ name: "Noki 100 Coin Shine"}**,<br>{ name: "6 Hidden Shines"},<br>{ name: "4 Noki Shines"}     |
 | 19          | { name: "6 Red Coin Shines"},<br>**{ name: "Noki 100 Coin Shine"}**,<br>{ name: "Delfino Turbo Nozzle"},<br>{ name: "Delfino Rocket Nozzle"},<br>{ name: "26 Shines"} | { name: "6 Red Coin Shines"},<br>**{ name: "Bianco Shadow Mario"}**,<br>{ name: "Delfino Turbo Nozzle"},<br>{ name: "Delfino Rocket Nozzle"},<br>{ name: "26 Shines"} |
 
-The goal is to buff deeper Bianco by allowing more synergy of spawning with goals like 2 Secrets 1 Level and 5 Secret Shines. Additionally, this allows for us to maintain a roughly equivilent amount of Noki goals per card by consoldiating Noki 100s with 4 from Noki.
+The goal is to buff deeper Bianco by allowing more synergy of spawning with goals like 2 Secrets 1 Level and 5 Secret Shines. Additionally, this allows for us to maintain a roughly equivilent amount of Noki goals per card by consolidating Noki 100s with 4 from Noki.
 
 ### Pools 24 and 25
 
