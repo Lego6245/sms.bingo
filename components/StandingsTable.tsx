@@ -14,7 +14,7 @@ export default function StandingsTable(props: StandingsTableProps) {
     return (
         <div className="w-full mx-auto">
             <div className="w-full text-3xl md:text-5xl font-bold text-center mb-5">
-                {!!tableHeader ? tableHeader : 'Standings'}
+                {!!tableHeader ? tableHeader : 'Elo Standings'}
             </div>
             <table className="w-full">
                 <tbody>

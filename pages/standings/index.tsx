@@ -20,11 +20,25 @@ export interface StandingsProps {
 export default function Standings(props: StandingsProps) {
     const router = useRouter();
     const [showDivisions, setShowDivisions] = React.useState(true);
+    const onDivisionClicked = React.useCallback((cb: React.MouseEvent<HTMLInputElement>) => {
+        setShowDivisions(cb.currentTarget.checked);
+    }, []);
     return (
         <div className=" bg-tile-background bg-repeat min-h-screen">
             {!router.query.hideHeader && (
                 <Header title="Super Mario Sunshine Bingo League - Standings" />
             )}
+            <div className="mx-5 text-white">
+                <input
+                    type="checkbox"
+                    defaultChecked={showDivisions}
+                    id="elos"
+                    onClick={onDivisionClicked}
+                />
+                <label className="ml-5 text-sm sm:text-lg" htmlFor="elos">
+                    Show Pod Results
+                </label>
+            </div>
             <main
                 className={
                     showDivisions
@@ -178,6 +192,7 @@ export const getStaticProps: GetStaticProps = async context => {
             });
         });
     }
+    standingsArray.sort((a, b) => (a.division > b.division ? 1 : -1));
     return {
         props: {
             playerStandings: sortedPlayers,
