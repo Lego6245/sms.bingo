@@ -49,7 +49,7 @@ export default function Standings(props: StandingsProps) {
                     props.divisionStandings.length > 0 &&
                     props.divisionStandings.map(divisionStandings => {
                         return (
-                            <div className="min-w-max w-1/6 m-8">
+                            <div className="min-w-max w-1/6 m-8" key={divisionStandings.division}>
                                 <StandingsTable
                                     key={divisionStandings.division}
                                     standings={divisionStandings.standings}
@@ -184,7 +184,6 @@ export const getStaticProps: GetStaticProps = async context => {
             match.week.toLowerCase().indexOf('showcase') == -1 &&
             match.matchTime > 1664521200 // This is a hack to filter out the first half matches from the standings, gotta come up with a better system in the future :(
     );
-    console.log(filteredMatches);
     const divisionMapping = splitIntoDivisions(filteredMatches, sortedPlayers);
     const standingsArray = [];
     if (Array.from(divisionMapping.keys()).length > 0) {
