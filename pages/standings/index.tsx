@@ -151,6 +151,7 @@ export const getStaticProps: GetStaticProps = async context => {
     const base = getBase();
     await base(getBaseName('players'))
         .select({
+            filterByFormula: `{dropped} != TRUE()`,
             sort: [{ field: 'Elo', direction: 'desc' }],
         })
         .eachPage((records, fetchNextPage) => {
@@ -180,8 +181,10 @@ export const getStaticProps: GetStaticProps = async context => {
     const filteredMatches = matches.filter(
         match =>
             match.week.toLowerCase().indexOf('playoff') == -1 &&
-            match.week.toLowerCase().indexOf('showcase') == -1
+            match.week.toLowerCase().indexOf('showcase') == -1 &&
+            match.matchTime > 1664521200 // This is a hack to filter out the first half matches from the standings, gotta come up with a better system in the future :(
     );
+    console.log(filteredMatches);
     const divisionMapping = splitIntoDivisions(filteredMatches, sortedPlayers);
     const standingsArray = [];
     if (Array.from(divisionMapping.keys()).length > 0) {
