@@ -49,7 +49,7 @@ export default function Standings(props: StandingsProps) {
                     props.divisionStandings.length > 0 &&
                     props.divisionStandings.map(divisionStandings => {
                         return (
-                            <div className="min-w-max w-1/6 m-8">
+                            <div className="min-w-max w-1/6 m-8" key={divisionStandings.division}>
                                 <StandingsTable
                                     key={divisionStandings.division}
                                     standings={divisionStandings.standings}
